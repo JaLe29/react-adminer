@@ -13,6 +13,7 @@ interface Props {
 }
 
 const TableFilter: React.FC<Props> = ({ setWhere, config }): any => {
+	const [page, setPage] = useStateParams(0, 'p', v => +v);
 	const [form] = Form.useForm();
 	const [filterConfig, setFilter] = useStateParams<any>(
 		undefined,
@@ -52,6 +53,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, config }): any => {
 			}, {});
 		}
 		setWhere(finalWhere);
+		setPage(0);
 		if (needSync) {
 			setFilter(finalWhere);
 		}
