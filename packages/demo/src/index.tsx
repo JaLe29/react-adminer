@@ -1,11 +1,17 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, useLocation, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
-import type { SelectOptions, CountOptions } from 'react-adminer';
+import type { UpdateOptions, SelectOptions, CountOptions } from 'react-adminer';
 import { ReactAdminerProvider, Edit, List } from 'react-adminer';
 import { Querier, initQuerier } from '@apengine/querier';
 import React from 'react';
+
 import { useParams } from 'react-router';
 import { SCHEMA } from './schema';
+
+const ROUTER = {
+	functions: { useNavigate, useLocation },
+	components: { Link },
+};
 
 initQuerier({
 	engineCase: 'camel',
@@ -43,6 +49,16 @@ const count = async (entityName: string, options?: CountOptions): Promise<number
 	});
 
 	return r.count;
+};
+
+const insert = async (entityName: string, object: Record<string, any>): Promise<string | number> => {
+	const r = await Querier.insert<{ id: string | number }>(entityName, object);
+	return r[0].id;
+};
+
+const update = async (entityName: string, object: Record<string, any>, options?: UpdateOptions): Promise<boolean> => {
+	await Querier.update(entityName, object, { where: buildWhere(options?.where) });
+	return true;
 };
 
 const RENDERS: Record<string, Record<'table', Record<string, React.FC>>> = {
@@ -89,9 +105,10 @@ root.render(
 		<BrowserRouter>
 			<ReactAdminerProvider
 				paths={{ editFormPath: '/edit' }}
-				dataProvider={{ select, count }}
+				dataProvider={{ select, count, insert, update }}
 				config={{ schema: SCHEMA }}
 				renders={RENDERS}
+				router={ROUTER}
 			>
 				<Routes>
 					<Route path="/" element={<List entityName="state" />} />

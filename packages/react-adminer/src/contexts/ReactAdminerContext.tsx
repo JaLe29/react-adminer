@@ -1,7 +1,8 @@
 import { createContext, useEffect, useReducer } from 'react';
 import type { FC, ReactNode } from 'react';
+import { EntityName } from 'typescript';
 import type { Schema } from '../types';
-import type { CountOptions, SelectOptions } from '../types/data-provider';
+import type { CountOptions, SelectOptions, UpdateOptions } from '../types/data-provider';
 import type { Renders } from '../types/renders';
 
 interface ReactAdminerConfig {
@@ -20,9 +21,15 @@ export interface ReactAdminerContextValue {
 	dataProvider?: {
 		select: <T>(entityName: string, options?: SelectOptions) => Promise<T[]>;
 		count: (entityName: string, options?: CountOptions) => Promise<number>;
+		insert: (EntityName: string, object: Record<string, any>) => Promise<string | number>;
+		update: (entityName: string, object: Record<string, any>, options?: UpdateOptions) => Promise<boolean>;
 	};
 	paths?: {
 		editFormPath: string;
+	};
+	router?: {
+		functions: Record<string, any>;
+		components: Record<string, any>;
 	};
 }
 
@@ -33,9 +40,15 @@ interface UserProviderProps {
 	dataProvider?: {
 		select: <T>(entityName: string, options?: SelectOptions) => Promise<T[]>;
 		count: (entityName: string, options?: CountOptions) => Promise<number>;
+		insert: (EntityName: string, object: Record<string, any>) => Promise<string | number>;
+		update: (entityName: string, object: Record<string, any>, options?: UpdateOptions) => Promise<boolean>;
 	};
 	paths?: {
 		editFormPath: string;
+	};
+	router?: {
+		functions: Record<string, any>;
+		components: Record<string, any>;
 	};
 }
 
@@ -76,7 +89,14 @@ export const ReactAdminerContext = createContext<ReactAdminerContextValue>({
 	...initialAppState,
 });
 
-export const ReactAdminerProvider: FC<UserProviderProps> = ({ paths, children, config, renders, dataProvider }) => {
+export const ReactAdminerProvider: FC<UserProviderProps> = ({
+	router,
+	paths,
+	children,
+	config,
+	renders,
+	dataProvider,
+}) => {
 	const [state, dispatch] = useReducer(reducer, initialAppState);
 
 	useEffect(() => {
@@ -93,6 +113,7 @@ export const ReactAdminerProvider: FC<UserProviderProps> = ({ paths, children, c
 				dataProvider,
 				renders,
 				paths,
+				router,
 			}}
 		>
 			{children}

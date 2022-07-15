@@ -21,6 +21,7 @@ import Box from './Box';
 import TableFilter from './TableFIlter';
 import { isPrimitiveFieldType } from '../utils/config';
 import { useCount } from '../hooks/useCount';
+import { NEW_KEY } from '../const';
 
 interface Props {
 	entityName: string;
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
+	const { paths, router } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName });
 
 	const [sort, setSort] = useState<Record<string, 'asc' | 'desc'>>({ 'createdAt': 'desc' });
@@ -96,9 +98,15 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 				return <Alert message="Invalid element" type="error" showIcon />;
 			  },
 	}));
-
+	const Link = router?.components.Link;
 	return (
 		<>
+			<Button>
+				<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${NEW_KEY}`}>
+					Create
+					{entityName}
+				</Link>
+			</Button>
 			{
 				filter && (
 					<>

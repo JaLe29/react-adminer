@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useReactAdminerContext } from './useReactAdminerContext';
 
 const useStateParams = <T>(
 	initialState: T,
@@ -7,8 +7,9 @@ const useStateParams = <T>(
 	deserialize: (state: string) => T,
 	serialize: (state: T) => string = (state: T): string => `${state}`,
 ): [T, (state: T) => void] => {
-	const navigate = useNavigate();
-	const { search, pathname } = useLocation();
+	const { router } = useReactAdminerContext();
+	const navigate = router?.functions?.useNavigate();
+	const { search, pathname } = router?.functions?.useLocation();
 
 	const existingValue = new URLSearchParams(search).get(paramsName);
 	const [state, setState] = useState<T>(existingValue ? deserialize(existingValue) : initialState);

@@ -9,6 +9,7 @@ export const SCHEMA: Schema = {
 				nullable: false,
 				type: 'string',
 				sortable: true,
+				creatable: false,
 			},
 			{
 				name: 'edit',
@@ -35,6 +36,7 @@ export const SCHEMA: Schema = {
 				name: 'createdAt',
 				nullable: false,
 				type: 'string',
+				creatable: false,
 			},
 		],
 	},

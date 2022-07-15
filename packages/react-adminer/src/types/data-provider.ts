@@ -9,3 +9,7 @@ export interface SelectOptions {
 export interface CountOptions {
 	where?: Record<string, any>;
 }
+
+export interface UpdateOptions {
+	where?: Record<string, any>;
+}

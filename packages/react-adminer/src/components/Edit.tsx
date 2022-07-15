@@ -2,7 +2,6 @@ import { Row, Spin, Button, Divider, notification, Alert } from 'antd';
 import { useEffect, useState } from 'react';
 // import { camelCase } from 'change-case';
 // import { useNavigate } from 'react-router';
-import { Link, useNavigate } from 'react-router-dom';
 // import { useInsert, useSelect, useUpdate } from '@apengine/react-querier';
 // import {
 // 	getPrimitiveFields,
@@ -14,7 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { Field, PrimitiveField } from 'types';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
-import { getPrimitiveFields, isCreatable, isPrimitiveFieldType } from '../utils/config';
+import { getPrimitiveFields, isCreatable, isPrimitiveFieldType, isVirtualFieldType } from '../utils/config';
 import Placeholder from './Placeholder';
 import Input from './EditPageComponents/Input';
 import Box from './Box';
@@ -23,9 +22,9 @@ import BooleanSwitch from './EditPageComponents/BooleanSwitch';
 import { slowMe } from '../utils/promise';
 // import { NEW_KEY } from '../../const/app';
 import { useEntityConfig } from '../hooks/useEntityConfig';
+import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
+import { NEW_KEY } from '../const';
 // import { getEditPageJoin } from '../../pages/EditPageUtils';
-
-const NEW_KEY = 'new';
 
 interface Props {
 	// isRelation?: boolean;
@@ -35,12 +34,13 @@ interface Props {
 }
 
 export const Edit: React.FC<Props> = ({ entityName, id }) => {
+	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName });
-
+	const { router } = useReactAdminerContext();
 	// const insertNewEntity = useInsert(entityName ?? 'error');
 	// const updateEntity = useUpdate(entityName ?? 'error');
 
-	const navigate = useNavigate();
+	const navigate = router?.functions?.useNavigate();
 	const [original, setOriginal] = useState<any>({});
 	const [state, setState] = useState<any>({});
 	const [isSaving, setSaving] = useState(false);
@@ -107,22 +107,23 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 		const payload = getPayload();
 
 		const fn = async (): Promise<void> => {
-			// if (isNewForm) {
-			// 	try {
-			// 		const [{ id: newId }] = (await insertNewEntity(payload)) as any;
-			// 		notification.success({ message: `${camelCase(entity ?? 'error')} has been created...` });
-			// 		navigate(`/entity/edit/${entity}/${newId}`);
-			// 	} catch {
-			// 		notification.error({ message: `Error` });
-			// 	}
-			// 	return;
-			// }
-			// try {
-			// 	await updateEntity(payload, { where: { id: { _eq: id } } });
-			// 	notification.success({ message: `${camelCase(entity ?? 'error')} has been saved...` });
-			// } catch {
-			// 	notification.error({ message: `Error` });
-			// }
+			if (isNewForm) {
+				try {
+					// const [{ id: newId }] = (await insertNewEntity(payload)) as any;
+					const newId = await dataProvider?.insert(entityName, payload);
+					notification.success({ message: `${entityName} has been created...` });
+					navigate(`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${newId}`);
+				} catch {
+					notification.error({ message: `Error` });
+				}
+				return;
+			}
+			try {
+				await dataProvider?.update(entityName, payload, { where: { id } });
+				notification.success({ message: `${entityName ?? 'error'} has been saved...` });
+			} catch {
+				notification.error({ message: `Error` });
+			}
 		};
 		await slowMe(1000, fn);
 		setSaving(false);
@@ -185,9 +186,9 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 					const canCreate = !(isNewForm && !isCreatable(f));
 					const isDisabled = f.editable === false;
 
-					// if (isVirtualFieldType(f) || !canCreate) {
-					// 	return null;
-					// }
+					if (isVirtualFieldType(f) || !canCreate) {
+						return null;
+					}
 
 					if (f.type === 'string') {
 						return (
