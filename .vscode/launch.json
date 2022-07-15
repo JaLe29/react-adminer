@@ -1,0 +1,41 @@
+{
+	"version": "0.0.1",
+	"configurations": [
+		{
+			"name": "server",
+			"type": "node",
+			"request": "launch",
+			"runtimeArgs": [
+				"-r",
+				"${workspaceRoot}/.pnp.cjs",
+				"-r",
+				"ts-node/register/transpile-only",
+				"-r",
+				"tsconfig-paths/register"
+			],
+			"args": ["src/boot.ts"],
+			"cwd": "${workspaceRoot}/packages/server",
+			"internalConsoleOptions": "openOnSessionStart",
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", ".yarn/**", "node_modules/**", "**/*.test.ts"]
+		},
+		{
+			"name": "test",
+			"type": "node",
+			"request": "launch",
+			"runtimeArgs": [
+				"-r",
+				"${workspaceRoot}/.pnp.cjs",
+				"-r",
+				"ts-node/register/transpile-only",
+				"-r",
+				"tsconfig-paths/register"
+			],
+			"args": ["src/boot.ts"],
+			"cwd": "${workspaceRoot}/packages/test",
+			"internalConsoleOptions": "openOnSessionStart",
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", ".yarn/**", "node_modules/**", "**/*.test.ts"]
+		}
+	]
+}

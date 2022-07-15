@@ -1,0 +1,48 @@
+{
+	"name": "@react-adminer/demo",
+	"version": "1.0.0",
+	"license": "MIT",
+	"dependencies": {
+		"@apengine/querier": "^0.2.17",
+		"@react-adminer/client": "workspace:*",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-router": "^6.3.0",
+		"react-router-dom": "^6.3.0",
+		"typescript": "~4.7.4",
+		"utils": "link:./src/utils"
+	},
+	"devDependencies": {
+		"@types/lodash": "^4.14.182",
+		"@types/node": "^16.11.36",
+		"@types/react": "^18.0.15",
+		"@types/react-dom": "^18.0.6",
+		"@types/react-router-dom": "^5.3.3",
+		"@vitejs/plugin-react": "^1.3.2",
+		"eslint": "^8.19.0",
+		"rimraf": "^3.0.2",
+		"vite": "^2.9.14",
+		"vite-plugin-checker": "^0.4.9"
+	},
+	"scripts": {
+		"dev": "vite --mode development",
+		"build": "yarn build:deps && vite build --mode release",
+		"build:deps": "yarn workspace @react-adminer/types build && yarn workspace @react-adminer/shared build && yarn workspace @react-adminer/react-querier build:prod",
+		"preview": "vite preview",
+		"clean": "rimraf dist && rimraf .cache && rimraf node_modules",
+		"lint": "eslint ./src --ext .ts,.tsx",
+		"lint:fix": "eslint ./src --ext .ts,.tsx --fix"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
+}

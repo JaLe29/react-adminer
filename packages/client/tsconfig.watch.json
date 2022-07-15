@@ -1,0 +1,45 @@
+{
+	"include": [
+		"./src",
+		"@types",
+	],
+	"compilerOptions": {
+		"outDir": "./dist",
+		// "target": "es5",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		// "allowJs": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": false,
+		"declaration":true,
+		"emitDeclarationOnly": true,
+		"declarationDir": "./dist",
+		// "jsx": "react-jsx",
+		// "baseUrl": "src",
+
+		"target": "es6",
+		// "module": "commonjs",
+		// "moduleResolution": "node",
+		"noResolve": false,
+		"noImplicitAny": false,
+		"removeComments": true,
+		"sourceMap": true,
+		"allowJs": true,
+		"jsx": "react-jsx",
+		// "jsx": "react",
+		"baseUrl": "./src",
+		"checkJs": true,
+		"types": [
+			"node"
+		]
+	},
+	"references": []
+}

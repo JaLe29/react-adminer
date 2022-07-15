@@ -1,0 +1,57 @@
+{
+	"publishConfig": {
+		"registry": "https://npmjs.com"
+	},
+	"name": "react-adminer",
+	"version": "1.0.0",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/JaLe29/react-adminer.git"
+	},
+	"license": "MIT",
+	"scripts": {
+		"patch:production:package": "ts-node -r tsconfig-paths/register --project tsconfig.json --files ./scripts/patch-production-package.ts",
+		"publish": "ts-node -r tsconfig-paths/register --project tsconfig.json --files ./scripts/lib-publish.ts",
+		"watch:libs": "yarn workspace @react-adminer/types watch & yarn workspace @react-adminer/react-querier watch & yarn workspace @react-adminer/shared watch & yarn workspace @react-adminer/querier watch && fg",
+		"watch:types": "yarn workspace @react-adminer/react-querier watch:types && fg",
+		"lint": "yarn workspaces foreach -v -p -i -j 30 run lint",
+		"build": "yarn workspaces foreach -v -p -i -j 30 run build",
+		"lint:fix": "yarn workspaces foreach -v -p -i -j 30 run lint:fix",
+		"clean": "yarn workspaces foreach -v -p -i -j 30 run clean && rimraf dist && rimraf .cache && rimraf node_modules"
+	},
+	"dependencies": {
+		"@babel/core": "^7.18.2",
+		"@babel/eslint-parser": "^7.17.0",
+		"@types/node": "^16.11.36",
+		"@types/prettier": "^2.6.1",
+		"@typescript-eslint/eslint-plugin": "^5.25.0",
+		"@typescript-eslint/parser": "^5.25.0",
+		"@yarnpkg/pnpify": "^4.0.0-rc.12",
+		"eslint": "^8.16.0",
+		"eslint-config-airbnb": "^18.2.1",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-import-resolver-typescript": "^2.5.0",
+		"eslint-plugin-babel": "^5.3.1",
+		"eslint-plugin-import": "^2.24.2",
+		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-react": "^7.26.1",
+		"eslint-plugin-react-hooks": "^4.2.0",
+		"prettier": "^2.6.2",
+		"rimraf": "^3.0.2",
+		"ts-node": "10.9.1",
+		"typescript": "~4.7.4",
+		"zip-dir": "^2.0.0"
+	},
+	"packageManager": "yarn@3.2.0",
+	"devDependencies": {
+		"@types/babel__core": "^7",
+		"@types/jest": "^28.1.3",
+		"jest": "^28.1.1",
+		"tsconfig-paths": "^4.0.0"
+	}
+}
