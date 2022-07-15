@@ -1,11 +1,11 @@
 {
-	"name": "@react-adminer/demo",
+	"name": "@ra/demo",
 	"version": "1.0.0",
 	"license": "MIT",
 	"dependencies": {
 		"@apengine/querier": "^0.2.17",
-		"@react-adminer/client": "workspace:*",
 		"react": "^18.2.0",
+		"react-adminer": "workspace:*",
 		"react-dom": "^18.2.0",
 		"react-router": "^6.3.0",
 		"react-router-dom": "^6.3.0",

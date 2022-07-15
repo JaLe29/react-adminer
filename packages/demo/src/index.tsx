@@ -1,7 +1,7 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
-import type { SelectOptions, CountOptions } from '@react-adminer/client';
-import { ReactAdminerProvider, Edit, List } from '@react-adminer/client';
+import type { SelectOptions, CountOptions } from 'react-adminer';
+import { ReactAdminerProvider, Edit, List } from 'react-adminer';
 import { Querier, initQuerier } from '@apengine/querier';
 import React from 'react';
 import { useParams } from 'react-router';

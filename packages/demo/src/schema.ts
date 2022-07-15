@@ -1,5 +1,5 @@
-import type { Schema } from '@react-adminer/client';
-import { EditButton } from '@react-adminer/client';
+import type { Schema } from 'react-adminer';
+import { EditButton } from 'react-adminer';
 
 export const SCHEMA: Schema = {
 	state: {
