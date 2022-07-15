@@ -5,3 +5,4 @@ kube
 **yarn-error.log
 **/node_modules/*
 .secret/**
+.yarn/cache

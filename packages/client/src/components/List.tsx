@@ -24,9 +24,10 @@ import { useCount } from '../hooks/useCount';
 
 interface Props {
 	entityName: string;
+	filter?:boolean;
 }
 
-export const List: React.FC<Props> = ({ entityName }) => {
+export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 	const config = useEntityConfig({ entityName });
 
 	const [sort, setSort] = useState<Record<string, 'asc' | 'desc'>>({ 'createdAt': 'desc' });
@@ -98,8 +99,14 @@ export const List: React.FC<Props> = ({ entityName }) => {
 
 	return (
 		<>
-			<TableFilter config={config} setWhere={setWhere} />
-			<Divider />
+			{
+				filter && (
+					<>
+						<TableFilter config={config} setWhere={setWhere} />
+						<Divider />
+					</>
+				)
+			}
 			<TableAntd
 				rowKey="id"
 				footer={() => (

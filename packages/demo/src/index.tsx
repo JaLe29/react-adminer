@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import type { SelectOptions, CountOptions } from '@react-adminer/client';
 import { ReactAdminerProvider, Edit, List } from '@react-adminer/client';
@@ -61,10 +61,27 @@ const RENDERS: Record<string, Record<'table', Record<string, React.FC>>> = {
 
 const EditPage: React.FC = () => {
 	const { entityName, id } = useParams();
+
+	const back = (
+		<Link to="/">
+			<button type="submit">BACK</button>
+		</Link>
+	);
 	if (!entityName || !id) {
-		return <>No entityName or id</>;
+		return (
+			<>
+				{back}
+				<br />
+				No entityName or id
+			</>
+		);
 	}
-	return <Edit entityName={entityName} id={id} />;
+	return (
+		<>
+			{back}
+			<Edit entityName={entityName} id={id} />
+		</>
+	);
 };
 
 root.render(
