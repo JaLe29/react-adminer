@@ -1,4 +1,4 @@
-import set from 'lodash/set';
+import { set } from '../utils/object';
 import type { BaseConfig, Field, TableConfig, TableField, TableRowCustomRender } from '../types';
 import { BooleanRender } from './Renders/BooleanRender';
 // import { DateRender } from './Renders/DateRender';

@@ -32,7 +32,7 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 	const { paths, router } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName });
 
-	const [sort, setSort] = useState<Record<string, 'asc' | 'desc'>>({ 'createdAt': 'desc' });
+	const [sort, setSort] = useState<Record<string, 'asc' | 'desc'> | undefined>(undefined);
 	const [where, setWhere] = useState<Record<string, any> | undefined>();
 
 	const [pageSize, setPageSize] = useStateParams(10, 'ps', (v)=>+v);
@@ -75,12 +75,12 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 						<Space>
 							<Button
 								icon={<SortAscendingOutlined />}
-								type={sort.key === f.name && sort.order === 'asc' ? 'primary' : undefined}
+								type={sort?.key === f.name && sort.order === 'asc' ? 'primary' : undefined}
 								onClick={() => setSort({ [f.name]: 'asc' })}
 							/>
 							<Button
 								icon={<SortDescendingOutlined />}
-								type={sort.key === f.name && sort.order === 'desc' ? 'primary' : undefined}
+								type={sort?.key === f.name && sort.order === 'desc' ? 'primary' : undefined}
 								onClick={() => setSort({ [f.name]: 'desc' })}
 							/>
 						</Space>
@@ -101,12 +101,15 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 	const Link = router?.components.Link;
 	return (
 		<>
-			<Button>
-				<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${NEW_KEY}`}>
-					Create
-					{entityName}
-				</Link>
-			</Button>
+			<Right>
+				<Button>
+					<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${NEW_KEY}`}>
+						Create
+						{entityName}
+					</Link>
+				</Button>
+			</Right>
+			<br />
 			{
 				filter && (
 					<>

@@ -37,8 +37,6 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName });
 	const { router } = useReactAdminerContext();
-	// const insertNewEntity = useInsert(entityName ?? 'error');
-	// const updateEntity = useUpdate(entityName ?? 'error');
 
 	const navigate = router?.functions?.useNavigate();
 	const [original, setOriginal] = useState<any>({});
@@ -46,34 +44,17 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 	const [isSaving, setSaving] = useState(false);
 	const [errorNullable, setErrorNullable] = useState<Record<string, boolean>>({});
 	const isNewForm = id === NEW_KEY;
-	/*
-	const { data, error, loading } = useQueryQuerier<any & { id: string }>({
-		state: {
-			type: 'One',
-			entityType: entity as EntityType,
-			fields: config.fields.filter(f => !isVirtualFieldType(f) && isPrimitiveFieldType(f)).map(f => f.name),
-			where: [{ id: { _in: [id ?? 'error'] } }],
-			join: getEditPageJoin(config),
-		},
-		option: { skip: isNewForm },
-	});
-*/
-	// const { data: d, loading } = useSelect<{ id: string }>(entity, {
-	// 	offset: 0,
-	// 	limit: 1,
-	// 	fields: config.fields.filter(f => !isVirtualFieldType(f) && isPrimitiveFieldType(f)).map(f => f.name),
-	// 	where: { id: { _eq: id ?? 'error' } },
-	// });
+
+	const targetEntityFields = config?.fields
+		.filter(f => /*! isVirtualFieldType(f) && */ isPrimitiveFieldType(f))
+		.map(f => f.name);
 
 	const { data: d, loading } = useSelect<any>(
 		entityName,
 		{
 			offset: 0,
 			limit: 1,
-			fields: config?.fields
-				.filter(f => /*! isVirtualFieldType(f) && */ isPrimitiveFieldType(f))
-				.map(f => f.name),
-			// orderBy: sort,
+			fields: targetEntityFields,
 			where: { id: id ?? 'error' },
 		},
 		!config,
@@ -147,8 +128,6 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 		}
 	}, [data]);
 
-	const hasChanges = Object.keys(getPayload()).length >= 1;
-
 	if (loading) {
 		return (
 			<Box>
@@ -173,7 +152,20 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 	// 	);
 	// }
 
+	const targetPrimitiveFields = primitiveFields.filter((f: PrimitiveField & { editable?: boolean }) => {
+		const canCreate = !(isNewForm && !isCreatable(f));
+		// const isDisabled = f.editable === false;
+
+		if (isVirtualFieldType(f) || !canCreate) {
+			return false;
+		}
+
+		return true;
+	});
+
 	const isErrorNullable = Object.keys(errorNullable).length > 0;
+	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
+
 	return (
 		<Box>
 			{isNewForm && (
