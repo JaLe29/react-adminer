@@ -28,6 +28,7 @@ interface Props {
 	filter?:boolean;
 }
 
+
 export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 	const { paths, router } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName });
@@ -37,6 +38,7 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 
 	const [pageSize, setPageSize] = useStateParams(10, 'ps', (v)=>+v);
 	const [page, setPage] = useStateParams(0, 'p', (v)=>+v);
+
 
 	const { data, loading } = useSelect<any>(entityName, {
 		offset: page * pageSize,
@@ -113,7 +115,7 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 			{
 				filter && (
 					<>
-						<TableFilter config={config} setWhere={setWhere} />
+						<TableFilter config={config} setWhere={setWhere} setPage={setPage} />
 						<Divider />
 					</>
 				)
