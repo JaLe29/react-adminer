@@ -9,11 +9,11 @@ const { Panel } = Collapse;
 
 interface Props {
 	setWhere: (s: any | undefined) => void;
+	setPage: (n: number) => void;
 	config: TableConfig;
 }
 
-const TableFilter: React.FC<Props> = ({ setWhere, config }): any => {
-	const [page, setPage] = useStateParams(0, 'p', v => +v);
+const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
 	const [form] = Form.useForm();
 	const [filterConfig, setFilter] = useStateParams<any>(
 		undefined,
