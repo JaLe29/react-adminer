@@ -5,7 +5,7 @@ import type { SelectOptions } from '../types/data-provider';
 
 export const useSelect = <T>(
 	entityName: string,
-	options: SelectOptions,
+	options?: SelectOptions,
 	skip?: boolean,
 ): { data: T[] | undefined; loading: boolean; refetch: () => Promise<T[]> } => {
 	const { dataProvider } = useReactAdminerContext();

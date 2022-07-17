@@ -8,7 +8,7 @@ var SRC_DIR = resolve(__dirname, 'src');
 
 export default (): any => ({
 	server: {
-		port: 3005,
+		port: 3006,
 	},
 	plugins: [react(), checker({ typescript: true })],
 	resolve: {

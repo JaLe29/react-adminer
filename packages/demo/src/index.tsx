@@ -1,6 +1,6 @@
 import { BrowserRouter, useLocation, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
-import type { UpdateOptions, SelectOptions, CountOptions } from 'react-adminer';
+import type { UpdateOptions, SelectOptions, CountOptions, TableConfig } from 'react-adminer';
 import { ReactAdminerProvider, Edit, List } from 'react-adminer';
 import { Querier, initQuerier } from '@apengine/querier';
 import React from 'react';
@@ -14,6 +14,9 @@ const ROUTER = {
 };
 
 initQuerier({
+	// engineCase: 'snake',
+	// host: 'http://localhost:4003',
+	//
 	engineCase: 'camel',
 	host: 'https://apengine.mailhunt.cz',
 	authorization: import.meta.env.VITE_API_TOKEN,
@@ -22,6 +25,25 @@ initQuerier({
 const container = document.getElementById('app')!;
 const root = ReactDOMClient.createRoot(container);
 
+const objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
+	Object.keys(object).reduce((acc, v) => {
+		const f = entityConfig.fields.find(e => e.name === v);
+		if (!f) {
+			return acc;
+		}
+
+		if (f.type === 'relation') {
+			return {
+				...acc,
+				[`relation_set_${v}`]: object[v],
+			};
+		}
+
+		return {
+			...acc,
+			[v]: object[v],
+		};
+	}, {});
 const buildWhere = (where?: Record<string, any>): any => {
 	if (!where) {
 		return undefined;
@@ -51,13 +73,22 @@ const count = async (entityName: string, options?: CountOptions): Promise<number
 	return r.count;
 };
 
-const insert = async (entityName: string, object: Record<string, any>): Promise<string | number> => {
-	const r = await Querier.insert<{ id: string | number }>(entityName, object);
+const insert = async (
+	entityName: string,
+	object: Record<string, any>,
+	entityConfig: TableConfig,
+): Promise<string | number> => {
+	const r = await Querier.insert<{ id: string | number }>(entityName, objectWithRelations(object, entityConfig));
 	return r[0].id;
 };
 
-const update = async (entityName: string, object: Record<string, any>, options?: UpdateOptions): Promise<boolean> => {
-	await Querier.update(entityName, object, { where: buildWhere(options?.where) });
+const update = async (
+	entityName: string,
+	object: Record<string, any>,
+	entityConfig: TableConfig,
+	options?: UpdateOptions,
+): Promise<boolean> => {
+	await Querier.update(entityName, objectWithRelations(object, entityConfig), { where: buildWhere(options?.where) });
 	return true;
 };
 
@@ -111,7 +142,16 @@ root.render(
 				router={ROUTER}
 			>
 				<Routes>
-					<Route path="/" element={<List entityName="state" />} />
+					<Route
+						path="/"
+						element={
+							<>
+								<List entityName="state" />
+								{/* <hr />
+								<List entityName="tag" /> */}
+							</>
+						}
+					/>
 					<Route path="/edit/:entityName/:id" element={<EditPage />} />
 				</Routes>
 			</ReactAdminerProvider>

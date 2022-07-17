@@ -1,30 +1,19 @@
 import { Row, Spin, Button, Divider, notification, Alert } from 'antd';
 import { useEffect, useState } from 'react';
-// import { camelCase } from 'change-case';
-// import { useNavigate } from 'react-router';
-// import { useInsert, useSelect, useUpdate } from '@apengine/react-querier';
-// import {
-// 	getPrimitiveFields,
-// 	// getRelationFields,
-// 	isCreatable,
-// 	isPrimitiveFieldType,
-// 	isVirtualFieldType,
-// } from '../../utils/config';
 import type { Field, PrimitiveField } from 'types';
+import { EyeOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
-import { getPrimitiveFields, isCreatable, isPrimitiveFieldType, isVirtualFieldType } from '../utils/config';
+import { getPrimitiveFields, getRelationFields, isCreatable, isVirtualFieldType } from '../utils/config';
 import Placeholder from './Placeholder';
 import Input from './EditPageComponents/Input';
 import Box from './Box';
 import BooleanSwitch from './EditPageComponents/BooleanSwitch';
-// import type { EditFormConfig, Field, PrimitiveField } from pes/config';
 import { slowMe } from '../utils/promise';
-// import { NEW_KEY } from '../../const/app';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import { NEW_KEY } from '../const';
-// import { getEditPageJoin } from '../../pages/EditPageUtils';
+import Selector from './Selector';
 
 interface Props {
 	// isRelation?: boolean;
@@ -34,6 +23,7 @@ interface Props {
 }
 
 export const Edit: React.FC<Props> = ({ entityName, id }) => {
+	const { config: appConfig } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName });
 	const { router } = useReactAdminerContext();
@@ -45,16 +35,27 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 	const [errorNullable, setErrorNullable] = useState<Record<string, boolean>>({});
 	const isNewForm = id === NEW_KEY;
 
-	const targetEntityFields = config?.fields
-		.filter(f => /*! isVirtualFieldType(f) && */ isPrimitiveFieldType(f))
-		.map(f => f.name);
+	// const targetEntityFields = config?.fields
+	// 	.filter(f => /*! isVirtualFieldType(f) && */ isPrimitiveFieldType(f))
+	// 	.map(f => f.name);
+	const fields = config?.fields ?? [];
 
+	const relations = getRelationFields(fields);
+	// console.log({ relations });
+	const firstLevelFieldsRelationsFields = relations.map(r => {
+		const relation = relations.find(re => re.relation.entity === r.relation.entity);
+		const primitiveFields = getPrimitiveFields(appConfig?.schema[relation?.relation.entity ?? '']?.fields ?? []);
+		// console.log({ primitiveFields });
+		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
+	});
+	const primitiveFields = getPrimitiveFields(fields);
+	// console.log({ firstLevelFieldsRelationsFields });
 	const { data: d, loading } = useSelect<any>(
 		entityName,
 		{
 			offset: 0,
 			limit: 1,
-			fields: targetEntityFields,
+			fields: [...primitiveFields.map(f => f.name), ...firstLevelFieldsRelationsFields.flat()],
 			where: { id: id ?? 'error' },
 		},
 		!config,
@@ -91,7 +92,7 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 			if (isNewForm) {
 				try {
 					// const [{ id: newId }] = (await insertNewEntity(payload)) as any;
-					const newId = await dataProvider?.insert(entityName, payload);
+					const newId = await dataProvider?.insert(entityName, payload, config!);
 					notification.success({ message: `${entityName} has been created...` });
 					navigate(`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${newId}`);
 				} catch {
@@ -100,7 +101,7 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 				return;
 			}
 			try {
-				await dataProvider?.update(entityName, payload, { where: { id } });
+				await dataProvider?.update(entityName, payload, config!, { where: { id } });
 				notification.success({ message: `${entityName ?? 'error'} has been saved...` });
 			} catch {
 				notification.error({ message: `Error` });
@@ -140,9 +141,6 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 		return <Box>neni config</Box>;
 	}
 
-	// const relations = getRelationFields(config.fields);
-	const primitiveFields = getPrimitiveFields(config.fields);
-
 	// if (error) {
 	// 	return (
 	// 		<Box>
@@ -165,7 +163,8 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 
 	const isErrorNullable = Object.keys(errorNullable).length > 0;
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
-
+	console.log({ relations });
+	const Link = router?.components.Link;
 	return (
 		<Box>
 			{isNewForm && (
@@ -234,19 +233,30 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 						</WithCol>
 					);
 				})}
-				{/* <Divider />
+				<Divider />
 				{relations.map(f => (
 					<WithCol key={f.name}>
-						{withTitle(f.name, f.nullable, <Selector entity={f.relation.entity} type={f.relation.type} />)}
+						{withTitle(
+							f.name,
+							f.nullable,
+							<Box display="flex">
+								<Selector
+									entityName={f.relation.entity}
+									type={f.relation.type}
+									onChange={v => {
+										onChange(f, v);
+									}}
+									value={state[f.name]}
+								/>
+								<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${f.relation.entity}/${1}`}>
+									<Button icon={<EyeOutlined />} />
+								</Link>
+							</Box>,
+						)}
 					</WithCol>
-				))} */}
+				))}
 			</Row>
-			<Divider />
-			{/* {isRelation && (
-				<Link to={`/entity/edit/${entity}/${data.id}`}>
-					<Button type="primary"> Open relation detail</Button>
-				</Link>
-			)} */}
+
 			{isErrorNullable && (
 				<div>
 					<Alert message={`Missing values: ${Object.keys(errorNullable).join(', ')}`} type="error" showIcon />
