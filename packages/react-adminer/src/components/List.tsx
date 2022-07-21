@@ -1,20 +1,13 @@
+/* eslint-disable indent */
 import { useState } from 'react';
-// import { useEntityConfig } from 'hooks/useEntityConfig';
-
-/* eslint-disable prettier/prettier */
 import * as ReactIs from 'react-is';
-import { Alert, Button, Divider, Space, Table as TableAntd ,  Input } from 'antd';
-// import { capitalCase } from 'change-case';
+import { Alert, Button, Divider, Space, Table as TableAntd } from 'antd';
 import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
-// import useUrlQuery from 'hooks/useUrlQuery';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import type { TableField } from '../types';
 import useStateParams from '../hooks/useStateParams';
-// import { useSelect, useSelectAggregate } from '@apengine/react-querier';
 import { useEntityConfig } from '../hooks/useEntityConfig';
-// import {  isPrimitiveFieldType } from '../utils/config';
-// import type { TableConfig, TableField } from '../types/config';
 import Pagination from './Pagination';
 import Right from './Right';
 import Box from './Box';
@@ -25,29 +18,32 @@ import { NEW_KEY } from '../const';
 
 interface Props {
 	entityName: string;
-	filter?:boolean;
+	filter?: boolean;
 }
 
-
-export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
+export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 	const { paths, router } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName });
 
 	const [sort, setSort] = useState<Record<string, 'asc' | 'desc'> | undefined>(undefined);
 	const [where, setWhere] = useState<Record<string, any> | undefined>();
 
-	const [pageSize, setPageSize] = useStateParams(10, 'ps', (v)=>+v);
-	const [page, setPage] = useStateParams(0, 'p', (v)=>+v);
+	const [pageSize, setPageSize] = useStateParams(10, 'ps', v => +v);
+	const [page, setPage] = useStateParams(0, 'p', v => +v);
 
-	const [activeRecord, setActiveRecord] = useState();
+	const [activeRecord, setActiveRecord] = useState<{ id: string; property: string } | undefined>();
 
-	const { data, loading } = useSelect<any>(entityName, {
-		offset: page * pageSize,
-		limit: pageSize,
-		fields: config?.fields.filter(c => isPrimitiveFieldType(c) && !c.virtual).map(c => c.name),
-		orderBy: sort,
-		where,
-	}, !config);
+	const { data, loading } = useSelect<any>(
+		entityName,
+		{
+			offset: page * pageSize,
+			limit: pageSize,
+			fields: config?.fields.filter(c => isPrimitiveFieldType(c) && !c.virtual).map(c => c.name),
+			orderBy: sort,
+			where,
+		},
+		!config,
+	);
 
 	const { data: dataCount, loading: loadingCount } = useCount(entityName, { where }, !config);
 
@@ -65,19 +61,11 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 		}
 	};
 
-	const columnsText = (v: any, object: any): any =>{
-		console.log(activeRecord);
-		const result = activeRecord !== object ? (
-			<p>{v}</p>
-		  ) : (
-			<Input
-				type='text'
-				value={v}
-			/>
-		);
-		return result;
+	const handleItemClick = (e: any, field: TableField, object: any): void => {
+		if (e?.detail === 2) {
+			setActiveRecord({ id: object.id, property: field.name });
+		}
 	};
-
 
 	const columns = config.fields.map((f: TableField) => ({
 		// name: capitalCase(f.name),
@@ -104,19 +92,32 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 				)}
 			</Box>
 		),
-		onCell: (record: any) => ({
-			onDoubleClick: () => {
-				setActiveRecord(record);
-			},
-		}),
 		dataIndex: f.name,
 		render: f.render
-			? (v: any, object: any) => f.render?.({ value: v, object, entity: entityName })
+			? (v: any, object: any) => {
+					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
+						if (!(f as any).creatable) {
+							return <div>nelze editovat</div>;
+						}
+						return <div>Jsi v editacnim rezimu</div>;
+					}
+					return (
+						<div onClick={(e: any) => handleItemClick(e, f, object)}>
+							{f.render?.({ value: v, object, entity: entityName })}
+						</div>
+					);
+			  }
 			: (v: any, object: any) => {
-				if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
-					return (columnsText(v, object));
-				}
-				return <Alert message="Invalid element" type="error" showIcon />;
+					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
+						if (!(f as any).creatable) {
+							return <div>nelze editovat</div>;
+						}
+						return <div>Jsi v editacnim rezimu</div>;
+					}
+					if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
+						return <div onClick={(e: any) => handleItemClick(e, f, object)}>{v}</div>;
+					}
+					return <Alert message="Invalid element" type="error" showIcon />;
 			  },
 	}));
 	const Link = router?.components.Link;
@@ -131,14 +132,12 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 				</Button>
 			</Right>
 			<br />
-			{
-				filter && (
-					<>
-						<TableFilter config={config} setWhere={setWhere} setPage={setPage} />
-						<Divider />
-					</>
-				)
-			}
+			{filter && (
+				<>
+					<TableFilter config={config} setWhere={setWhere} setPage={setPage} />
+					<Divider />
+				</>
+			)}
 			<TableAntd
 				rowKey="id"
 				footer={() => (
@@ -156,13 +155,6 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 				dataSource={data}
 				columns={columns}
 				pagination={false}
-				/*
-				onRow={(record) => ({
-					onDoubleClick: () => {
-						setActiveRecord(record);
-					},
-				})}
-				*/
 			/>
 		</>
 	);
