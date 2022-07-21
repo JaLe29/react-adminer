@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 /* eslint-disable prettier/prettier */
 import * as ReactIs from 'react-is';
-import { Alert, Button, Divider, Space, Table as TableAntd } from 'antd';
+import { Alert, Button, Divider, Space, Table as TableAntd ,  Input } from 'antd';
 // import { capitalCase } from 'change-case';
 import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 // import useUrlQuery from 'hooks/useUrlQuery';
@@ -39,6 +39,7 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 	const [pageSize, setPageSize] = useStateParams(10, 'ps', (v)=>+v);
 	const [page, setPage] = useStateParams(0, 'p', (v)=>+v);
 
+	const [activeRecord, setActiveRecord] = useState();
 
 	const { data, loading } = useSelect<any>(entityName, {
 		offset: page * pageSize,
@@ -62,6 +63,19 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 			setPage(p);
 			setPageSize(ps);
 		}
+	};
+
+	const columnsText = (v: any, object: any): any =>{
+		console.log(activeRecord);
+		const result = activeRecord !== object ? (
+			<p>{v}</p>
+		  ) : (
+			<Input
+				type='text'
+				value={v}
+			/>
+		);
+		return result;
 	};
 
 
@@ -90,12 +104,17 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 				)}
 			</Box>
 		),
+		onCell: (record: any) => ({
+			onDoubleClick: () => {
+				setActiveRecord(record);
+			},
+		}),
 		dataIndex: f.name,
 		render: f.render
 			? (v: any, object: any) => f.render?.({ value: v, object, entity: entityName })
-			: (v: any) => {
+			: (v: any, object: any) => {
 				if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
-					return v;
+					return (columnsText(v, object));
 				}
 				return <Alert message="Invalid element" type="error" showIcon />;
 			  },
@@ -137,6 +156,13 @@ export const List: React.FC<Props> = ({ entityName ,filter=true}) => {
 				dataSource={data}
 				columns={columns}
 				pagination={false}
+				/*
+				onRow={(record) => ({
+					onDoubleClick: () => {
+						setActiveRecord(record);
+					},
+				})}
+				*/
 			/>
 		</>
 	);
