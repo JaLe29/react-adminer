@@ -49,8 +49,6 @@ const CellEditInput: React.FC<Props> = ({ value, entityName,config,id }: Props) 
 		}
 	}, [data]);
 
-
-
 	const getPayload = (): any => {
 		const payload = Object.keys(state).reduce((acc, v) => {
 			if (state[v] !== original[v]) {
@@ -83,7 +81,7 @@ const CellEditInput: React.FC<Props> = ({ value, entityName,config,id }: Props) 
 		<>
 			<Space>
 				<Input type="text" defaultValue={value} onChange={v => {
-					setState(v);
+					setState(v.target.value);
 					console.log(state);
 				}}/>
 				<Button type="primary" onClick={onSave} loading={isSaving} >
