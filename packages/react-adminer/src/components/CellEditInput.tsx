@@ -1,9 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
-import { getPrimitiveFields, getRelationFields } from '../utils/config';
-import { useSelect } from '../hooks/useSelect';
 import { slowMe } from '../utils/promise';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 
@@ -13,12 +11,13 @@ interface Props {
 	entityName: string;
 	config: any;
 	id: string;
+	propertyName: string;
 }
 
-const CellEditInput: React.FC<Props> = ({ value, entityName,config,id }: Props) => {
-	const { paths, dataProvider } = useReactAdminerContext();
-	const { config: appConfig } = useReactAdminerContext();
+const CellEditInput: React.FC<Props> = ({ propertyName, value:initValue, entityName, config, id }: Props) => {
+	const { dataProvider } = useReactAdminerContext();
 	const [isSaving, setSaving] = useState(false);
+<<<<<<< HEAD
 	const [original, setOriginal] = useState<any>({});
 	const [state, setState] = useState<any>({});
 	const fields = config?.fields ?? [];
@@ -61,10 +60,13 @@ const CellEditInput: React.FC<Props> = ({ value, entityName,config,id }: Props) 
 		}, {});
 		return payload;
 	};
+=======
+	const [value, setValue] = useState<any>({});
+>>>>>>> 8073ba5d78c6976b222e05f34a968edc1509ad76
 
 	const onSave = async (): Promise<void> => {
 		setSaving(true);
-		const payload = getPayload();
+		const payload = { [propertyName]: value };
 		const fn = async (): Promise<void> => {
 			try {
 				await dataProvider?.update(entityName, payload, config!, { where: { id } });
@@ -80,9 +82,14 @@ const CellEditInput: React.FC<Props> = ({ value, entityName,config,id }: Props) 
 	return (
 		<>
 			<Space>
+<<<<<<< HEAD
 				<Input type="text" defaultValue={value} onChange={v => {
 					setState(v.target.value);
 					console.log(state);
+=======
+				<Input type="text" defaultValue={initValue} onChange={v => {
+					setValue(v.target.value);
+>>>>>>> 8073ba5d78c6976b222e05f34a968edc1509ad76
 				}}/>
 				<Button type="primary" onClick={onSave} loading={isSaving} >
 					{isSaving ? 'Saving...' : 'Save'}
