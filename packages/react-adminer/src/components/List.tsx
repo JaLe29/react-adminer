@@ -104,6 +104,7 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 							// return <div>nelze editovat</div>; // odkomentovat
 							return (
 								<CellEditInput
+									setActiveRecord={setActiveRecord}
 									propertyName={f.name}
 									value={v}
 									entityName={entityName}
@@ -115,6 +116,7 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 						// return <div>Jsi v editacnim rezimu</div>;
 						return (
 							<CellEditInput
+								setActiveRecord={setActiveRecord}
 								propertyName={f.name}
 								value={v}
 								entityName={entityName}
@@ -138,6 +140,7 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 							// return <div>nelze editovat</div>; // odkomentovat
 							return (
 								<CellEditInput
+									setActiveRecord={setActiveRecord}
 									value={v}
 									propertyName={f.name}
 									entityName={entityName}
@@ -149,6 +152,7 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 						// return <div>Jsi v editacnim rezimu</div>;
 						return (
 							<CellEditInput
+								setActiveRecord={setActiveRecord}
 								propertyName={f.name}
 								value={v}
 								entityName={entityName}
