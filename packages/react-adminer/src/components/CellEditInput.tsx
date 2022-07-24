@@ -1,11 +1,9 @@
 /* eslint-disable prettier/prettier */
-
 import React, { useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
 import { slowMe } from '../utils/promise';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import useKeypress from '../hooks/useKeypress';
-
 
 interface Props {
 	value: any;
@@ -46,11 +44,6 @@ const CellEditInput: React.FC<Props> = ({ setActiveRecord, propertyName, value:i
 			<Space>
 				<Input type="text" defaultValue={initValue}
 					onKeyDown={(event) => {
-						/* if (event.key === 'Escape') {
-						  setActiveRecord(undefined);
-						  event.preventDefault();
-						  event.stopPropagation();
-						} */
 						if (event.key === 'Enter') {
 							onSave();
 							event.preventDefault();
