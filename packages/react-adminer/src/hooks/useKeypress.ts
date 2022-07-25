@@ -1,11 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { useEffect } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default function useKeypress(key: any, action: any) {
+export default function useKeypress(key: any, action: any): void {
 	useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-		function onKeyup(e: any) {
+		function onKeyup(e: any): void {
 			if (e.key === key) {
 				action();
 			}
@@ -13,4 +10,4 @@ export default function useKeypress(key: any, action: any) {
 		window.addEventListener('keyup', onKeyup);
 		return () => window.removeEventListener('keyup', onKeyup);
 	}, []);
-};
+}

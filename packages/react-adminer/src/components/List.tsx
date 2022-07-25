@@ -101,19 +101,8 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 							notification.error({
 								message: `It is forbidden to change the value in the column: ${f.name}`,
 							});
-							// return <div>nelze editovat</div>; // odkomentovat
-							return (
-								<CellEditInput
-									setActiveRecord={setActiveRecord}
-									propertyName={f.name}
-									value={v}
-									entityName={entityName}
-									config={config}
-									id={activeRecord.id}
-								/>
-							); // smazat
+							return <div>nelze editovat</div>; // odkomentovat
 						}
-						// return <div>Jsi v editacnim rezimu</div>;
 						return (
 							<CellEditInput
 								setActiveRecord={setActiveRecord}
@@ -137,19 +126,8 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 							notification.error({
 								message: `It is forbidden to change the value in the column: ${f.name}`,
 							});
-							// return <div>nelze editovat</div>; // odkomentovat
-							return (
-								<CellEditInput
-									setActiveRecord={setActiveRecord}
-									value={v}
-									propertyName={f.name}
-									entityName={entityName}
-									config={config}
-									id={activeRecord.id}
-								/>
-							); // smazat
+							return <div>nelze editovat</div>;
 						}
-						// return <div>Jsi v editacnim rezimu</div>;
 						return (
 							<CellEditInput
 								setActiveRecord={setActiveRecord}
