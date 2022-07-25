@@ -9,7 +9,7 @@ type Generic = {
 };
 
 type Props = {
-	p?: number;
+	p?: number,
 	children: React.ReactElement | React.ReactElement[] | any;
 	onClick?: () => void;
 } & Generic;

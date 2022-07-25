@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 import { useState } from 'react';
 import * as ReactIs from 'react-is';
-import { Alert, Button, Divider, Space, Table as TableAntd } from 'antd';
+import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
 import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
@@ -15,6 +15,7 @@ import TableFilter from './TableFIlter';
 import { isPrimitiveFieldType } from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
+import CellEditInput from './CellEditInput';
 
 interface Props {
 	entityName: string;
@@ -63,7 +64,13 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 
 	const handleItemClick = (e: any, field: TableField, object: any): void => {
 		if (e?.detail === 2) {
-			setActiveRecord({ id: object.id, property: field.name });
+			if (!(field as any).creatable) {
+				notification.error({
+					message: `It is forbidden to change the value in the column: ${f.name}`,
+				});
+			} else {
+				setActiveRecord({ id: object.id, property: field.name });
+			}
 		}
 	};
 
@@ -96,10 +103,16 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 		render: f.render
 			? (v: any, object: any) => {
 					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
-						if (!(f as any).creatable) {
-							return <div>nelze editovat</div>;
-						}
-						return <div>Jsi v editacnim rezimu</div>;
+						return (
+							<CellEditInput
+								setActiveRecord={setActiveRecord}
+								propertyName={f.name}
+								value={v}
+								entityName={entityName}
+								config={config}
+								id={activeRecord.id}
+							/>
+						);
 					}
 					return (
 						<div onClick={(e: any) => handleItemClick(e, f, object)}>
@@ -109,10 +122,16 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 			  }
 			: (v: any, object: any) => {
 					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
-						if (!(f as any).creatable) {
-							return <div>nelze editovat</div>;
-						}
-						return <div>Jsi v editacnim rezimu</div>;
+						return (
+							<CellEditInput
+								setActiveRecord={setActiveRecord}
+								propertyName={f.name}
+								value={v}
+								entityName={entityName}
+								config={config}
+								id={activeRecord.id}
+							/>
+						);
 					}
 					if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
 						return <div onClick={(e: any) => handleItemClick(e, f, object)}>{v}</div>;
