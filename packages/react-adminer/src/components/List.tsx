@@ -64,7 +64,13 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 
 	const handleItemClick = (e: any, field: TableField, object: any): void => {
 		if (e?.detail === 2) {
-			setActiveRecord({ id: object.id, property: field.name });
+			if (!(field as any).creatable) {
+				notification.error({
+					message: `It is forbidden to change the value in the column: ${f.name}`,
+				});
+			} else {
+				setActiveRecord({ id: object.id, property: field.name });
+			}
 		}
 	};
 
@@ -97,12 +103,6 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 		render: f.render
 			? (v: any, object: any) => {
 					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
-						if (!(f as any).creatable) {
-							notification.error({
-								message: `It is forbidden to change the value in the column: ${f.name}`,
-							});
-							return <div>nelze editovat</div>; // odkomentovat
-						}
 						return (
 							<CellEditInput
 								setActiveRecord={setActiveRecord}
@@ -122,12 +122,6 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 			  }
 			: (v: any, object: any) => {
 					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
-						if (!(f as any).creatable) {
-							notification.error({
-								message: `It is forbidden to change the value in the column: ${f.name}`,
-							});
-							return <div>nelze editovat</div>;
-						}
 						return (
 							<CellEditInput
 								setActiveRecord={setActiveRecord}
