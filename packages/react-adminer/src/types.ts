@@ -1,3 +1,7 @@
+import type { ReactNode } from 'react';
+import type { CountOptions, SelectOptions, UpdateOptions } from 'types/data-provider';
+import type { Renders } from 'types/renders';
+
 export type TableFieldType = 'string' | 'number' | 'boolean' | 'Date' | 'any' | string; // todo
 
 export type TableFilterObj = { name: string; component: any };
@@ -55,3 +59,15 @@ export interface BaseConfig {
 }
 
 export type Schema = Record<string, BaseConfig>;
+
+export interface DataProvider {
+	select: <T>(entityName: string, options?: SelectOptions) => Promise<T[]>;
+	count: (entityName: string, options?: CountOptions) => Promise<number>;
+	insert: (EntityName: string, object: Record<string, any>, entityConfig: TableConfig) => Promise<string | number>;
+	update: (
+		entityName: string,
+		object: Record<string, any>,
+		entityConfig: TableConfig,
+		options?: UpdateOptions,
+	) => Promise<boolean>;
+}

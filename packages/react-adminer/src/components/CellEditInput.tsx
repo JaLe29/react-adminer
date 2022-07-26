@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
 import type { TableConfig } from 'types';
+import { useDataProvider } from '../hooks/useDataProvider';
 import { slowMe } from '../utils/promise';
-import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import useKeypress from '../hooks/useKeypress';
 
 interface Props {
@@ -22,7 +22,6 @@ const CellEditInput: React.FC<Props> = ({
 	config,
 	id,
 }: Props) => {
-	const { dataProvider } = useReactAdminerContext();
 	const [isSaving, setSaving] = useState(false);
 	const [value, setValue] = useState<any>({});
 
@@ -30,12 +29,14 @@ const CellEditInput: React.FC<Props> = ({
 		setActiveRecord(undefined);
 	});
 
+	const dataProvider = useDataProvider();
+
 	const onSave = async (): Promise<void> => {
 		setSaving(true);
 		const payload = { [propertyName]: value };
 		const fn = async (): Promise<void> => {
 			try {
-				await dataProvider?.update(entityName, payload, config!, { where: { id } });
+				await dataProvider.update(entityName, payload, config!, { where: { id } });
 				notification.success({ message: `${entityName ?? 'error'} has been changed...` });
 			} catch {
 				notification.error({ message: `Error` });
