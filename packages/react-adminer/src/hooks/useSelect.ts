@@ -13,7 +13,7 @@ export const useSelect = <T>(
 
 	const fetch = async (): Promise<T[]> => {
 		setLoading(true);
-		const response = await dataProvider!.select<T>(entityName, options);
+		const response = await dataProvider.select<T>(entityName, options);
 		setData(response);
 		setLoading(false);
 		return response;

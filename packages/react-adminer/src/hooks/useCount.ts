@@ -13,7 +13,7 @@ export const useCount = (
 
 	const fetch = async (): Promise<number> => {
 		setLoading(true);
-		const response = await dataProvider!.count(entityName, options);
+		const response = await dataProvider.count(entityName, options);
 		setData(response);
 		setLoading(false);
 		return response;
