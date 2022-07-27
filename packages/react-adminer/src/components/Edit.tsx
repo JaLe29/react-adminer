@@ -64,7 +64,8 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 	const data = d?.[0];
 
 	const getPayload = (): any => {
-		const payload = Object.keys(state).reduce((acc, v) => {
+		const createTableBooleanFields = fields.filter(field => field.type === 'boolean' && !field.nullable);
+		const payload: Record<string, any> = Object.keys(state).reduce((acc, v) => {
 			if (state[v] !== original[v]) {
 				return {
 					...acc,
@@ -73,6 +74,11 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 			}
 			return acc;
 		}, {});
+		createTableBooleanFields.forEach(f => {
+			if (!payload[f.name]) {
+				payload[f.name] = false;
+			}
+		});
 		return payload;
 	};
 
@@ -87,7 +93,6 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 	const onSave = async (): Promise<void> => {
 		setSaving(true);
 		const payload = getPayload();
-
 		const fn = async (): Promise<void> => {
 			if (isNewForm) {
 				try {
@@ -209,9 +214,6 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 					}
 
 					if (f.type === 'boolean') {
-						if (state[f.name] === undefined) {
-							state[f.name] = false;
-						}
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
