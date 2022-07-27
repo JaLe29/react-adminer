@@ -1,8 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
 import type { FC, ReactNode } from 'react';
-import { EntityName } from 'typescript';
-import type { Schema, TableConfig } from '../types';
-import type { CountOptions, SelectOptions, UpdateOptions } from '../types/data-provider';
+import type { DataProvider, Schema } from '../types';
 import type { Renders } from '../types/renders';
 
 interface ReactAdminerConfig {
@@ -18,21 +16,7 @@ export interface ReactAdminerContextValue {
 	renders?: Renders;
 	config?: ReactAdminerConfig;
 	setConfig: (c: ReactAdminerConfig) => void;
-	dataProvider?: {
-		select: <T>(entityName: string, options?: SelectOptions) => Promise<T[]>;
-		count: (entityName: string, options?: CountOptions) => Promise<number>;
-		insert: (
-			EntityName: string,
-			object: Record<string, any>,
-			entityConfig: TableConfig,
-		) => Promise<string | number>;
-		update: (
-			entityName: string,
-			object: Record<string, any>,
-			entityConfig: TableConfig,
-			options?: UpdateOptions,
-		) => Promise<boolean>;
-	};
+	dataProvider?: DataProvider;
 	paths?: {
 		editFormPath: string;
 	};
@@ -46,21 +30,7 @@ interface UserProviderProps {
 	children: ReactNode;
 	renders?: Renders;
 	config?: ReactAdminerConfig;
-	dataProvider?: {
-		select: <T>(entityName: string, options?: SelectOptions) => Promise<T[]>;
-		count: (entityName: string, options?: CountOptions) => Promise<number>;
-		insert: (
-			EntityName: string,
-			object: Record<string, any>,
-			entityConfig: TableConfig,
-		) => Promise<string | number>;
-		update: (
-			entityName: string,
-			object: Record<string, any>,
-			entityConfig: TableConfig,
-			options?: UpdateOptions,
-		) => Promise<boolean>;
-	};
+	dataProvider?: DataProvider;
 	paths?: {
 		editFormPath: string;
 	};

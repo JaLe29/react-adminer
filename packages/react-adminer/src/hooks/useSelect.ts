@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useReactAdminerContext } from './useReactAdminerContext';
-
 import type { SelectOptions } from '../types/data-provider';
+import { useDataProvider } from './useDataProvider';
 
 export const useSelect = <T>(
 	entityName: string,
 	options?: SelectOptions,
 	skip?: boolean,
 ): { data: T[] | undefined; loading: boolean; refetch: () => Promise<T[]> } => {
-	const { dataProvider } = useReactAdminerContext();
-
+	const dataProvider = useDataProvider();
 	const [data, setData] = useState<T[] | undefined>();
 	const [loading, setLoading] = useState(true);
 
 	const fetch = async (): Promise<T[]> => {
 		setLoading(true);
-		const response = await dataProvider!.select<T>(entityName, options);
+		const response = await dataProvider.select<T>(entityName, options);
 		setData(response);
 		setLoading(false);
 		return response;
