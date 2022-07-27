@@ -209,6 +209,9 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 					}
 
 					if (f.type === 'boolean') {
+						if (state[f.name] === undefined) {
+							state[f.name] = false;
+						}
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
