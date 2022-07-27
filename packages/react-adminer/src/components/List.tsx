@@ -64,9 +64,10 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 
 	const handleItemClick = (e: any, field: TableField, object: any): void => {
 		if (e?.detail === 2) {
-			if (!(field as any).creatable) {
+			console.log(field);
+			if ((field as any).creatable === false) {
 				notification.error({
-					message: `It is forbidden to change the value in the column: ${field.name}`,
+					message: `${field.name} is forbidden to change the value`,
 				});
 			} else {
 				setActiveRecord({ id: object.id, property: field.name });

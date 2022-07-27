@@ -1,6 +1,6 @@
 {
   "name": "react-adminer",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -15,8 +15,8 @@
     "publish": "yarn clean && yarn build:prod && yarn workspace react-adminer npm publish",
     "watch": "yarn build:deps && yarn build:prod",
     "watch:types": "tsc --watch --project tsconfig.watch.json",
-    "build:prod": "vite build --mode release && yarn build:types",
-    "build:types": "tsc --project tsconfig.watch.json",
+    "build:prod": "yarn clean && vite build --mode release && yarn build:types",
+    "build:types": "tsc --project tsconfig.watch.json --declarationDir ./dist/types",
     "build": "tsc --build tsconfig.build.json",
     "build:dev": "yarn build:deps && tsc --build tsconfig.build.json",
     "clean": "rimraf dist && rimraf .cache && rimraf node_modules",

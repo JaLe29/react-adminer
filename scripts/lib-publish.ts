@@ -56,8 +56,11 @@ const versionIncrement = (): void => {
 versionIncrement();
 
 delete content.exports;
+
 content.main = './dist/index.js';
-content.types = './dist/index.d.ts';
+content.module = './dist/esm/index.js';
+content.types = './dist/types/index.d.ts';
+
 fs.writeFileSync(fullPath, JSON.stringify(content, null, 2));
 
 const revertPackageContent = (): void => {

@@ -9,9 +9,8 @@ export default (): any => ({
 		lib: {
 			entry: path.resolve(__dirname, 'src/index.ts'),
 			name: 'MyLib',
-			formats: ['umd'],
-			// fileName: format => `react-querier.${format}.js`,
-			fileName: () => `index.js`,
+			formats: ['esm', 'cjs'],
+			fileName: mode => `${mode}/index.js`,
 		},
 		rollupOptions: {
 			// make sure to externalize deps that shouldn't be bundled

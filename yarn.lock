@@ -62,21 +62,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apengine/querier@npm:^0.2.17":
-  version: 0.2.17
-  resolution: "@apengine/querier@npm:0.2.17"
+"@apengine/querier@npm:^0.2.23":
+  version: 0.2.23
+  resolution: "@apengine/querier@npm:0.2.23"
   dependencies:
-    "@apengine/types": 0.2.6
+    "@apengine/types": 0.2.11
     axios: ^0.27.2
     change-case: ^4.1.2
-  checksum: 9d5e452969c4cabdee82af75b84303d4d8844491ec83a7453229f1a1ee25f19d90635c9cb1c81fe93c5a9c32fac8f6264d54abc02406b9ce483637781f393f89
+  checksum: 5408df60e9ce96c01594336149cc75dc61826694ac38bd12d73bf994e05ed1d3fa32817e725f1d540902421f6117e4fcc8bee28fc7f209892354a492b199cb6b
   languageName: node
   linkType: hard
 
-"@apengine/types@npm:0.2.6":
-  version: 0.2.6
-  resolution: "@apengine/types@npm:0.2.6"
-  checksum: fa7a64f176175e49aa6afa6c0b66d13bacd08f39243bfb445ddc07efc612d29a3a0f3006e1733cddaa52dce15802d1c5de4658c4dc2197ec0b2103030c0d493c
+"@apengine/types@npm:0.2.11":
+  version: 0.2.11
+  resolution: "@apengine/types@npm:0.2.11"
+  checksum: ee3938774eef9810157525b53c9ed840f9f67881ba9fc130d02e805326026fe8ede9c025ddf53445a3fb1620efab24fbff3df2e5b553018498450de9bc32dd43
   languageName: node
   linkType: hard
 
@@ -1322,7 +1322,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ra/demo@workspace:packages/demo"
   dependencies:
-    "@apengine/querier": ^0.2.17
+    "@apengine/querier": ^0.2.23
     "@types/lodash": ^4.14.182
     "@types/node": ^16.11.36
     "@types/react": ^18.0.15
