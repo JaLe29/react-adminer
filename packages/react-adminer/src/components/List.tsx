@@ -3,6 +3,7 @@ import { useState } from 'react';
 import * as ReactIs from 'react-is';
 import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
 import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
+import { BooleanRender } from './Renders/BooleanRender';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import type { TableConfig, TableField } from '../types';
@@ -132,6 +133,13 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 								config={config}
 								id={activeRecord.id}
 							/>
+						);
+					}
+					if (f.type === 'boolean') {
+						return (
+							<div onClick={(e: any) => handleItemClick(e, f, object)}>
+								<BooleanRender value={v} entity={f.name} object={object} />
+							</div>
 						);
 					}
 					if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
