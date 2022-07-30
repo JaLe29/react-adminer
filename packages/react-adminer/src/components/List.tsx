@@ -145,11 +145,6 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 								entityName={entityName}
 								config={config}
 								id={activeRecord.id}
-								field={f}
-								setState={setState}
-								state={state}
-								errorNullable={errorNullable}
-								setErrorNullable={setErrorNullable}
 							/>
 						);
 					}
@@ -169,11 +164,6 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 								entityName={entityName}
 								config={config}
 								id={activeRecord.id}
-								field={f}
-								setState={setState}
-								state={state}
-								errorNullable={errorNullable}
-								setErrorNullable={setErrorNullable}
 							/>
 						);
 					}
