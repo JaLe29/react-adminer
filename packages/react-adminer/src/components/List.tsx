@@ -1,18 +1,18 @@
 /* eslint-disable indent */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as ReactIs from 'react-is';
 import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
 import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
-import type { TableField } from '../types';
+import type { Field, PrimitiveField, TableField } from '../types';
 import useStateParams from '../hooks/useStateParams';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import Pagination from './Pagination';
 import Right from './Right';
 import Box from './Box';
 import TableFilter from './TableFIlter';
-import { isPrimitiveFieldType } from '../utils/config';
+import { getPrimitiveFields, isPrimitiveFieldType, isVirtualFieldType } from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
 import CellEditInput from './CellEditInput';
@@ -34,6 +34,15 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 
 	const [activeRecord, setActiveRecord] = useState<{ id: string; property: string } | undefined>();
 
+	const fields = config?.fields ?? [];
+	const primitiveFields = getPrimitiveFields(fields);
+	const targetPrimitiveFields = primitiveFields.filter((f: PrimitiveField & { editable?: boolean }) => {
+		if (isVirtualFieldType(f)) {
+			return false;
+		}
+		return true;
+	});
+
 	const { data, loading } = useSelect<any>(
 		entityName,
 		{
@@ -46,6 +55,30 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 		!config,
 	);
 
+	useEffect(() => {
+		if (data) {
+			setState(data);
+			setOriginal(data);
+		}
+	}, [data]);
+
+	const [state, setState] = useState<any>({});
+	const [original, setOriginal] = useState<any>({});
+
+	const getPayload = (): any => {
+		const payload = Object.keys(state).reduce((acc, v) => {
+			if (state[v] !== original[v]) {
+				return {
+					...acc,
+					[v]: state[v],
+				};
+			}
+			return acc;
+		}, {});
+		return payload;
+	};
+
+	const [errorNullable, setErrorNullable] = useState<Record<string, boolean>>({});
 	const { data: dataCount, loading: loadingCount } = useCount(entityName, { where }, !config);
 
 	if (!config) {
@@ -112,6 +145,11 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 								entityName={entityName}
 								config={config}
 								id={activeRecord.id}
+								field={f}
+								setState={setState}
+								state={state}
+								errorNullable={errorNullable}
+								setErrorNullable={setErrorNullable}
 							/>
 						);
 					}
@@ -131,6 +169,11 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 								entityName={entityName}
 								config={config}
 								id={activeRecord.id}
+								field={f}
+								setState={setState}
+								state={state}
+								errorNullable={errorNullable}
+								setErrorNullable={setErrorNullable}
 							/>
 						);
 					}
