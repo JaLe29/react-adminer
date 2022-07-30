@@ -4,10 +4,15 @@ import { useReactAdminerContext } from './useReactAdminerContext';
 
 interface Props {
 	entityName: string;
+	entityConfig?: TableConfig | undefined;
 }
 
-export const useEntityConfig = ({ entityName }: Props): TableConfig | undefined => {
+export const useEntityConfig = ({ entityName, entityConfig }: Props): TableConfig | undefined => {
 	const { config, renders } = useReactAdminerContext();
+
+	if (entityConfig) {
+		return entityConfig;
+	}
 
 	if (!config?.schema[entityName]) {
 		return undefined;

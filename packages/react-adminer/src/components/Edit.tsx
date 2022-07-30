@@ -1,6 +1,6 @@
 import { Row, Spin, Button, Divider, notification, Alert } from 'antd';
 import { useEffect, useState } from 'react';
-import type { Field, PrimitiveField } from 'types';
+import type { Field, PrimitiveField, TableConfig } from 'types';
 import { EyeOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
@@ -20,12 +20,13 @@ interface Props {
 	id: string | 'new';
 	// config: EditFormConfig;
 	entityName: string;
+	entityConfig?: TableConfig | undefined;
 }
 
 export const Edit: React.FC<Props> = ({ entityName, id }) => {
 	const { config: appConfig } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
-	const config = useEntityConfig({ entityName });
+	const config = useEntityConfig({ entityName, entityConfig });
 	const { router } = useReactAdminerContext();
 
 	const navigate = router?.functions?.useNavigate();

@@ -5,7 +5,7 @@ import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 
 import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
-import type { TableField } from '../types';
+import type { TableConfig, TableField } from '../types';
 import useStateParams from '../hooks/useStateParams';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import Pagination from './Pagination';
@@ -20,11 +20,12 @@ import CellEditInput from './CellEditInput';
 interface Props {
 	entityName: string;
 	filter?: boolean;
+	entityConfig?: TableConfig | undefined;
 }
 
-export const List: React.FC<Props> = ({ entityName, filter = true }) => {
+export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true }) => {
 	const { paths, router } = useReactAdminerContext();
-	const config = useEntityConfig({ entityName });
+	const config = useEntityConfig({ entityName, entityConfig });
 
 	const [sort, setSort] = useState<Record<string, 'asc' | 'desc'> | undefined>(undefined);
 	const [where, setWhere] = useState<Record<string, any> | undefined>();
@@ -64,7 +65,6 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 
 	const handleItemClick = (e: any, field: TableField, object: any): void => {
 		if (e?.detail === 2) {
-			console.log(field);
 			if ((field as any).creatable === false) {
 				notification.error({
 					message: `${field.name} is forbidden to change the value`,
