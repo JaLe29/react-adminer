@@ -76,78 +76,80 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 		}
 	};
 
-	const columns = config.fields.map((f: TableField) => ({
-		// name: capitalCase(f.name),
-		name: f.name,
-		title: (
-			<Box display="flex" justifyContent="space-between">
-				{/* <Box>{capitalCase(f.name)}</Box> */}
-				<Box>{f.name}</Box>
-				{f.sortable && (
-					<Box>
-						<Space>
-							<Button
-								icon={<SortAscendingOutlined />}
-								type={sort?.key === f.name && sort.order === 'asc' ? 'primary' : undefined}
-								onClick={() => setSort({ [f.name]: 'asc' })}
-							/>
-							<Button
-								icon={<SortDescendingOutlined />}
-								type={sort?.key === f.name && sort.order === 'desc' ? 'primary' : undefined}
-								onClick={() => setSort({ [f.name]: 'desc' })}
-							/>
-						</Space>
-					</Box>
-				)}
-			</Box>
-		),
-		dataIndex: f.name,
-		render: f.render
-			? (v: any, object: any) => {
-					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
-						return (
-							<CellEditInput
-								setActiveRecord={setActiveRecord}
-								propertyName={f.name}
-								value={v}
-								entityName={entityName}
-								config={config}
-								id={activeRecord.id}
-							/>
-						);
-					}
-					return (
-						<div onClick={(e: any) => handleItemClick(e, f, object)}>
-							{f.render?.({ value: v, object, entity: entityName })}
-						</div>
-					);
-			  }
-			: (v: any, object: any) => {
-					if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
-						return (
-							<CellEditInput
-								setActiveRecord={setActiveRecord}
-								propertyName={f.name}
-								value={v}
-								entityName={entityName}
-								config={config}
-								id={activeRecord.id}
-							/>
-						);
-					}
-					if (f.type === 'boolean') {
+	const columns = config.fields
+		.filter(f => f.hideInTable !== true)
+		.map((f: TableField) => ({
+			// name: capitalCase(f.name),
+			name: f.name,
+			title: (
+				<Box display="flex" justifyContent="space-between">
+					{/* <Box>{capitalCase(f.name)}</Box> */}
+					<Box>{f.name}</Box>
+					{f.sortable && (
+						<Box>
+							<Space>
+								<Button
+									icon={<SortAscendingOutlined />}
+									type={sort?.key === f.name && sort.order === 'asc' ? 'primary' : undefined}
+									onClick={() => setSort({ [f.name]: 'asc' })}
+								/>
+								<Button
+									icon={<SortDescendingOutlined />}
+									type={sort?.key === f.name && sort.order === 'desc' ? 'primary' : undefined}
+									onClick={() => setSort({ [f.name]: 'desc' })}
+								/>
+							</Space>
+						</Box>
+					)}
+				</Box>
+			),
+			dataIndex: f.name,
+			render: f.render
+				? (v: any, object: any) => {
+						if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
+							return (
+								<CellEditInput
+									setActiveRecord={setActiveRecord}
+									propertyName={f.name}
+									value={v}
+									entityName={entityName}
+									config={config}
+									id={activeRecord.id}
+								/>
+							);
+						}
 						return (
 							<div onClick={(e: any) => handleItemClick(e, f, object)}>
-								<BooleanRender value={v} entity={f.name} object={object} />
+								{f.render?.({ value: v, object, entity: entityName })}
 							</div>
 						);
-					}
-					if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
-						return <div onClick={(e: any) => handleItemClick(e, f, object)}>{v}</div>;
-					}
-					return <Alert message="Invalid element" type="error" showIcon />;
-			  },
-	}));
+				  }
+				: (v: any, object: any) => {
+						if (object.id === activeRecord?.id && activeRecord?.property === f.name) {
+							return (
+								<CellEditInput
+									setActiveRecord={setActiveRecord}
+									propertyName={f.name}
+									value={v}
+									entityName={entityName}
+									config={config}
+									id={activeRecord.id}
+								/>
+							);
+						}
+						// if (f.type === 'boolean') {
+						// 	return (
+						// 		<div onClick={(e: any) => handleItemClick(e, f, object)}>
+						// 			<BooleanRender value={v} entity={f.name} object={object} />
+						// 		</div>
+						// 	);
+						// }
+						if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
+							return <div onClick={(e: any) => handleItemClick(e, f, object)}>{v}</div>;
+						}
+						return <Alert message="Invalid element" type="error" showIcon />;
+				  },
+		}));
 	const Link = router?.components.Link;
 	return (
 		<>

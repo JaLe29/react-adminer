@@ -47,13 +47,15 @@ const CellEditInput: React.FC<Props> = ({
 		setActiveRecord(undefined);
 	};
 
+	const isSaveActive = initValue === value;
+
 	return (
 		<Space>
 			<Input
 				type="text"
 				defaultValue={initValue}
 				onKeyDown={event => {
-					if (event.key === 'Enter') {
+					if (event.key === 'Enter' && isSaveActive) {
 						onSave();
 						event.preventDefault();
 						event.stopPropagation();
@@ -63,7 +65,7 @@ const CellEditInput: React.FC<Props> = ({
 					setValue(v.target.value);
 				}}
 			/>
-			<Button type="primary" onClick={onSave} loading={isSaving}>
+			<Button type="primary" onClick={onSave} loading={isSaving} disabled={isSaveActive}>
 				{isSaving ? 'Saving...' : 'Save'}
 			</Button>
 		</Space>

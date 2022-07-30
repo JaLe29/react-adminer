@@ -10,6 +10,7 @@ export type TableRowCustomRender = ({ value, object, entity }: { value: any; obj
 
 export type TableFilter = string | TableFilterObj;
 export type TableField = Field & {
+	hideInTable?: boolean;
 	sortable?: boolean;
 	render?: TableRowCustomRender;
 	virtual?: boolean;
