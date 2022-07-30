@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
-import type { Field, TableConfig, TableField } from 'types';
+import type { TableConfig, TableField } from 'types';
 import { useDataProvider } from '../hooks/useDataProvider';
 import { slowMe } from '../utils/promise';
 import useKeypress from '../hooks/useKeypress';
@@ -12,6 +12,7 @@ interface Props {
 	id: string;
 	propertyName: string;
 	setActiveRecord: (v: any) => void;
+	field: TableField;
 }
 
 const CellEditInput: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const CellEditInput: React.FC<Props> = ({
 	entityName,
 	config,
 	id,
+	field,
 }: Props) => {
 	const [isSaving, setSaving] = useState(false);
 	const [value, setValue] = useState<any>({});
@@ -28,9 +30,7 @@ const CellEditInput: React.FC<Props> = ({
 	useKeypress('Escape', () => {
 		setActiveRecord(undefined);
 	});
-
 	const [hasChanges, setHasChanges] = useState(false);
-	const isErrorNullable = value.length > 0;
 	const dataProvider = useDataProvider();
 
 	const onSave = async (): Promise<void> => {
@@ -49,6 +49,13 @@ const CellEditInput: React.FC<Props> = ({
 		setActiveRecord(undefined);
 	};
 
+	const checkAllowNullable = (): boolean => {
+		if (value.length === 0 && !field.nullable) {
+			return false;
+		}
+		return true;
+	};
+
 	const onChange = (v: any): void => {
 		if (v === initValue) {
 			setHasChanges(false);
@@ -57,6 +64,7 @@ const CellEditInput: React.FC<Props> = ({
 		}
 	};
 
+	console.log(value);
 	return (
 		<Space>
 			<Input
@@ -64,7 +72,7 @@ const CellEditInput: React.FC<Props> = ({
 				defaultValue={initValue}
 				onKeyDown={event => {
 					if (event.key === 'Enter') {
-						if (hasChanges && isErrorNullable) {
+						if (hasChanges && checkAllowNullable()) {
 							onSave();
 						} else {
 							notification.error({ message: `Error` });
@@ -78,7 +86,7 @@ const CellEditInput: React.FC<Props> = ({
 					onChange(v.target.value);
 				}}
 			/>
-			<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || !isErrorNullable}>
+			<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || !checkAllowNullable()}>
 				{isSaving ? 'Saving...' : 'Save'}
 			</Button>
 		</Space>

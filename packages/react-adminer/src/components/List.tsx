@@ -5,7 +5,7 @@ import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 
 import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
-import type { Field, PrimitiveField, TableField } from '../types';
+import type { PrimitiveField, TableField } from '../types';
 import useStateParams from '../hooks/useStateParams';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import Pagination from './Pagination';
@@ -78,7 +78,6 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 		return payload;
 	};
 
-	const [errorNullable, setErrorNullable] = useState<Record<string, boolean>>({});
 	const { data: dataCount, loading: loadingCount } = useCount(entityName, { where }, !config);
 
 	if (!config) {
@@ -145,6 +144,7 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 								entityName={entityName}
 								config={config}
 								id={activeRecord.id}
+								field={f}
 							/>
 						);
 					}
@@ -164,6 +164,7 @@ export const List: React.FC<Props> = ({ entityName, filter = true }) => {
 								entityName={entityName}
 								config={config}
 								id={activeRecord.id}
+								field={f}
 							/>
 						);
 					}
