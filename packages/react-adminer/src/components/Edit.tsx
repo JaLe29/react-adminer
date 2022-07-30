@@ -23,7 +23,7 @@ interface Props {
 	entityConfig?: TableConfig | undefined;
 }
 
-export const Edit: React.FC<Props> = ({ entityName, id }) => {
+export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const { config: appConfig } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
@@ -164,7 +164,6 @@ export const Edit: React.FC<Props> = ({ entityName, id }) => {
 
 	const isErrorNullable = Object.keys(errorNullable).length > 0;
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
-	console.log({ relations });
 	const Link = router?.components.Link;
 	return (
 		<Box>
