@@ -6,6 +6,7 @@ import path from 'path';
 export default (): any => ({
 	plugins: [react()],
 	build: {
+		sourcemap: true,
 		lib: {
 			entry: path.resolve(__dirname, 'src/index.ts'),
 			name: 'MyLib',
