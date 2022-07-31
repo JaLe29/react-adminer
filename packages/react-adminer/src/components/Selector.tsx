@@ -1,11 +1,10 @@
 /* eslint-disable indent */
 import { Select } from 'antd';
 import React from 'react';
+import ReactIs from 'react-is';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import { isPrimitiveFieldType } from '../utils/config';
 import { useSelect } from '../hooks/useSelect';
-// import { SELECTOR_MAP } from 'const/selector';
-// import useQueryQuerier from 'hooks/useQueryQuerier';
 import type { RelationType } from '../types';
 import Box from './Box';
 
@@ -42,13 +41,18 @@ const Selector: React.FC<Props> = ({ value, onChange, entityName, type }) => {
 
 	const toValue = (v: any): React.ReactElement => (
 		<Box>
-			{Object.keys(v).map(k => (
-				<Box key={k}>
-					<b>{k}</b>
-					{': '}
-					{v[k]}
-				</Box>
-			))}
+			{Object.keys(v).map(k => {
+				if (ReactIs.isValidElementType(v[k])) {
+					return (
+						<Box key={k}>
+							<b>{k}</b>
+							{': '}
+							{v[k]}
+						</Box>
+					);
+				}
+				return null;
+			})}
 		</Box>
 	);
 

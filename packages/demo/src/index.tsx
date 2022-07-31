@@ -14,12 +14,12 @@ const ROUTER = {
 };
 
 initQuerier({
-	// engineCase: 'snake',
-	// host: 'http://localhost:4003',
+	engineCase: 'snake',
+	host: 'http://localhost:4004',
 	//
-	engineCase: 'camel',
-	host: 'https://apengine.mailhunt.cz',
-	authorization: import.meta.env.VITE_API_TOKEN,
+	// engineCase: 'camel',
+	// host: 'https://apengine.mailhunt.cz',
+	// authorization: import.meta.env.VITE_API_TOKEN,
 });
 
 const container = document.getElementById('app')!;
@@ -146,7 +146,7 @@ root.render(
 						path="/"
 						element={
 							<>
-								<List entityName="state" />
+								<List entityName="apengine_action" />
 								{/* <hr />
 								<List entityName="tag" /> */}
 							</>
