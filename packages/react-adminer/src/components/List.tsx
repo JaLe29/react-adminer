@@ -148,7 +148,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 			<Right>
 				<Button>
 					<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${NEW_KEY}`}>
-						Create
+						{'Create '}
 						{entityName}
 					</Link>
 				</Button>
