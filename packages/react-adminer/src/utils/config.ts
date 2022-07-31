@@ -1,4 +1,4 @@
-import type { Field, PrimitiveField, RelationField } from '../types';
+import type { Field, PrimitiveField, RelationField, TableConfig } from '../types';
 import { PRIMITIVE_FIELDS } from '../config';
 
 export const isCreatable = (f: Field): boolean =>
@@ -13,4 +13,8 @@ export const getRelationFields = (fields: Field[]): RelationField[] =>
 
 export const getPrimitiveFields = (fields: Field[]): PrimitiveField[] =>
 	fields.filter(f => f.type !== 'relation' && !(f as any).virtual) as PrimitiveField[];
+
 export const isVirtualFieldType = (f: PrimitiveField): boolean => f.type === 'virtual';
+
+export const getFieldByName = (config: TableConfig, name: string): Field | undefined =>
+	config.fields.find(f => f.name === name);
