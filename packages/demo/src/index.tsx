@@ -1,6 +1,6 @@
 import { BrowserRouter, useLocation, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
-import type { UpdateOptions, SelectOptions, CountOptions, TableConfig } from 'react-adminer';
+import type { UpdateOptions, SelectOptions, CountOptions, TableConfig, Renders } from 'react-adminer';
 import { ReactAdminerProvider, Edit, List } from 'react-adminer';
 import { Querier, initQuerier } from '@apengine/querier';
 import React from 'react';
@@ -92,7 +92,7 @@ const update = async (
 	return true;
 };
 
-const RENDERS: Record<string, Record<'table', Record<string, React.FC>>> = {
+const RENDERS: Renders = {
 	state: {
 		table: {
 			alpha2code: ({ value }: any) => (
