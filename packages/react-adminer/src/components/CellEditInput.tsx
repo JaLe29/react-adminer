@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
 import type { TableConfig } from 'types';
+import { getFieldByName } from '../utils/config';
 import { useDataProvider } from '../hooks/useDataProvider';
 import { slowMe } from '../utils/promise';
 import useKeypress from '../hooks/useKeypress';
@@ -8,7 +9,7 @@ import useKeypress from '../hooks/useKeypress';
 interface Props {
 	value: any;
 	entityName: string;
-	config: TableConfig | undefined;
+	config: TableConfig;
 	id: string;
 	propertyName: string;
 	setActiveRecord: (v: any) => void;
@@ -23,7 +24,7 @@ const CellEditInput: React.FC<Props> = ({
 	id,
 }: Props) => {
 	const [isSaving, setSaving] = useState(false);
-	const [value, setValue] = useState<any>({});
+	const [value, setValue] = useState<any>(initValue);
 
 	useKeypress('Escape', () => {
 		setActiveRecord(undefined);
@@ -36,7 +37,7 @@ const CellEditInput: React.FC<Props> = ({
 		const payload = { [propertyName]: value };
 		const fn = async (): Promise<void> => {
 			try {
-				await dataProvider.update(entityName, payload, config!, { where: { id } });
+				await dataProvider.update(entityName, payload, config, { where: { id } });
 				notification.success({ message: `${entityName ?? 'error'} has been changed...` });
 			} catch {
 				notification.error({ message: `Error` });
@@ -47,7 +48,8 @@ const CellEditInput: React.FC<Props> = ({
 		setActiveRecord(undefined);
 	};
 
-	const isSaveActive = initValue === value;
+	const fieldConfig = getFieldByName(config, propertyName);
+	const isSaveDisabled = value === initValue || (fieldConfig?.nullable === false && value.length === 0);
 
 	return (
 		<Space>
@@ -55,7 +57,7 @@ const CellEditInput: React.FC<Props> = ({
 				type="text"
 				defaultValue={initValue}
 				onKeyDown={event => {
-					if (event.key === 'Enter' && isSaveActive) {
+					if (event.key === 'Enter' && !isSaveDisabled) {
 						onSave();
 						event.preventDefault();
 						event.stopPropagation();
@@ -65,7 +67,7 @@ const CellEditInput: React.FC<Props> = ({
 					setValue(v.target.value);
 				}}
 			/>
-			<Button type="primary" onClick={onSave} loading={isSaving} disabled={isSaveActive}>
+			<Button type="primary" onClick={onSave} loading={isSaving} disabled={isSaveDisabled}>
 				{isSaving ? 'Saving...' : 'Save'}
 			</Button>
 		</Space>

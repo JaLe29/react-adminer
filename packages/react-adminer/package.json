@@ -6,8 +6,8 @@
     "type": "git",
     "url": "git+ssh://git@github.com/JaLe29/react-adminer.git"
   },
-  "types": "./dist/types/index.d.ts",
-  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
   "files": [
     "dist"
   ],
@@ -44,6 +44,5 @@
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^18.2.0"
-  },
-  "module": "./dist/esm/index.js"
+  }
 }
