@@ -93,6 +93,11 @@ const update = async (
 };
 
 const RENDERS: Renders = {
+	_global: {
+		table: {
+			createdAt: ({ value }: any) => <div>{`datum${value}`}</div>,
+		},
+	},
 	state: {
 		table: {
 			alpha2code: ({ value }: any) => (
