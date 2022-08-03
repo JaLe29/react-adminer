@@ -2,6 +2,118 @@ import type { Schema } from 'react-adminer';
 import { EditButton } from 'react-adminer';
 
 export const SCHEMA: Schema = {
+	raAdvertisement: {
+		fields: [
+			{
+				name: 'id',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'createdAt',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'ra_user_id',
+				nullable: true,
+				type: 'string',
+			},
+			{
+				name: 'user',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'title',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'text',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'cost',
+				nullable: false,
+				type: 'number',
+			},
+			{
+				name: 'images',
+				nullable: false,
+				type: 'string', // jaky typ?
+			},
+		],
+	},
+	raImage: {
+		fields: [
+			{
+				name: 'id',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'createdAt',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'title',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'url',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'advertisementId',
+				nullable: true,
+				type: 'string',
+			},
+			{
+				name: 'advertisement',
+				nullable: false,
+				type: 'string', // jaky typ?
+			},
+		],
+	},
+	raUser: {
+		fields: [
+			{
+				name: 'id',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'createdAt',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'name',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'lastname',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'email',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'advertisements',
+				nullable: false,
+				type: 'string', // jaky typ?
+			},
+		],
+	},
 	provider: {
 		fields: [
 			{
