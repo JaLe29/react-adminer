@@ -14,6 +14,7 @@ import { useEntityConfig } from '../hooks/useEntityConfig';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import { NEW_KEY } from '../const';
 import Selector from './Selector';
+import InputNumber from './EditPageComponents/InputNumber';
 
 interface Props {
 	// isRelation?: boolean;
@@ -107,10 +108,12 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 				return;
 			}
 			try {
+				console.log(payload);
 				await dataProvider?.update(entityName, payload, config!, { where: { id } });
 				notification.success({ message: `${entityName ?? 'error'} has been saved...` });
 			} catch {
 				notification.error({ message: `Error` });
+				console.log('Chybicka');
 			}
 		};
 		await slowMe(1000, fn);
@@ -208,7 +211,18 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					if (f.type === 'number') {
 						return (
 							<WithCol key={f.name}>
-								{withTitle(f.name, f.nullable, <Placeholder propertyName={f.name} />)}
+								{withTitle(
+									f.name,
+									f.nullable,
+									<InputNumber
+										disabled={isDisabled}
+										value={state[f.name]}
+										propertyName={f.name}
+										onChange={v => {
+											onChange(f, v);
+										}}
+									/>,
+								)}
 							</WithCol>
 						);
 					}

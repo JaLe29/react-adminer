@@ -209,7 +209,7 @@ export const SCHEMA: Schema = {
 			{
 				name: 'alpha2code',
 				nullable: false,
-				type: 'string',
+				type: 'number',
 			},
 			{
 				name: 'visible',
