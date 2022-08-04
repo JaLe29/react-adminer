@@ -10,7 +10,7 @@ export const SCHEMA: Schema = {
 				type: 'string',
 			},
 			{
-				name: 'createdAt',
+				name: 'created',
 				nullable: false,
 				type: 'string',
 			},
@@ -22,7 +22,11 @@ export const SCHEMA: Schema = {
 			{
 				name: 'user',
 				nullable: false,
-				type: 'string',
+				type: 'relation',
+				relation: {
+					type: 'one',
+					entity: 'raUser',
+				},
 			},
 			{
 				name: 'title',
@@ -58,7 +62,7 @@ export const SCHEMA: Schema = {
 				type: 'string',
 			},
 			{
-				name: 'createdAt',
+				name: 'created',
 				nullable: false,
 				type: 'string',
 			},
@@ -96,7 +100,7 @@ export const SCHEMA: Schema = {
 				type: 'string',
 			},
 			{
-				name: 'createdAt',
+				name: 'created',
 				nullable: false,
 				type: 'string',
 			},
