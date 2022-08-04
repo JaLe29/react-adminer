@@ -12,7 +12,7 @@ import Pagination from './Pagination';
 import Right from './Right';
 import Box from './Box';
 import TableFilter from './TableFIlter';
-import { isPrimitiveFieldType } from '../utils/config';
+import { isPrimitiveFieldType, isRelationFieldType } from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
 import CellEditInput from './CellEditInput';
@@ -25,6 +25,7 @@ interface Props {
 
 export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true }) => {
 	const { paths, router } = useReactAdminerContext();
+	const { config: globalConfig } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 
 	const [sort, setSort] = useState<Record<string, 'asc' | 'desc'> | undefined>(undefined);
@@ -40,7 +41,23 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 		{
 			offset: page * pageSize,
 			limit: pageSize,
-			fields: config?.fields.filter(c => isPrimitiveFieldType(c) && !c.virtual).map(c => c.name),
+			// fields: config?.fields
+			// 	.filter(c => isPrimitiveFieldType(c) && !c.virtual && c.hideInTable !== true)
+			// 	.map(c => c.name),
+			fields: config?.fields
+				.filter(c => !c.virtual && c.hideInTable !== true)
+				.map(c => {
+					if (isRelationFieldType(c)) {
+						const schema = globalConfig?.schema[c.name];
+						return (
+							schema?.fields
+								.filter(s => isPrimitiveFieldType(s) && !s.virtual && s.hideInTable !== true)
+								.map(s => `${c.name}.${s.name}`) ?? []
+						);
+					}
+					return c.name;
+				})
+				.flat(),
 			orderBy: sort,
 			where,
 		},
