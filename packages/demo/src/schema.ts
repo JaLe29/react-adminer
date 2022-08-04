@@ -42,7 +42,11 @@ export const SCHEMA: Schema = {
 			{
 				name: 'images',
 				nullable: false,
-				type: 'string', // jaky typ?
+				type: 'relation',
+				relation: {
+					type: 'many',
+					entity: 'raImage',
+				},
 			},
 		],
 	},
@@ -76,7 +80,11 @@ export const SCHEMA: Schema = {
 			{
 				name: 'advertisement',
 				nullable: false,
-				type: 'string', // jaky typ?
+				type: 'relation',
+				relation: {
+					type: 'one',
+					entity: 'raAdvertisement',
+				},
 			},
 		],
 	},
@@ -110,7 +118,11 @@ export const SCHEMA: Schema = {
 			{
 				name: 'advertisements',
 				nullable: false,
-				type: 'string', // jaky typ?
+				type: 'relation',
+				relation: {
+					type: 'many',
+					entity: 'raAdvertisement',
+				},
 			},
 		],
 	},
