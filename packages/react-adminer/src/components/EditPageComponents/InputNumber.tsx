@@ -1,4 +1,4 @@
-import { Input as InputAntd } from 'antd';
+import { InputNumber as InputAntd } from 'antd';
 import type { EditPageComponent } from './EditPageComponentsTypes';
 
 const InputNumber: React.FC<EditPageComponent> = ({ disabled, value, onChange, propertyName }) => (
@@ -6,7 +6,8 @@ const InputNumber: React.FC<EditPageComponent> = ({ disabled, value, onChange, p
 		disabled={disabled}
 		placeholder={propertyName}
 		value={value}
-		onChange={e => onChange(parseInt(e.target.value))}
+		onChange={e => onChange(e.target.value)}
+		style={{ width: '100%' }}
 	/>
 );
 
