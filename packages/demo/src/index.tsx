@@ -140,9 +140,7 @@ const EntitySelection = (): any => {
 					setEntityName(v.target.value);
 				}}
 			>
-				<option value="state">
-					state
-				</option>
+				<option value="state">state</option>
 				<option value="raUser">raUser</option>
 				<option value="raAdvertisement">raAdvertisement</option>
 				<option value="raImage">raImage</option>
