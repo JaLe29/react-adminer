@@ -139,6 +139,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 						if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
 							return <div onClick={(e: any) => handleItemClick(e, f, object)}>{v}</div>;
 						}
+						console.log(v);
 						return <Alert message="Invalid element" type="error" showIcon />;
 				  },
 		}));

@@ -3,9 +3,9 @@ import * as ReactDOMClient from 'react-dom/client';
 import type { UpdateOptions, SelectOptions, CountOptions, TableConfig, Renders } from 'react-adminer';
 import { ReactAdminerProvider, Edit, List } from 'react-adminer';
 import { Querier, initQuerier } from '@apengine/querier';
-import React from 'react';
 
 import { useParams } from 'react-router';
+import { useState } from 'react';
 import { SCHEMA } from './schema';
 
 const ROUTER = {
@@ -131,6 +131,34 @@ const EditPage: React.FC = () => {
 	);
 };
 
+const EntitySelection = (): any => {
+	const [entityName, setEntityName] = useState<any>('raAdvertisement');
+	return (
+		<>
+			<select
+				onChange={v => {
+					setEntityName(v.target.value);
+				}}
+			>
+				<option value="state">
+					state
+				</option>
+				<option value="raUser">raUser</option>
+				<option value="raAdvertisement">raAdvertisement</option>
+				<option value="raImage">raImage</option>
+			</select>
+
+			<input
+				defaultValue={entityName}
+				onChange={v => {
+					setEntityName(v.target.value);
+				}}
+			/>
+			<List entityName={entityName} />
+		</>
+	);
+};
+
 root.render(
 	<div style={{ background: '#FAFAFA' }}>
 		<BrowserRouter>
@@ -146,8 +174,7 @@ root.render(
 						path="/"
 						element={
 							<>
-								<p>sadas</p>
-								<List entityName="state" />
+								<EntitySelection />
 								{/* <hr />
 								<List entityName="tag" /> */}
 							</>
