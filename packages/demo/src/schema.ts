@@ -2,6 +2,134 @@ import type { Schema } from 'react-adminer';
 import { EditButton } from 'react-adminer';
 
 export const SCHEMA: Schema = {
+	raAdvertisement: {
+		fields: [
+			{
+				name: 'id',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'created',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'ra_user_id',
+				nullable: true,
+				type: 'string',
+			},
+			{
+				name: 'user',
+				nullable: false,
+				type: 'relation',
+				relation: {
+					type: 'one',
+					entity: 'raUser',
+				},
+			},
+			{
+				name: 'title',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'text',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'cost',
+				nullable: false,
+				type: 'number',
+			},
+			{
+				name: 'images',
+				nullable: false,
+				type: 'relation',
+				relation: {
+					type: 'many',
+					entity: 'raImage',
+				},
+			},
+		],
+	},
+	raImage: {
+		fields: [
+			{
+				name: 'id',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'created',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'title',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'url',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'advertisementId',
+				nullable: true,
+				type: 'string',
+			},
+			{
+				name: 'advertisement',
+				nullable: false,
+				type: 'relation',
+				relation: {
+					type: 'one',
+					entity: 'raAdvertisement',
+				},
+			},
+		],
+	},
+	raUser: {
+		fields: [
+			{
+				name: 'id',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'created',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'name',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'lastname',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'email',
+				nullable: false,
+				type: 'string',
+			},
+			{
+				name: 'advertisements',
+				nullable: false,
+				type: 'relation',
+				relation: {
+					type: 'many',
+					entity: 'raAdvertisement',
+				},
+			},
+		],
+	},
 	provider: {
 		fields: [
 			{
