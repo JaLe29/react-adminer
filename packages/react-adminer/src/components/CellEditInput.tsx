@@ -37,7 +37,13 @@ const CellEditInput: React.FC<Props> = ({
 		const payload = { [propertyName]: value };
 		const fn = async (): Promise<void> => {
 			try {
-				await dataProvider.update(entityName, payload, config, { where: { id } });
+				if (typeof initValue === 'number') {
+					const valueAsNumber: number = parseInt(value);
+					const payloadAsNuber = { [propertyName]: valueAsNumber };
+					await dataProvider.update(entityName, payloadAsNuber, config, { where: { id } });
+				} else {
+					await dataProvider.update(entityName, payload, config, { where: { id } });
+				}
 				notification.success({ message: `${entityName ?? 'error'} has been changed...` });
 			} catch {
 				notification.error({ message: `Error` });
