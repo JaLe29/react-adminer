@@ -95,7 +95,7 @@ const update = async (
 const RENDERS: Renders = {
 	_global: {
 		table: {
-			createdAt: ({ value }: any) => <div>{`datum${value}`}</div>,
+			createdAt: ({ value }: any) => <div>{`Date: ${value}`}</div>,
 		},
 	},
 	state: {
