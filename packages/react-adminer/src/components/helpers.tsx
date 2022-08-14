@@ -57,14 +57,13 @@ export const getSchema = (entityName: string, entitySchema: any, renders?: Rende
 
 	return {
 		fields: tableFields.map(field => {
-			const r = renders?.[entityName]?.table?.[field.name];
+			const r = renders?.[entityName]?.table?.[field.name] ?? renders?._global?.table?.[field.name];
 			if (r) {
 				return {
 					...field,
 					render: r,
 				};
 			}
-
 			return field;
 		}),
 		filter: tableFields.filter((ss: Field) => ss.type === 'string').map((f: Field) => f.name),

@@ -18,7 +18,7 @@ initQuerier({
 	// host: 'http://localhost:4004',
 	//
 	engineCase: 'camel',
-	host: 'https://apengine.mailhunt.cz',
+	host: 'https://dev-apengine.mailhunt.cz',
 	authorization: import.meta.env.VITE_API_TOKEN,
 });
 
@@ -93,6 +93,11 @@ const update = async (
 };
 
 const RENDERS: Renders = {
+	_global: {
+		table: {
+			createdAt: ({ value }: any) => <div>{`Date: ${value}`}</div>,
+		},
+	},
 	state: {
 		table: {
 			alpha2code: ({ value }: any) => (

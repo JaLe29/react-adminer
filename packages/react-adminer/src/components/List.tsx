@@ -35,7 +35,6 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 	const [page, setPage] = useStateParams(0, 'p', v => +v);
 
 	const [activeRecord, setActiveRecord] = useState<{ id: string; property: string } | undefined>();
-
 	const { data, loading } = useSelect<any>(
 		entityName,
 		{
