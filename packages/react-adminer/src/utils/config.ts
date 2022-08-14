@@ -18,3 +18,5 @@ export const isVirtualFieldType = (f: PrimitiveField): boolean => f.type === 'vi
 
 export const getFieldByName = (config: TableConfig, name: string): Field | undefined =>
 	config.fields.find(f => f.name === name);
+
+export const isRelationFieldType = (f: Field): f is RelationField => !!(f as any).relation;
