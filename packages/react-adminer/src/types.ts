@@ -1,6 +1,4 @@
-import type { ReactNode } from 'react';
 import type { CountOptions, SelectOptions, UpdateOptions } from 'types/data-provider';
-import type { Renders } from 'types/renders';
 
 export type TableFieldType = 'string' | 'number' | 'boolean' | 'Date' | 'any' | string; // todo
 
