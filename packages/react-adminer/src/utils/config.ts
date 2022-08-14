@@ -1,4 +1,3 @@
-import type { Renders } from 'types/renders';
 import type { Field, PrimitiveField, RelationField, TableConfig } from '../types';
 import { PRIMITIVE_FIELDS } from '../config';
 
