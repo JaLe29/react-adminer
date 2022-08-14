@@ -148,6 +148,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		return <Box>neni config</Box>;
 	}
 
+	if()
 	// if (error) {
 	// 	return (
 	//
