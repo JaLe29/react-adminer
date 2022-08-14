@@ -18,7 +18,7 @@ jobs:
         run: yarn
 
       - name: lint
-        run: yarn workspace react-adminer lint
+        run: yarn workspace react-adminer lint --max-warnings=0
 
       - name: build
         run: yarn workspace react-adminer build:prod
