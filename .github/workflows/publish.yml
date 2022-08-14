@@ -3,7 +3,7 @@ name: test
 on:
 
   push:
-    branches: [ "testpublish" ]
+    branches: [ "master" ]
 
   workflow_dispatch:
 
@@ -27,5 +27,5 @@ jobs:
           git config --global user.name 'Github action'
           git config --global user.email 'jaledeveloper@gmail.com'
           git add ./packages/react-adminer/package.json
-          git commit -m "Version increment"
+          git commit -m "Github Action: Version increment"
           git push
