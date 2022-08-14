@@ -42,4 +42,5 @@ const Box: React.FC<Props> = ({
 		{children}
 	</div>
 );
+
 export default Box;
