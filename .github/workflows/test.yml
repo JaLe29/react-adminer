@@ -1,21 +1,24 @@
-name: PR
+name: test
 
 on:
 
   pull_request:
     branches: [ "master" ]
-    
+
   workflow_dispatch:
- 
+
 jobs:
 
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
-      - name: install dependencies 
+
+      - name: install dependencies
         run: yarn
- 
+
       - name: lint
         run: yarn workspace react-adminer lint
+
+      - name: build
+        run: yarn workspace react-adminer build:prod
