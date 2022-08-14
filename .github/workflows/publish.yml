@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  test:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,4 +18,6 @@ jobs:
         run: yarn
 
       - name: publish
+        env:
+          NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         run: yarn publish patch
