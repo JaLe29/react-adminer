@@ -150,7 +150,6 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 
 	// if (error) {
 	// 	return (
-	//
 	// 		<Box>
 	// 			An error occured
 	// 			{JSON.stringify(error, null, 2)}
