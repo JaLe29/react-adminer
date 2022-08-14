@@ -1,6 +1,6 @@
 {
   "name": "react-adminer",
-  "version": "0.0.26",
+  "version": "0.0.28",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "dist"
   ],
   "scripts": {
-    "publish": "yarn clean && yarn build:prod && yarn workspace react-adminer npm publish",
+    "publish": "yarn clean && yarn build:prod && yarn workspace react-adminer npm publish --otp \"%NPM_PUBLISH_TOKEN%\"",
     "watch": "yarn build:deps && yarn build:prod",
     "watch:types": "tsc --watch --project tsconfig.watch.json",
     "build:prod": "yarn clean && vite build --mode release && yarn build:types",
