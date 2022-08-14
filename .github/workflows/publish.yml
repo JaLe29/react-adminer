@@ -21,3 +21,11 @@ jobs:
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         run: yarn publish patch
+
+      - name: Commit new version
+        run: |
+          git config --global user.name 'Github action'
+          git config --global user.email 'jaledeveloper@gmail.com'
+          git add ./packages/react-adminer/package.json
+          git commit -m "Version increment"
+          git push
