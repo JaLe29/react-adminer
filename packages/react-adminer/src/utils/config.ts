@@ -21,8 +21,13 @@ export const getFieldByName = (config: TableConfig, name: string): Field | undef
 
 export const isRelationFieldType = (f: Field): f is RelationField => !!(f as any).relation;
 
-export const fixFormat = (type: any, value: any, propertyName: string, payload: { [x: string]: any }): any => {
-	if (type === 'number') {
+export const fixFormat = (
+	config: TableConfig,
+	value: any,
+	propertyName: string,
+	payload: { [x: string]: any },
+): any => {
+	if (getFieldByName(config, propertyName)?.type === 'number') {
 		const valueAsNumber: number = parseInt(value);
 		return { [propertyName]: valueAsNumber };
 	}
