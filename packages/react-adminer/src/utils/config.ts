@@ -1,3 +1,4 @@
+import type { types } from '@babel/core';
 import type { Field, PrimitiveField, RelationField, TableConfig } from '../types';
 import { PRIMITIVE_FIELDS } from '../config';
 
@@ -21,8 +22,8 @@ export const getFieldByName = (config: TableConfig, name: string): Field | undef
 
 export const isRelationFieldType = (f: Field): f is RelationField => !!(f as any).relation;
 
-export const fixFormat = (initValue: any, value: any, propertyName: string, payload: { [x: string]: any }): any => {
-	if (typeof initValue === 'number') {
+export const fixFormat = (type: any, value: any, propertyName: string, payload: { [x: string]: any }): any => {
+	if (type === 'number') {
 		const valueAsNumber: number = parseInt(value);
 		return { [propertyName]: valueAsNumber };
 	}

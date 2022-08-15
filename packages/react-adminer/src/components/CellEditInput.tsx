@@ -37,9 +37,14 @@ const CellEditInput: React.FC<Props> = ({
 		const payload = { [propertyName]: value };
 		const fn = async (): Promise<void> => {
 			try {
-				await dataProvider.update(entityName, fixFormat(initValue, value, propertyName, payload), config, {
-					where: { id },
-				});
+				await dataProvider.update(
+					entityName,
+					fixFormat(config.fields.find(e => e.name === propertyName)?.type, value, propertyName, payload),
+					config,
+					{
+						where: { id },
+					},
+				);
 				notification.success({ message: `${entityName ?? 'error'} has been changed...` });
 			} catch {
 				notification.error({ message: `Error` });
