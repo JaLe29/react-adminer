@@ -1,4 +1,3 @@
-import type { types } from '@babel/core';
 import type { Field, PrimitiveField, RelationField, TableConfig } from '../types';
 import { PRIMITIVE_FIELDS } from '../config';
 
