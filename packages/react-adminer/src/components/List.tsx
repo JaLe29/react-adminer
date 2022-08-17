@@ -152,7 +152,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 								/>
 							);
 						}
-						if (ReactIs.isValidElementType(v) || v === undefined || v === null) {
+						if (ReactIs.isValidElementType(v) || v === undefined || v === null || isPrimitiveFieldType(f)) {
 							return <div onClick={(e: any) => handleItemClick(e, f, object)}>{v}</div>;
 						}
 						return <Alert message="Invalid element" type="error" showIcon />;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
 import type { TableConfig } from 'types';
-import { getFieldByName } from '../utils/config';
+import { fixFormat, getFieldByName } from '../utils/config';
 import { useDataProvider } from '../hooks/useDataProvider';
 import { slowMe } from '../utils/promise';
 import useKeypress from '../hooks/useKeypress';
@@ -37,7 +37,9 @@ const CellEditInput: React.FC<Props> = ({
 		const payload = { [propertyName]: value };
 		const fn = async (): Promise<void> => {
 			try {
-				await dataProvider.update(entityName, payload, config, { where: { id } });
+				await dataProvider.update(entityName, fixFormat(config, value, propertyName, payload), config, {
+					where: { id },
+				});
 				notification.success({ message: `${entityName ?? 'error'} has been changed...` });
 			} catch {
 				notification.error({ message: `Error` });
