@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
 import type { TableConfig } from 'types';
 import { fixFormat, getFieldByName } from '../utils/config';
@@ -53,26 +53,41 @@ const CellEditInput: React.FC<Props> = ({
 	const fieldConfig = getFieldByName(config, propertyName);
 	const isSaveDisabled = value === initValue || (fieldConfig?.nullable === false && value.length === 0);
 
+	const ref = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		document.addEventListener('click', handleClickOutside, true);
+	});
+
+	const handleClickOutside = (e: any): void => {
+		if (!ref.current!.contains(e.target)) {
+			setActiveRecord(undefined);
+		}
+		document.removeEventListener('click', handleClickOutside);
+	};
+
 	return (
-		<Space>
-			<Input
-				type="text"
-				defaultValue={initValue}
-				onKeyDown={event => {
-					if (event.key === 'Enter' && !isSaveDisabled) {
-						onSave();
-						event.preventDefault();
-						event.stopPropagation();
-					}
-				}}
-				onChange={v => {
-					setValue(v.target.value);
-				}}
-			/>
-			<Button type="primary" onClick={onSave} loading={isSaving} disabled={isSaveDisabled}>
-				{isSaving ? 'Saving...' : 'Save'}
-			</Button>
-		</Space>
+		<div ref={ref}>
+			<Space>
+				<Input
+					type="text"
+					defaultValue={initValue}
+					onKeyDown={event => {
+						if (event.key === 'Enter' && !isSaveDisabled) {
+							onSave();
+							event.preventDefault();
+							event.stopPropagation();
+						}
+					}}
+					onChange={v => {
+						setValue(v.target.value);
+					}}
+				/>
+				<Button type="primary" onClick={onSave} loading={isSaving} disabled={isSaveDisabled}>
+					{isSaving ? 'Saving...' : 'Save'}
+				</Button>
+			</Space>
+		</div>
 	);
 };
 
