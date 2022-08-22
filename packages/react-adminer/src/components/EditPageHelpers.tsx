@@ -1,6 +1,5 @@
 import { Col, Row } from 'antd';
 import React from 'react';
-// import { sentenceCase } from 'change-case';
 
 export const withTitle = (propertyName: string, nullable = false, component: React.ReactChild): React.ReactChild => (
 	<div>

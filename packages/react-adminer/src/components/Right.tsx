@@ -3,7 +3,7 @@ import Box from './Box';
 interface Props {
 	children: React.ReactElement | React.ReactElement[] | any;
 }
-const Right = ({ children }: Props) => (
+const Right: React.FC<Props> = ({ children }) => (
 	<Box justifyContent="flex-end" display="flex">
 		{children}
 	</Box>

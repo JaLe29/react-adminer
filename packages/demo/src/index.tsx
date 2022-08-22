@@ -44,12 +44,13 @@ const objectWithRelations = (object: Record<string, any>, entityConfig: TableCon
 			[v]: object[v],
 		};
 	}, {});
+
 const buildWhere = (where?: Record<string, any>): any => {
 	if (!where) {
 		return undefined;
 	}
 
-	return Object.keys(where).reduce((acc, v) => ({ ...acc, [v]: { _eq: where[v] } }), {});
+	return Object.keys(where).reduce((acc, v) => ({ ...acc, [v]: { _like: `%${where[v]}%` } }), {});
 };
 
 const select = async (entityName: string, options?: SelectOptions): Promise<any[]> => {
@@ -65,7 +66,7 @@ const select = async (entityName: string, options?: SelectOptions): Promise<any[
 };
 
 const count = async (entityName: string, options?: CountOptions): Promise<number> => {
-	const r = await Querier.selectAggregate<{ count: number }>(`${entityName}Aggregate`, {
+	const r = await Querier.selectAggregate<{ count: number }>(`${entityName}`, {
 		fields: ['count'],
 		where: buildWhere(options?.where),
 	});
@@ -96,6 +97,7 @@ const RENDERS: Renders = {
 	_global: {
 		table: {
 			createdAt: ({ value }: any) => <div>{`Date: ${value}`}</div>,
+			created: ({ value }: any) => <div>{`Date: ${value}`}</div>,
 		},
 	},
 	state: {

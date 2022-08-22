@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"license": "MIT",
 	"dependencies": {
-		"@apengine/querier": "^0.2.29",
+		"@apengine/querier": "^0.2.31",
 		"react": "^18.2.0",
 		"react-adminer": "workspace:*",
 		"react-dom": "^18.2.0",
@@ -14,15 +14,14 @@
 		"utils": "link:./src/utils"
 	},
 	"devDependencies": {
-		"@types/lodash": "^4.14.182",
 		"@types/node": "^16.11.36",
 		"@types/react": "^18.0.17",
 		"@types/react-dom": "^18.0.6",
 		"@types/react-router-dom": "^5.3.3",
-		"@vitejs/plugin-react": "^2.0.0",
-		"eslint": "^8.19.0",
+		"@vitejs/plugin-react": "^2.0.1",
+		"eslint": "^8.22.0",
 		"rimraf": "^3.0.2",
-		"vite": "^3.0.5",
+		"vite": "^3.0.9",
 		"vite-plugin-checker": "^0.4.9"
 	},
 	"scripts": {

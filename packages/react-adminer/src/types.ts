@@ -54,7 +54,6 @@ export interface FilterComponent<T> {
 
 export interface BaseConfig {
 	fields: TableField[];
-	// filter?: string[];
 }
 
 export type Schema = Record<string, BaseConfig>;
