@@ -6,6 +6,7 @@ import { fixFormat, getFieldByName } from '../utils/config';
 import { useDataProvider } from '../hooks/useDataProvider';
 import { slowMe } from '../utils/promise';
 import useKeypress from '../hooks/useKeypress';
+import DateTimePicker from './DateTimePicker';
 
 interface Props {
 	value: any;
@@ -61,20 +62,30 @@ const CellEditInput: React.FC<Props> = ({
 	return (
 		<div ref={ref}>
 			<Space>
-				<Input
-					type="text"
-					defaultValue={initValue}
-					onKeyDown={event => {
-						if (event.key === 'Enter' && !isSaveDisabled) {
-							onSave();
-							event.preventDefault();
-							event.stopPropagation();
-						}
-					}}
-					onChange={v => {
-						setValue(v.target.value);
-					}}
-				/>
+				{getFieldByName(config, propertyName)?.type === 'datetime' ? (
+					<DateTimePicker
+						value={initValue}
+						onChange={v => {
+							setValue(v);
+						}}
+						propertyName={propertyName}
+					/>
+				) : (
+					<Input
+						type="text"
+						defaultValue={initValue}
+						onKeyDown={event => {
+							if (event.key === 'Enter' && !isSaveDisabled) {
+								onSave();
+								event.preventDefault();
+								event.stopPropagation();
+							}
+						}}
+						onChange={v => {
+							setValue(v.target.value);
+						}}
+					/>
+				)}
 				<Button type="primary" onClick={onSave} loading={isSaving} disabled={isSaveDisabled}>
 					{isSaving ? 'Saving...' : 'Save'}
 				</Button>

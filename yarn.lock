@@ -5829,7 +5829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.24.0, moment@npm:^2.29.2":
+"moment@npm:^2.24.0, moment@npm:^2.29.2, moment@npm:^2.29.4":
   version: 2.29.4
   resolution: "moment@npm:2.29.4"
   checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
@@ -7054,6 +7054,7 @@ __metadata:
     "@vitejs/plugin-react": ^2.0.1
     antd: ^4.22.4
     eslint: ^8.21.0
+    moment: ^2.29.4
     react: ^18.2.0
     react-dom: ^18.2.0
     rimraf: ^3.0.2

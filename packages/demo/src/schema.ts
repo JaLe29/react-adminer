@@ -108,7 +108,7 @@ export const SCHEMA: Schema = {
 				name: 'created',
 				creatable: false,
 				nullable: false,
-				type: 'string',
+				type: 'datetime',
 			},
 			{
 				name: 'name',
