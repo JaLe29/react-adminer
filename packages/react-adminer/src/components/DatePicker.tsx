@@ -2,7 +2,7 @@ import { DatePicker as DatePickerAntd } from 'antd';
 import moment from 'moment';
 import type { EditPageComponent } from './EditPageComponents/EditPageComponentsTypes';
 
-const DatePicker2: React.FC<EditPageComponent> = ({ value, onChange, propertyName }) => (
+const DatePicker: React.FC<EditPageComponent> = ({ value, onChange, propertyName }) => (
 	<DatePickerAntd
 		value={moment(value, 'YYYY-MM-DD')}
 		placeholder={propertyName}
@@ -13,4 +13,4 @@ const DatePicker2: React.FC<EditPageComponent> = ({ value, onChange, propertyNam
 	/>
 );
 
-export default DatePicker2;
+export default DatePicker;
