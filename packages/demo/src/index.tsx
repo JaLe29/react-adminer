@@ -139,7 +139,7 @@ const EditPage: React.FC = () => {
 };
 
 const EntitySelection = (): any => {
-	const [entityName, setEntityName] = useState<any>('raAdvertisement');
+	const [entityName, setEntityName] = useState<any>('raUser');
 	return (
 		<>
 			<select
