@@ -16,8 +16,8 @@ import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import { NEW_KEY } from '../const';
 import Selector from './Selector';
 import InputNumber from './EditPageComponents/InputNumber';
-import DatePicker from './Datepicker';
 import DateTimePicker from './DateTimePicker';
+import DatePicker from './DatePicker';
 
 interface Props {
 	id: string | 'new';
@@ -271,7 +271,6 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						if (!state[f.name]) {
 							value = moment().format('YYYY-MM-DD hh:mm:ss');
 						}
-						console.log(value);
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
