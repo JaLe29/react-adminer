@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import ReactIs from 'react-is';
 import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
-import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
+import { CompassOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import type { TableConfig, TableField } from '../types';
@@ -153,6 +153,15 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 							);
 						}
 						if (ReactIs.isValidElementType(v) || v === undefined || v === null || isPrimitiveFieldType(f)) {
+							// console.log(where);
+							// console.log(v);
+							// if (f.name === object.name) {
+							// }
+							// console.log(f.name);
+							if (where && where.keys(f.name)) {
+								console.log(v);
+								console.log(where?.name);
+							}
 							return <div onClick={(e: any) => handleItemClick(e, f, object)}>{v}</div>;
 						}
 						return <Alert message="Invalid element" type="error" showIcon />;
