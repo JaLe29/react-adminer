@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
 import type { TableConfig } from 'types';
+import useClickOutside from '../hooks/useClickOutside';
 import { fixFormat, getFieldByName } from '../utils/config';
 import { useDataProvider } from '../hooks/useDataProvider';
 import { slowMe } from '../utils/promise';
@@ -30,6 +31,10 @@ const CellEditInput: React.FC<Props> = ({
 		setActiveRecord(undefined);
 	});
 
+	const ref = useRef<HTMLInputElement>(null);
+
+	useClickOutside(() => setActiveRecord(undefined), ref);
+
 	const dataProvider = useDataProvider();
 
 	const onSave = async (): Promise<void> => {
@@ -52,19 +57,6 @@ const CellEditInput: React.FC<Props> = ({
 
 	const fieldConfig = getFieldByName(config, propertyName);
 	const isSaveDisabled = value === initValue || (fieldConfig?.nullable === false && value.length === 0);
-
-	const ref = useRef<HTMLInputElement>(null);
-
-	useEffect(() => {
-		document.addEventListener('click', handleClickOutside, true);
-	});
-
-	const handleClickOutside = (e: any): void => {
-		if (!ref.current!.contains(e.target)) {
-			setActiveRecord(undefined);
-		}
-		document.removeEventListener('click', handleClickOutside);
-	};
 
 	return (
 		<div ref={ref}>
