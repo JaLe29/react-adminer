@@ -16,6 +16,17 @@ import { isPrimitiveFieldType, isRelationFieldType } from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
 import CellEditInput from './CellEditInput';
+import Highlighted from './Highlight';
+
+const getHighlighted = (value: any, field: TableField, where: Record<string, any> | undefined): any => {
+	if (!where?.[field.name]) {
+		return value;
+	}
+	return <Highlighted text={value} highlight={where[field.name]} />;
+	// name
+	// console.log({ value, where: where[field.name], fieldName: field.name });
+	// return value.replace(new RegExp(where[field.name], 'i'), (match: any) => `<mark>${match}</mark>`);
+};
 
 interface Props {
 	entityName: string;
@@ -153,27 +164,31 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 							);
 						}
 						if (ReactIs.isValidElementType(v) || v === undefined || v === null || isPrimitiveFieldType(f)) {
-							let result = v;
-							if (where) {
-								Object.keys(object).map(objectKey => {
-									Object.keys(where).map(filterKey => {
-										if (filterKey === objectKey && object[objectKey].includes(where[filterKey])) {
-											console.log(`${object[objectKey]} ${where[filterKey]}`);
-											// console.log(`${filterKey} ${objectKey}`);
-											// console.log(result);
-											result = v?.replace(
-												new RegExp(where[filterKey]),
-												(match: any) => `${match}X`,
-											);
-											return (
-												<div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>
-											);
-										}
-									});
-									return <div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>;
-								});
-							}
-							return <div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>;
+							const result = v;
+							// if (where) {
+							// 	Object.keys(object).map(objectKey => {
+							// 		Object.keys(where).map(filterKey => {
+							// 			if (filterKey === objectKey && object[objectKey].includes(where[filterKey])) {
+							// 				console.log(`${object[objectKey]} ${where[filterKey]}`);
+							// 				// console.log(`${filterKey} ${objectKey}`);
+							// 				// console.log(result);
+							// 				result = v?.replace(
+							// 					new RegExp(where[filterKey]),
+							// 					(match: any) => `${match}X`,
+							// 				);
+							// 				return (
+							// 					<div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>
+							// 				);
+							// 			}
+							// 		});
+							// 		return <div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>;
+							// 	});
+							// }
+							return (
+								<div onClick={(e: any) => handleItemClick(e, f, object)}>
+									{getHighlighted(result, f, where)}
+								</div>
+							);
 						}
 						return <Alert message="Invalid element" type="error" showIcon />;
 				  },

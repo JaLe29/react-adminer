@@ -62,21 +62,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apengine/querier@npm:^0.2.31":
-  version: 0.2.31
-  resolution: "@apengine/querier@npm:0.2.31"
+"@apengine/querier@npm:^0.2.34":
+  version: 0.2.34
+  resolution: "@apengine/querier@npm:0.2.34"
   dependencies:
-    "@apengine/types": 0.2.19
+    "@apengine/types": 0.2.22
     axios: ^0.27.2
     change-case: ^4.1.2
-  checksum: 9aca43955e722621259952df9dc19e9780d892f429fa2b2db73dc4adf480bf8eafe2e7274e09549030e74eba409888966a2f190bac72d758218078f1499473c2
+  checksum: 9a9c537ac48cb15cbf36643da1b78ad056cdf26fb95139f5e5aeba409013396473362506b9279ec3dc5d65d93724bf31125103aac9785393fa0a2630e63ed225
   languageName: node
   linkType: hard
 
-"@apengine/types@npm:0.2.19":
-  version: 0.2.19
-  resolution: "@apengine/types@npm:0.2.19"
-  checksum: 2db1a0fadad6e09c5f1197e4b94864a6ce011a5b0131b5cbdf60dd2e4cff077c4278e541a13307172724cc136b79e18fbc1d4af76b5c8d59f8291666fc3539d9
+"@apengine/types@npm:0.2.22":
+  version: 0.2.22
+  resolution: "@apengine/types@npm:0.2.22"
+  checksum: 9877c0b70c605753b9446292eb966a50bf49171f76c066f506be6d5018cd5779468968d477a1d4367e0bf92c239ac579717b9f7abb64a89ebc9643af85d1dbff
   languageName: node
   linkType: hard
 
@@ -1400,7 +1400,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ra/demo@workspace:packages/demo"
   dependencies:
-    "@apengine/querier": ^0.2.31
+    "@apengine/querier": ^0.2.34
     "@types/node": ^16.11.36
     "@types/react": ^18.0.17
     "@types/react-dom": ^18.0.6
@@ -1417,7 +1417,7 @@ __metadata:
     typescript: ~4.7.4
     utils: "link:./src/utils"
     vite: ^3.0.9
-    vite-plugin-checker: ^0.4.9
+    vite-plugin-checker: ^0.5.0
   languageName: unknown
   linkType: soft
 
@@ -8153,9 +8153,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-checker@npm:^0.4.9":
-  version: 0.4.9
-  resolution: "vite-plugin-checker@npm:0.4.9"
+"vite-plugin-checker@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "vite-plugin-checker@npm:0.5.0"
   dependencies:
     "@babel/code-frame": ^7.12.13
     ansi-escapes: ^4.3.0
@@ -8173,10 +8173,21 @@ __metadata:
     vscode-languageserver-textdocument: ^1.0.1
     vscode-uri: ^3.0.2
   peerDependencies:
+    eslint: ">=7"
+    typescript: "*"
     vite: ^2.0.0 || ^3.0.0-0
-  bin:
-    vite-plugin-checker-vls: bin/vls
-  checksum: b3bff686c3a48335869376d01ceb98ec4a5fa961dcdb4968ab2e629ab989a7760f2ea29c3660cf3fa54f3354968c93415fc918f2bebea2ec8a6bb93692eec41a
+    vls: "*"
+    vti: "*"
+  peerDependenciesMeta:
+    eslint:
+      optional: true
+    typescript:
+      optional: true
+    vls:
+      optional: true
+    vti:
+      optional: true
+  checksum: c66051dbb42b12ed8e9f6ddd93ef244558fd2c5fc80bde0497e48993f2fd9f507ac232a9d2ea6906c41d4e9bd9191261b3d350d763102b516a0b9a404653f2b7
   languageName: node
   linkType: hard
 
