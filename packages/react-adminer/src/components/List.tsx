@@ -153,23 +153,24 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 							);
 						}
 						if (ReactIs.isValidElementType(v) || v === undefined || v === null || isPrimitiveFieldType(f)) {
-							let highlightedText = '';
 							let result = v;
 							if (where) {
-								Object.keys(object).forEach(objectKey => {
-									Object.keys(where).forEach(filterKey => {
+								Object.keys(object).map(objectKey => {
+									Object.keys(where).map(filterKey => {
 										if (filterKey === objectKey && object[objectKey].includes(where[filterKey])) {
-											highlightedText = where[filterKey];
+											console.log(`${object[objectKey]} ${where[filterKey]}`);
+											// console.log(`${filterKey} ${objectKey}`);
+											// console.log(result);
 											result = v?.replace(
-												new RegExp(highlightedText),
-												(match: any) => `${match}TADY`,
+												new RegExp(where[filterKey]),
+												(match: any) => `${match}X`,
 											);
-											console.log(`naslo se ${result}`);
 											return (
 												<div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>
 											);
 										}
 									});
+									return <div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>;
 								});
 							}
 							return <div onClick={(e: any) => handleItemClick(e, f, object)}>{result}</div>;
