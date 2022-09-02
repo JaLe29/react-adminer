@@ -2,6 +2,7 @@ import { Row, Spin, Button, Divider, notification, Alert } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types';
 import { EyeOutlined } from '@ant-design/icons';
+import moment from 'moment';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
 import { getPrimitiveFields, getRelationFields, isCreatable, isVirtualFieldType } from '../utils/config';
@@ -15,6 +16,8 @@ import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import { NEW_KEY } from '../const';
 import Selector from './Selector';
 import InputNumber from './EditPageComponents/InputNumber';
+import DateTimePicker from './DateTimePicker';
+import DatePicker from './DatePicker';
 
 interface Props {
 	id: string | 'new';
@@ -234,6 +237,48 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									<BooleanSwitch
 										disabled={isDisabled}
 										value={state[f.name]}
+										onChange={v => {
+											onChange(f, v);
+										}}
+										propertyName={f.name}
+									/>,
+								)}
+							</WithCol>
+						);
+					}
+
+					if (f.type === 'date') {
+						return (
+							<WithCol key={f.name}>
+								{withTitle(
+									f.name,
+									f.nullable,
+									<DatePicker
+										disabled={isDisabled}
+										value={state[f.name]}
+										onChange={v => {
+											onChange(f, v);
+										}}
+										propertyName={f.name}
+									/>,
+								)}
+							</WithCol>
+						);
+					}
+
+					if (f.type === 'datetime') {
+						let value = state[f.name];
+						if (!state[f.name]) {
+							value = moment().format('YYYY-MM-DD hh:mm:ss');
+						}
+						return (
+							<WithCol key={f.name}>
+								{withTitle(
+									f.name,
+									f.nullable,
+									<DateTimePicker
+										disabled={isDisabled}
+										value={value}
 										onChange={v => {
 											onChange(f, v);
 										}}
