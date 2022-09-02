@@ -1,8 +1,10 @@
 import { Button, Col, Collapse, Form, Input, Row, Space } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useStateParams from '../hooks/useStateParams';
 import type { TableConfig, TableFilterObj } from '../types';
 import Box from './Box';
+import Left from './Left';
+import Modal from './Modal';
 import Right from './Right';
 
 const { Panel } = Collapse;
@@ -11,9 +13,10 @@ interface Props {
 	setWhere: (s: any | undefined) => void;
 	setPage: (n: number) => void;
 	config: TableConfig;
+	where: Record<string, any> | undefined;
 }
 
-const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
+const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any => {
 	const [form] = Form.useForm();
 	const [filterConfig, setFilter] = useStateParams<any>(
 		undefined,
@@ -28,6 +31,11 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
 		},
 		(v: string) => JSON.stringify(v),
 	);
+
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [favoriteFilterName, setFavoriteFilterName] = useState('');
+	const [showSuccessAlert, setshowSuccessAlert] = useState(false);
+	const [showErrorAlert, setshowErrorAlert] = useState(false);
 
 	useEffect(() => {
 		if (!filterConfig) {
@@ -92,8 +100,25 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
 		return null;
 	}
 
-	const activeFiltersLen = Object.keys(filterConfig ?? {}).filter(v => filterConfig[v]?.length > 0).length;
+	const showModal = (): any => {
+		setIsModalVisible(true);
+		setshowSuccessAlert(false);
+		setshowErrorAlert(false);
+	};
 
+	const saveFavoriteFilter = (): void => {
+		if (favoriteFilterName) {
+			localStorage.setItem(
+				'react-adminer',
+				`{"favourites": [{name: ${favoriteFilterName}, payload: ${JSON.stringify(where)}}]}`,
+			);
+			setshowSuccessAlert(true);
+		} else {
+			setshowErrorAlert(true);
+		}
+	};
+
+	const activeFiltersLen = Object.keys(filterConfig ?? {}).filter(v => filterConfig[v]?.length > 0).length;
 	return (
 		<Collapse>
 			<Panel
@@ -115,6 +140,35 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
 							</Col>
 						))}
 					</Row>
+					<Left>
+						<Space>
+							<Button type="primary" onClick={showModal}>
+								Save Favorite
+							</Button>
+							<Modal
+								title="Save your favorite fliter"
+								isModalVisible={isModalVisible}
+								setIsModalVisible={setIsModalVisible}
+								okText="Save"
+								showErrorAlert={showErrorAlert}
+								showSuccessAlert={showSuccessAlert}
+								content={
+									<>
+										<p>Name of new favourite filter</p>
+										<Input
+											placeholder="New filter name"
+											type="text"
+											onChange={e => setFavoriteFilterName(e.target.value)}
+										/>
+										<p>Filter details</p>
+										<p>{JSON.stringify(filterConfig)}</p>
+									</>
+								}
+								onOk={saveFavoriteFilter}
+								okAlertText="Favorite filter saved"
+							/>
+						</Space>
+					</Left>
 					<Right>
 						<Space>
 							<Button

@@ -66,7 +66,7 @@ const select = async (entityName: string, options?: SelectOptions): Promise<any[
 };
 
 const count = async (entityName: string, options?: CountOptions): Promise<number> => {
-	const r = await Querier.selectAggregation<{ count: number }>(`${entityName}`, {
+	const r = await Querier.selectAggregate<{ count: number }>(`${entityName}`, {
 		fields: ['count'],
 		where: buildWhere(options?.where),
 	});
