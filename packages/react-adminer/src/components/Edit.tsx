@@ -17,9 +17,7 @@ import Selector from './Selector';
 import InputNumber from './EditPageComponents/InputNumber';
 
 interface Props {
-	// isRelation?: boolean;
 	id: string | 'new';
-	// config: EditFormConfig;
 	entityName: string;
 	entityConfig?: TableConfig | undefined;
 }
@@ -182,6 +180,8 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 				{primitiveFields.map((f: PrimitiveField & { editable?: boolean }) => {
 					const canCreate = !(isNewForm && !isCreatable(f));
 					const isDisabled = f.editable === false;
+
+					console.log(f);
 
 					if (isVirtualFieldType(f) || !canCreate) {
 						return null;

@@ -14,9 +14,8 @@ export type TableField = Field & {
 	virtual?: boolean;
 };
 
-export type EditFormField = Field & { editable?: boolean };
-
 export interface PrimitiveField {
+	editable?: boolean;
 	name: string;
 	type: TableFieldType;
 	nullable?: boolean;
@@ -36,10 +35,6 @@ export interface RelationField {
 }
 
 export type Field = PrimitiveField | RelationField;
-
-export interface EditFormConfig {
-	fields: EditFormField[];
-}
 
 export interface TableConfig {
 	filter?: TableFilter[];

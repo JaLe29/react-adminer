@@ -7,11 +7,14 @@ export const SCHEMA: Schema = {
 			{
 				name: 'id',
 				nullable: false,
+				creatable: false,
+				editable: false,
 				type: 'string',
 			},
 			{
 				name: 'created',
 				nullable: false,
+				creatable: false,
 				type: 'string',
 			},
 			{
@@ -97,10 +100,13 @@ export const SCHEMA: Schema = {
 			{
 				name: 'id',
 				nullable: false,
+				creatable: false,
+				editable: false,
 				type: 'string',
 			},
 			{
 				name: 'created',
+				creatable: false,
 				nullable: false,
 				type: 'string',
 			},
@@ -127,6 +133,12 @@ export const SCHEMA: Schema = {
 					type: 'many',
 					entity: 'raAdvertisement',
 				},
+			},
+			{
+				name: 'edit',
+				type: 'button',
+				render: EditButton,
+				virtual: true,
 			},
 		],
 	},
@@ -349,6 +361,12 @@ export const SCHEMA: Schema = {
 				nullable: false,
 				type: 'string',
 				creatable: false,
+			},
+			{
+				name: 'edit',
+				type: 'button',
+				render: EditButton,
+				virtual: true,
 			},
 		],
 	},
