@@ -1,4 +1,4 @@
-import { Modal as ModalAntd, notification } from 'antd';
+import { Modal as ModalAntd } from 'antd';
 
 interface Props {
 	title: string;
@@ -7,32 +7,12 @@ interface Props {
 	okText: string;
 	content: any;
 	onOk: any;
-	okAlertText: string;
-	showSuccessAlert: boolean;
-	showErrorAlert: boolean;
 }
 
-const Modal: React.FC<Props> = ({
-	title,
-	setIsModalVisible,
-	isModalVisible,
-	okText,
-	content,
-	onOk,
-	okAlertText,
-	showSuccessAlert,
-	showErrorAlert,
-}) => {
+const Modal: React.FC<Props> = ({ title, setIsModalVisible, isModalVisible, okText, content, onOk }) => {
 	const handleOk = (): void => {
 		setIsModalVisible(false);
 	};
-	if (showSuccessAlert) {
-		notification.success({ message: okAlertText });
-	}
-	if (showErrorAlert) {
-		notification.error({ message: 'Error' });
-	}
-
 	const handleCancel = (): void => {
 		setIsModalVisible(false);
 	};
