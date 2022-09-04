@@ -122,9 +122,8 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any
 					if (JSON.stringify(e.payload) === JSON.stringify(filter)) {
 						isDuplicated = true;
 						throw notification.error({
-							message: `Duplicate filter content was detected. This filter is already stored under the name: ${
-								storageObj.favourites[index - 1].name
-							}!`,
+							message: `Duplicate filter content was detected. This filter is already stored under the name:
+							${storageObj.favourites[index].name}!`,
 						});
 					}
 				}
@@ -156,7 +155,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any
 		} else {
 			localStorage.setItem(
 				'react-adminer',
-				JSON.stringify({ favourites: [{ name: favoriteFilterName }, { payload: where }] }),
+				JSON.stringify({ favourites: [{ name: favoriteFilterName, payload: where }] }),
 			);
 			notification.success({ message: 'Your first favourite filter has now been added' });
 		}
