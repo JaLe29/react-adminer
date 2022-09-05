@@ -6,34 +6,24 @@ interface Props {
 	isModalVisible: boolean;
 	okText: string;
 	content: any;
-	onOk: any;
+	onOk: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void | undefined;
 }
 
-const Modal: React.FC<Props> = ({ title, setIsModalVisible, isModalVisible, okText, content, onOk }) => {
-	const handleOk = (): void => {
-		setIsModalVisible(false);
-	};
-	const handleCancel = (): void => {
-		setIsModalVisible(false);
-	};
-
-	return (
-		<>
-			<ModalAntd
-				title={title}
-				visible={isModalVisible}
-				onOk={() => {
-					handleOk();
-					onOk();
-				}}
-				onCancel={handleCancel}
-				okText={okText}
-				cancelText="Cancel"
-			>
-				{content}
-			</ModalAntd>
-		</>
-	);
-};
+const Modal: React.FC<Props> = ({ title, setIsModalVisible, isModalVisible, okText, content, onOk }) => (
+	<>
+		<ModalAntd
+			title={title}
+			visible={isModalVisible}
+			onOk={onOk}
+			onCancel={() => {
+				setIsModalVisible(false);
+			}}
+			okText={okText}
+			cancelText="Cancel"
+		>
+			{content}
+		</ModalAntd>
+	</>
+);
 
 export default Modal;

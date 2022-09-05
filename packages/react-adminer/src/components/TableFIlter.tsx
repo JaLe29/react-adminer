@@ -1,10 +1,10 @@
-import { Button, Col, Collapse, Form, Input, notification, Row, Space } from 'antd';
-import { useEffect, useState } from 'react';
+import { Button, Col, Collapse, Form, Input, Row, Space } from 'antd';
+import { useEffect } from 'react';
 import useStateParams from '../hooks/useStateParams';
 import type { TableConfig, TableFilterObj } from '../types';
+import AddToFavoriteButton from './AddToFavoriteButton';
 import Box from './Box';
 import LineSpaceBetween from './LineSpaceBetween';
-import Modal from './Modal';
 
 const { Panel } = Collapse;
 
@@ -30,9 +30,6 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any
 		},
 		(v: string) => JSON.stringify(v),
 	);
-
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [favoriteFilterName, setFavoriteFilterName] = useState('');
 
 	useEffect(() => {
 		if (!filterConfig) {
@@ -97,70 +94,6 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any
 		return null;
 	}
 
-	const showModal = (): any => {
-		setIsModalVisible(true);
-	};
-
-	const checkDuplicityFavouriteFilter = (
-		actualLocalStorage: any,
-		name: string,
-		filter: Record<string, any> | undefined,
-	): void => {
-		const storageObj = JSON.parse(actualLocalStorage);
-		let isDuplicated = false;
-		storageObj.favourites.forEach((e: any, index: number) => {
-			if (!isDuplicated) {
-				if (e.name) {
-					if (e.name === name) {
-						isDuplicated = true;
-						throw notification.error({
-							message: `Filter with this name is already saved. Cannot save a filter with the same name!`,
-						});
-					}
-				}
-				if (e.payload) {
-					if (JSON.stringify(e.payload) === JSON.stringify(filter)) {
-						isDuplicated = true;
-						throw notification.error({
-							message: `Duplicate filter content was detected. This filter is already stored under the name:
-							${storageObj.favourites[index].name}!`,
-						});
-					}
-				}
-			}
-		});
-		if (!isDuplicated) {
-			addNewFavoriteFilter(storageObj, name, filter);
-		}
-	};
-
-	const addNewFavoriteFilter = (
-		storageObj: any,
-		filterName: string,
-		filterPayload: Record<string, any> | undefined,
-	): void => {
-		storageObj.favourites.push({ name: filterName }, { payload: filterPayload });
-		localStorage.setItem('react-adminer', JSON.stringify(storageObj));
-		notification.success({ message: 'New favourite filter has now been added' });
-	};
-
-	const saveFavoriteFilter = (): void => {
-		const actualLocalStorage = localStorage.getItem('react-adminer')!;
-		if (actualLocalStorage) {
-			if (favoriteFilterName) {
-				checkDuplicityFavouriteFilter(actualLocalStorage, favoriteFilterName, where);
-			} else {
-				notification.error({ message: 'No favourite filter name selected!' });
-			}
-		} else {
-			localStorage.setItem(
-				'react-adminer',
-				JSON.stringify({ favourites: [{ name: favoriteFilterName, payload: where }] }),
-			);
-			notification.success({ message: 'Your first favourite filter has now been added' });
-		}
-	};
-
 	const activeFiltersLen = Object.keys(filterConfig ?? {}).filter(v => filterConfig[v]?.length > 0).length;
 	return (
 		<Collapse>
@@ -184,28 +117,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any
 						))}
 					</Row>
 					<LineSpaceBetween>
-						<Button type="primary" onClick={showModal}>
-							Save Favorite Filter
-						</Button>
-						<Modal
-							title="Save your favorite fliter"
-							isModalVisible={isModalVisible}
-							setIsModalVisible={setIsModalVisible}
-							okText="Save"
-							content={
-								<>
-									<p>Name of new favourite filter</p>
-									<Input
-										placeholder="New filter name"
-										type="text"
-										onChange={e => setFavoriteFilterName(e.target.value)}
-									/>
-									<p>Filter details</p>
-									<p>{JSON.stringify(filterConfig)}</p>
-								</>
-							}
-							onOk={saveFavoriteFilter}
-						/>
+						<AddToFavoriteButton where={where} filterConfig={filterConfig} />
 						<Space>
 							<Button
 								onClick={() => {
