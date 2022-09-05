@@ -2,8 +2,9 @@ import { Button, Col, Collapse, Form, Input, Row, Space } from 'antd';
 import { useEffect } from 'react';
 import useStateParams from '../hooks/useStateParams';
 import type { TableConfig, TableFilterObj } from '../types';
+import AddToFavoriteButton from './AddToFavoriteButton';
 import Box from './Box';
-import Right from './Right';
+import LineSpaceBetween from './LineSpaceBetween';
 
 const { Panel } = Collapse;
 
@@ -11,9 +12,10 @@ interface Props {
 	setWhere: (s: any | undefined) => void;
 	setPage: (n: number) => void;
 	config: TableConfig;
+	where: Record<string, any> | undefined;
 }
 
-const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
+const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any => {
 	const [form] = Form.useForm();
 	const [filterConfig, setFilter] = useStateParams<any>(
 		undefined,
@@ -93,7 +95,6 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
 	}
 
 	const activeFiltersLen = Object.keys(filterConfig ?? {}).filter(v => filterConfig[v]?.length > 0).length;
-
 	return (
 		<Collapse>
 			<Panel
@@ -115,7 +116,8 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
 							</Col>
 						))}
 					</Row>
-					<Right>
+					<LineSpaceBetween>
+						<AddToFavoriteButton where={where} filterConfig={filterConfig} />
 						<Space>
 							<Button
 								onClick={() => {
@@ -130,7 +132,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config }): any => {
 								Submit
 							</Button>
 						</Space>
-					</Right>
+					</LineSpaceBetween>
 					<Form.Item />
 				</Form>
 			</Panel>
