@@ -120,10 +120,17 @@ export const SCHEMA: Schema = {
 				nullable: false,
 				type: 'string',
 			},
-			{
+			/* {
 				name: 'email',
 				nullable: false,
 				type: 'string',
+			}, */
+			// Upraveno pro testovani
+			{
+				name: 'email',
+				type: 'datetime',
+				creatable: false,
+				editable: true,
 			},
 			{
 				name: 'advertisements',
