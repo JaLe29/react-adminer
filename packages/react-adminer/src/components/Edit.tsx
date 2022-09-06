@@ -181,7 +181,14 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 			if (editable && f.type === 'date') {
 				return moment().format('YYYY-MM-DD');
 			}
-		}
+		} /*
+		const DATE_FORMATS = {
+			datetime: 'YYYY-MM-DD hh:mm:ss',
+			date: 'YYYY-MM-DD',
+		};
+		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
+			return moment().format(DATE_FORMATS[f.type]);
+		} */
 		return null;
 	};
 
