@@ -25,6 +25,11 @@ interface Props {
 	entityConfig?: TableConfig | undefined;
 }
 
+const DATE_FORMATS: Record<string, string | undefined> = {
+	datetime: 'YYYY-MM-DD hh:mm:ss',
+	date: 'YYYY-MM-DD',
+};
+
 export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const { config: appConfig } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
@@ -172,6 +177,14 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const isErrorNullable = Object.keys(errorNullable).length > 0;
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
 	const Link = router?.components.Link;
+
+	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
+		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
+			return moment().format(DATE_FORMATS[f.type]);
+		}
+		return null;
+	};
+
 	return (
 		<Box>
 			{isNewForm && (
@@ -183,8 +196,6 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 				{primitiveFields.map((f: PrimitiveField & { editable?: boolean }) => {
 					const canCreate = !(isNewForm && !isCreatable(f));
 					const isDisabled = f.editable === false;
-
-					console.log(f);
 
 					if (isVirtualFieldType(f) || !canCreate) {
 						return null;
@@ -255,7 +266,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									f.nullable,
 									<DatePicker
 										disabled={isDisabled}
-										value={state[f.name]}
+										value={getValidDateValue(f, f.editable)}
 										onChange={v => {
 											onChange(f, v);
 										}}
@@ -267,10 +278,6 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					}
 
 					if (f.type === 'datetime') {
-						let value = state[f.name];
-						if (!state[f.name]) {
-							value = moment().format('YYYY-MM-DD hh:mm:ss');
-						}
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
@@ -278,7 +285,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									f.nullable,
 									<DateTimePicker
 										disabled={isDisabled}
-										value={value}
+										value={getValidDateValue(f, f.editable)}
 										onChange={v => {
 											onChange(f, v);
 										}}

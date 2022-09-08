@@ -4,7 +4,7 @@ import type { EditPageComponent } from './EditPageComponents/EditPageComponentsT
 
 const DatePicker: React.FC<EditPageComponent> = ({ value, onChange, propertyName }) => (
 	<DatePickerAntd
-		value={moment(value, 'YYYY-MM-DD')}
+		value={value ? moment(value, 'YYYY-MM-DD') : null}
 		placeholder={propertyName}
 		onChange={dateString => {
 			onChange(dateString?.toDate());
