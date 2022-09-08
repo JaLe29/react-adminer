@@ -25,6 +25,11 @@ interface Props {
 	entityConfig?: TableConfig | undefined;
 }
 
+const DATE_FORMATS: Record<string, string | undefined> = {
+	datetime: 'YYYY-MM-DD hh:mm:ss',
+	date: 'YYYY-MM-DD',
+};
+
 export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const { config: appConfig } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
@@ -172,15 +177,8 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const isErrorNullable = Object.keys(errorNullable).length > 0;
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
 	const Link = router?.components.Link;
-	interface DateFormatsMap {
-		[key: string]: string | undefined;
-	}
 
-	const setValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
-		const DATE_FORMATS: DateFormatsMap = {
-			datetime: 'YYYY-MM-DD hh:mm:ss',
-			date: 'YYYY-MM-DD',
-		};
+	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
 		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
 			return moment().format(DATE_FORMATS[f.type]);
 		}
@@ -268,7 +266,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									f.nullable,
 									<DatePicker
 										disabled={isDisabled}
-										value={setValidDateValue(f, f.editable)}
+										value={getValidDateValue(f, f.editable)}
 										onChange={v => {
 											onChange(f, v);
 										}}
@@ -287,7 +285,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									f.nullable,
 									<DateTimePicker
 										disabled={isDisabled}
-										value={setValidDateValue(f, f.editable)}
+										value={getValidDateValue(f, f.editable)}
 										onChange={v => {
 											onChange(f, v);
 										}}
