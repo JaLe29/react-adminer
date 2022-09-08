@@ -172,23 +172,18 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const isErrorNullable = Object.keys(errorNullable).length > 0;
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
 	const Link = router?.components.Link;
+	interface DateFormatsMap {
+		[key: string]: string | undefined;
+	}
 
 	const setValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
-		if (state[f.name]) {
-			if (editable && f.type === 'datetime') {
-				return moment().format('YYYY-MM-DD hh:mm:ss');
-			}
-			if (editable && f.type === 'date') {
-				return moment().format('YYYY-MM-DD');
-			}
-		} /*
-		const DATE_FORMATS = {
+		const DATE_FORMATS: DateFormatsMap = {
 			datetime: 'YYYY-MM-DD hh:mm:ss',
 			date: 'YYYY-MM-DD',
 		};
 		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
 			return moment().format(DATE_FORMATS[f.type]);
-		} */
+		}
 		return null;
 	};
 
