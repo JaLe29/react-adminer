@@ -5,7 +5,7 @@ interface Props {
 	entityName: string | undefined;
 }
 
-export const FavoriteList: React.FC<Props> = inputEntityName => {
+const FavoriteList: React.FC<Props> = inputEntityName => {
 	const finalObject = {
 		favourites: [{ name: '', entity: '', payload: '' }],
 	};
@@ -74,3 +74,5 @@ export const FavoriteList: React.FC<Props> = inputEntityName => {
 		</>
 	);
 };
+
+export default FavoriteList;
