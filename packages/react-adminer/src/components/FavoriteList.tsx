@@ -1,4 +1,5 @@
-import { notification, Table as TableAntd } from 'antd';
+import { Alert, notification, Table as TableAntd } from 'antd';
+import { useEffect, useState } from 'react';
 import useStateParams from '../hooks/useStateParams';
 
 interface Props {
@@ -6,11 +7,31 @@ interface Props {
 }
 
 const FavoriteList: React.FC<Props> = inputEntityName => {
+	const [localStorageData, setLocalStorageData] = useState<undefined | any>(undefined);
+	const [isEmpty, setIsEmpty] = useState<undefined | boolean>();
+
+	useEffect(() => {
+		const actualLocalStorage = localStorage.getItem('react-adminer');
+		if (actualLocalStorage) {
+			try {
+				const storageObj = JSON.parse(actualLocalStorage);
+				setLocalStorageData(storageObj);
+				return;
+			} catch {
+				//
+			}
+		}
+
+		setIsEmpty(true);
+	}, []);
+
+	// zahodit -> nacpat do localStorageData
 	const finalObject = {
 		favourites: [{ name: '', entity: '', payload: '' }],
 	};
 	const { entityName } = inputEntityName;
 
+	// tohle hodit do komponenty - useSetUrlFilter
 	const [filterConfig, setFilter] = useStateParams<any>(
 		undefined,
 		'f',
@@ -43,6 +64,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 		},
 	];
 
+	// dat do use efektu na maunt
 	const getDataOfEntity = (storageObj: any): any => {
 		storageObj.favourites.filter((e: any) => {
 			if (e.entity === entityName) {
@@ -59,18 +81,17 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 		});
 	};
 
-	const actualLocalStorage = localStorage.getItem('react-adminer')!;
-	const storageObj = JSON.parse(actualLocalStorage);
 	return (
 		<>
-			{storageObj ? (
+			{localStorageData && (
 				<TableAntd
-					dataSource={entityName !== undefined ? getDataOfEntity(storageObj) : storageObj.favourites}
+					dataSource={
+						entityName !== undefined ? getDataOfEntity(localStorageData) : localStorageData.favourites
+					}
 					columns={columns}
 				/>
-			) : (
-				notification.error({ message: 'No favourite filter is currently created' })
 			)}
+			{isEmpty && <Alert message="No favourite filter is currently created" type="error" showIcon />}
 		</>
 	);
 };
