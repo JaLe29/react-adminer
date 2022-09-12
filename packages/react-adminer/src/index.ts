@@ -1,7 +1,7 @@
 export * from './contexts/ReactAdminerContext';
 export * from './hooks/useReactAdminerContext';
 export * from './components/List';
-export * from './components/Favorite';
+export * from './components/FavoriteList';
 export * from './components/Edit';
 export * from './types/data-provider';
 

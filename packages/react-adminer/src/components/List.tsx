@@ -207,7 +207,13 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 			<br />
 			{filter && (
 				<>
-					<TableFilter config={config} setWhere={setWhere} setPage={setPage} where={where} />
+					<TableFilter
+						config={config}
+						setWhere={setWhere}
+						setPage={setPage}
+						where={where}
+						entityName={entityName}
+					/>
 					<Divider />
 				</>
 			)}

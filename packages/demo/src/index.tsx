@@ -1,7 +1,7 @@
 import { BrowserRouter, useLocation, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import type { UpdateOptions, SelectOptions, CountOptions, TableConfig, Renders } from 'react-adminer';
-import { ReactAdminerProvider, Edit, List, Favorite } from 'react-adminer';
+import { ReactAdminerProvider, Edit, List, FavoriteList } from 'react-adminer';
 import { Querier, initQuerier } from '@apengine/querier';
 
 import { useParams } from 'react-router';
@@ -160,7 +160,7 @@ const EntitySelection = (): any => {
 				}}
 			/>
 			<List entityName={entityName} />
-			<Favorite></Favorite>
+			<FavoriteList entityName={entityName} />
 		</>
 	);
 };

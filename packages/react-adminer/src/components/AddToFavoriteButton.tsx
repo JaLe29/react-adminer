@@ -5,9 +5,10 @@ import Modal from './Modal';
 interface Props {
 	where: Record<string, any> | undefined;
 	filterConfig: any;
+	entityName: string;
 }
 
-const AddToFavoriteButton: React.FC<Props> = ({ where, filterConfig }) => {
+const AddToFavoriteButton: React.FC<Props> = ({ where, filterConfig, entityName }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [favoriteFilterName, setFavoriteFilterName] = useState('');
 
@@ -54,7 +55,7 @@ const AddToFavoriteButton: React.FC<Props> = ({ where, filterConfig }) => {
 		filterName: string,
 		filterPayload: Record<string, any> | undefined,
 	): void => {
-		storageObj.favourites.push({ name: filterName, payload: filterPayload });
+		storageObj.favourites.push({ name: filterName, entity: entityName, payload: filterPayload });
 		localStorage.setItem('react-adminer', JSON.stringify(storageObj));
 		notification.success({ message: 'New favourite filter has now been added' });
 		setIsModalVisible(false);
@@ -73,7 +74,7 @@ const AddToFavoriteButton: React.FC<Props> = ({ where, filterConfig }) => {
 		} else {
 			localStorage.setItem(
 				'react-adminer',
-				JSON.stringify({ favourites: [{ name: favoriteFilterName, payload: where }] }),
+				JSON.stringify({ favourites: [{ name: favoriteFilterName, entity: entityName, payload: where }] }),
 			);
 			notification.success({ message: 'Your first favourite filter has now been added' });
 			setIsModalVisible(false);
