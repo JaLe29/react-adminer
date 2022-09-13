@@ -30,7 +30,6 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 					finalObjContent.favourites.shift();
 					setLocalStorageData(finalObjContent);
 				} else {
-					// setLocalStorageData(undefined);
 					setIsEmpty(true);
 				}
 				return;
