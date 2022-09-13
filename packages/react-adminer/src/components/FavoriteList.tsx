@@ -1,6 +1,6 @@
-import { Alert, notification, Table as TableAntd } from 'antd';
+import { Alert, Table as TableAntd } from 'antd';
 import { useEffect, useState } from 'react';
-import useStateParams from '../hooks/useStateParams';
+import useSetUrlFilter from '../hooks/useSetUrlFilter';
 
 interface Props {
 	entityName: string | undefined;
@@ -9,42 +9,39 @@ interface Props {
 const FavoriteList: React.FC<Props> = inputEntityName => {
 	const [localStorageData, setLocalStorageData] = useState<undefined | any>(undefined);
 	const [isEmpty, setIsEmpty] = useState<undefined | boolean>();
+	const { entityName } = inputEntityName;
+	const finalObjContent = { favourites: [{}] };
 
-	useEffect(() => {
+	useEffect((): void => {
 		const actualLocalStorage = localStorage.getItem('react-adminer');
 		if (actualLocalStorage) {
 			try {
 				const storageObj = JSON.parse(actualLocalStorage);
-				setLocalStorageData(storageObj);
+				if (!entityName) {
+					setLocalStorageData(storageObj);
+					return;
+				}
+				storageObj.favourites.filter((e: any) => {
+					if (e.entity === entityName) {
+						finalObjContent.favourites.push({ name: e.name, entity: e.entity, payload: e.payload });
+					}
+				});
+				if (Object.keys(finalObjContent.favourites).length > 1) {
+					finalObjContent.favourites.shift();
+					setLocalStorageData(finalObjContent);
+				} else {
+					setLocalStorageData(undefined);
+					setIsEmpty(true);
+				}
 				return;
 			} catch {
 				//
 			}
 		}
-
 		setIsEmpty(true);
 	}, []);
 
-	// zahodit -> nacpat do localStorageData
-	const finalObject = {
-		favourites: [{ name: '', entity: '', payload: '' }],
-	};
-	const { entityName } = inputEntityName;
-
-	// tohle hodit do komponenty - useSetUrlFilter
-	const [filterConfig, setFilter] = useStateParams<any>(
-		undefined,
-		'f',
-		(v?: string) => {
-			try {
-				const parsed = JSON.parse(v ?? 'empty');
-				return parsed;
-			} catch {
-				return {};
-			}
-		},
-		(v: string) => JSON.stringify(v),
-	);
+	const [filterConfig, setFilter] = useSetUrlFilter();
 
 	const columns = [
 		{
@@ -64,33 +61,9 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 		},
 	];
 
-	// dat do use efektu na maunt
-	const getDataOfEntity = (storageObj: any): any => {
-		storageObj.favourites.filter((e: any) => {
-			if (e.entity === entityName) {
-				finalObject.favourites.push({ name: e.name, entity: e.entity, payload: e.payload });
-			}
-			return true;
-		});
-		finalObject.favourites.shift();
-		if (finalObject.favourites[0]) {
-			return finalObject.favourites;
-		}
-		return notification.error({
-			message: `No favourite filter is currently created for entity: ${inputEntityName}`,
-		});
-	};
-
 	return (
 		<>
-			{localStorageData && (
-				<TableAntd
-					dataSource={
-						entityName !== undefined ? getDataOfEntity(localStorageData) : localStorageData.favourites
-					}
-					columns={columns}
-				/>
-			)}
+			{localStorageData && <TableAntd dataSource={localStorageData.favourites} columns={columns} />}
 			{isEmpty && <Alert message="No favourite filter is currently created" type="error" showIcon />}
 		</>
 	);
