@@ -14,5 +14,5 @@ export default function useSetUrlFilter(): any {
 		},
 		(v: string) => JSON.stringify(v),
 	);
-	return { filterConfig, setFilter };
+	return [ filterConfig, setFilter ];
 }
