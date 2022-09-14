@@ -13,9 +13,10 @@ interface Props {
 	setPage: (n: number) => void;
 	config: TableConfig;
 	where: Record<string, any> | undefined;
+	entityName: string;
 }
 
-const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any => {
+const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entityName }): any => {
 	const [form] = Form.useForm();
 	const [filterConfig, setFilter] = useStateParams<any>(
 		undefined,
@@ -117,7 +118,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where }): any
 						))}
 					</Row>
 					<LineSpaceBetween>
-						<AddToFavoriteButton where={where} filterConfig={filterConfig} />
+						<AddToFavoriteButton where={where} filterConfig={filterConfig} entityName={entityName} />
 						<Space>
 							<Button
 								onClick={() => {
