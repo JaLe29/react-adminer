@@ -13,6 +13,8 @@ import { Querier, initQuerier } from '@apengine/querier';
 
 import { useParams } from 'react-router';
 import { useState } from 'react';
+import { MOCK_CARS, MOCK_USERS } from './demodb_data';
+import { Db } from './demodb';
 import { SCHEMA } from './schema';
 
 const ROUTER = {
@@ -31,6 +33,13 @@ initQuerier({
 
 const container = document.getElementById('app')!;
 const root = ReactDOMClient.createRoot(container);
+
+const db = new Db();
+MOCK_CARS.forEach(c => db.insert('car', c));
+
+// console.log(db.print())
+
+console.log(db.select('car', { where: { color: 'Red' }, fields: ['id', 'color'], orderBy: { make: 'desc' } }));
 
 const objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
 	Object.keys(object).reduce((acc, v) => {
