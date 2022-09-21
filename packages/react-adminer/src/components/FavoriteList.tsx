@@ -13,24 +13,25 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 	const [localStorageData, setLocalStorageData] = useState<undefined | any>(undefined);
 	const [isEmpty, setIsEmpty] = useState<undefined | boolean>();
 	const { entityName } = inputEntityName;
-	const finalObjContent = { favourites: [{}] };
 
 	useEffect((): void => {
 		const actualLocalStorage = localStorage.getItem('react-adminer');
 		if (actualLocalStorage) {
 			try {
+				const finalObjContent: { favourites: { name: string; entity: string; payload: string }[] } = {
+					favourites: [],
+				};
 				const storageObj = JSON.parse(actualLocalStorage);
 				if (!entityName) {
 					setLocalStorageData(storageObj);
 					return;
 				}
 				storageObj.favourites.foreach((e: any): void => {
-					if (e.entity === entityName) {
+					if (e.entity === entityName || !entityName) {
 						finalObjContent.favourites.push({ name: e.name, entity: e.entity, payload: e.payload });
 					}
 				});
-				if (Object.keys(finalObjContent.favourites).length > 1) {
-					finalObjContent.favourites.shift();
+				if (Object.keys(finalObjContent.favourites).length > 0) {
 					setLocalStorageData(finalObjContent);
 				} else {
 					setIsEmpty(true);
