@@ -22,11 +22,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 					favourites: [],
 				};
 				const storageObj = JSON.parse(actualLocalStorage);
-				if (!entityName) {
-					setLocalStorageData(storageObj);
-					return;
-				}
-				storageObj.favourites.foreach((e: any): void => {
+				storageObj.favourites.forEach((e: any): void => {
 					if (e.entity === entityName || !entityName) {
 						finalObjContent.favourites.push({ name: e.name, entity: e.entity, payload: e.payload });
 					}
