@@ -21,6 +21,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 			try {
 				const storageObj = JSON.parse(actualLocalStorage);
 				if (!entityName) {
+					console.log('neco');
 					setLocalStorageData(storageObj);
 					return;
 				}
