@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import useSetUrlFilter from '../hooks/useSetUrlFilter';
 
 interface Props {
-	entityName: string | undefined;
+	entityName?: string;
 }
 
 const FavoriteList: React.FC<Props> = inputEntityName => {
