@@ -1,12 +1,15 @@
 import { Alert, Table as TableAntd } from 'antd';
 import { useEffect, useState } from 'react';
-import useSetUrlFilter from '../hooks/useSetUrlFilter';
+import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 
 interface Props {
 	entityName?: string;
 }
 
 const FavoriteList: React.FC<Props> = inputEntityName => {
+	const { paths, router } = useReactAdminerContext();
+	const navigate = router?.functions?.useNavigate();
+
 	const [localStorageData, setLocalStorageData] = useState<undefined | any>(undefined);
 	const [isEmpty, setIsEmpty] = useState<undefined | boolean>();
 	const { entityName } = inputEntityName;
@@ -21,7 +24,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 					setLocalStorageData(storageObj);
 					return;
 				}
-				storageObj.favourites.filter((e: any) => {
+				storageObj.favourites.filter((e: any): void => {
 					if (e.entity === entityName) {
 						finalObjContent.favourites.push({ name: e.name, entity: e.entity, payload: e.payload });
 					}
@@ -40,15 +43,18 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 		setIsEmpty(true);
 	}, []);
 
-	const [filterConfig, setFilter] = useSetUrlFilter();
-
 	const columns = [
 		{
 			title: 'Favorite filter name',
 			dataIndex: 'name',
 			key: 'name',
 			render: (text: any, record: any) => (
-				<div style={{ cursor: 'pointer', color: '#1890FF' }} onClick={() => setFilter(record.payload)}>
+				<div
+					style={{ cursor: 'pointer', color: '#1890FF' }}
+					onClick={() => {
+						navigate((paths?.listPath ?? '') + record.payload);
+					}}
+				>
 					{text}
 				</div>
 			),

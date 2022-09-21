@@ -18,7 +18,8 @@ export interface ReactAdminerContextValue {
 	setConfig: (c: ReactAdminerConfig) => void;
 	dataProvider?: DataProvider;
 	paths?: {
-		editFormPath: string;
+		editFormPath?: string;
+		listPath?: string;
 	};
 	router?: {
 		functions: Record<string, any>;
@@ -32,7 +33,8 @@ interface UserProviderProps {
 	config?: ReactAdminerConfig;
 	dataProvider?: DataProvider;
 	paths?: {
-		editFormPath: string;
+		editFormPath?: string;
+		listPath?: string;
 	};
 	router?: {
 		functions: Record<string, any>;
