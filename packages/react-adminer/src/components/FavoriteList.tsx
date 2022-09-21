@@ -52,7 +52,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 				<div
 					style={{ cursor: 'pointer', color: '#1890FF' }}
 					onClick={() => {
-						navigate(`${paths?.listPath ?? ''}?${JSON.stringify(record.payload)}`);
+						navigate(`${paths?.listPath ?? ''}/${record.entity}?${JSON.stringify(record.payload)}`);
 					}}
 				>
 					{text}
