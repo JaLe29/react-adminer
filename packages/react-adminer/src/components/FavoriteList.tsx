@@ -24,7 +24,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 					setLocalStorageData(storageObj);
 					return;
 				}
-				storageObj.favourites.filter((e: any): void => {
+				storageObj.favourites.foreach((e: any): void => {
 					if (e.entity === entityName) {
 						finalObjContent.favourites.push({ name: e.name, entity: e.entity, payload: e.payload });
 					}
@@ -52,7 +52,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 				<div
 					style={{ cursor: 'pointer', color: '#1890FF' }}
 					onClick={() => {
-						navigate((paths?.listPath ?? '') + record.payload);
+						navigate(`${paths?.listPath ?? ''}?${JSON.stringify(record.payload)}`);
 					}}
 				>
 					{text}
