@@ -23,6 +23,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 				};
 				const storageObj = JSON.parse(actualLocalStorage);
 				if (!entityName) {
+					console.log('neco');
 					setLocalStorageData(storageObj);
 					return;
 				}
@@ -66,7 +67,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 			key: 'entity',
 		},
 	];
-
+	console.log(localStorageData);
 	return (
 		<>
 			{localStorageData && <TableAntd dataSource={localStorageData.favourites} columns={columns} />}
