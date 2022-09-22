@@ -17,6 +17,7 @@ export type TableField = Field & {
 export interface PrimitiveField {
 	editable?: boolean;
 	name: string;
+	label?: string;
 	type: TableFieldType;
 	nullable?: boolean;
 	creatable?: boolean;
@@ -26,6 +27,7 @@ export type RelationType = 'many' | 'one';
 
 export interface RelationField {
 	name: string;
+	label?: string;
 	type: 'relation';
 	nullable?: boolean;
 	relation: {

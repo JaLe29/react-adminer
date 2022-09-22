@@ -205,7 +205,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
-									f.name,
+									f.label ?? f.name,
 									f.nullable,
 									<Input
 										disabled={isDisabled}
@@ -224,7 +224,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
-									f.name,
+									f.label ?? f.name,
 									f.nullable,
 									<InputNumber
 										disabled={isDisabled}
@@ -243,7 +243,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
-									f.name,
+									f.label ?? f.name,
 									f.nullable,
 									<BooleanSwitch
 										disabled={isDisabled}
@@ -262,7 +262,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
-									f.name,
+									f.label ?? f.name,
 									f.nullable,
 									<DatePicker
 										disabled={isDisabled}
@@ -281,7 +281,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						return (
 							<WithCol key={f.name}>
 								{withTitle(
-									f.name,
+									f.label ?? f.name,
 									f.nullable,
 									<DateTimePicker
 										disabled={isDisabled}
@@ -298,7 +298,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 
 					return (
 						<WithCol key={f.name}>
-							{withTitle(f.name, f.nullable, <Placeholder propertyName={f.name} />)}
+							{withTitle(f.label ?? f.name, f.nullable, <Placeholder propertyName={f.name} />)}
 						</WithCol>
 					);
 				})}
@@ -306,7 +306,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 				{relations.map(f => (
 					<WithCol key={f.name}>
 						{withTitle(
-							f.name,
+							f.label ?? f.name,
 							f.nullable,
 							<Box display="flex">
 								<Selector

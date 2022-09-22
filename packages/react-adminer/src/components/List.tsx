@@ -110,7 +110,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 			title: (
 				<Box display="flex" justifyContent="space-between">
 					{/* <Box>{capitalCase(f.name)}</Box> */}
-					<Box>{f.name}</Box>
+					<Box>{f.label ?? f.name}</Box>
 					{f.sortable && (
 						<Box>
 							<Space>

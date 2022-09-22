@@ -106,6 +106,7 @@ export const SCHEMA: Schema = {
 			},
 			{
 				name: 'created',
+				label: 'Datum vytvoření',
 				creatable: false,
 				nullable: false,
 				type: 'datetime',
