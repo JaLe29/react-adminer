@@ -44,8 +44,7 @@ const FavoriteList: React.FC<Props> = inputEntityName => {
 		setIsEmpty(true);
 	}, [reducerValue]);
 
-	const deleteFavoriteFilter = (record: Record<string, number>): void => {
-		console.log(record);
+	const deleteFavoriteFilter = (record: Record<string, string>): void => {
 		const favourites = localStorageData.favourites.filter((i: any) => i.name !== record.name);
 		localStorage.setItem('react-adminer', JSON.stringify({ favourites }));
 		setLocalStorageData(favourites);
