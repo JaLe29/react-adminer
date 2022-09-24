@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import ReactIs from 'react-is';
 import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
-import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
+import { ReloadOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import type { Sort, TableConfig, TableField } from '../types';
@@ -17,6 +17,7 @@ import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
 import CellEditInput from './CellEditInput';
 import Highlighted from './Highlight';
+import LineSpaceBetween from './LineSpaceBetween';
 
 const getHighlighted = (value: any, field: TableField, where: Record<string, any> | undefined): any => {
 	if (!where?.[field.name]) {
@@ -46,7 +47,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 	const [pageSize, setPageSize] = useStateParams(10, 'ps', v => +v);
 	const [page, setPage] = useStateParams(0, 'p', v => +v);
 	const [activeRecord, setActiveRecord] = useState<{ id: string; property: string } | undefined>();
-	const { data, loading } = useSelect<any>(
+	const { data, loading, refetch } = useSelect<any>(
 		entityName,
 		{
 			offset: page * pageSize,
@@ -202,14 +203,17 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 	const Link = router?.components.Link;
 	return (
 		<>
-			<Right>
+			<LineSpaceBetween>
+				<Button onClick={refetch}>
+					<ReloadOutlined />
+				</Button>
 				<Button>
 					<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${NEW_KEY}`}>
 						{'Create '}
 						{entityName}
 					</Link>
 				</Button>
-			</Right>
+			</LineSpaceBetween>
 			<br />
 			{filter && (
 				<>
