@@ -69,26 +69,13 @@ const buildWhere = (where?: Record<string, any>): any => {
 	return Object.keys(where).reduce((acc, v) => ({ ...acc, [v]: { _like: `%${where[v]}%` } }), {});
 };
 
-const select = async (entityName: string, options?: SelectOptions): Promise<any[]> => {
-	const r = await Querier.select(entityName, {
-		fields: options?.fields,
-		limit: options?.limit,
-		offset: options?.offset,
-		orderBy: options?.orderBy,
-		where: buildWhere(options?.where),
-	});
-
-	return r;
+const select = (entityName: string, options?: SelectOptions): Promise<any[]> => {
+	console.log({ entityName, options });
+	return db.select(entityName, options) as Promise<any[]>;
 };
 
-const count = async (entityName: string, options?: CountOptions): Promise<number> => {
-	const r = await Querier.selectAggregation<{ count: number }>(`${entityName}`, {
-		fields: ['count'],
-		where: buildWhere(options?.where),
-	});
-
-	return r.count;
-};
+const count = (entityName: string, options?: CountOptions): Promise<number> =>
+	db.count(entityName, options?.where) as unknown as Promise<number>;
 
 const insert = async (
 	entityName: string,
@@ -161,7 +148,7 @@ const EditPage: React.FC = () => {
 };
 
 const EntitySelection = (): any => {
-	const [entityName, setEntityName] = useState<any>('raUser');
+	const [entityName, setEntityName] = useState<any>('car');
 	return (
 		<>
 			<select
@@ -169,10 +156,7 @@ const EntitySelection = (): any => {
 					setEntityName(v.target.value);
 				}}
 			>
-				<option value="state">state</option>
-				<option value="raUser">raUser</option>
-				<option value="raAdvertisement">raAdvertisement</option>
-				<option value="raImage">raImage</option>
+				<option value="car">car</option>
 			</select>
 
 			<input

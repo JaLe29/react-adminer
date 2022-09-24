@@ -1,4 +1,4 @@
-interface Options {
+export interface Options {
 	where?: Record<string, any>;
 	limit?: number;
 	offset?: number;
@@ -22,7 +22,7 @@ export class Db {
 	}
 
 	// podle vice propert
-	select(entityName: string, options: Options): any {
+	select(entityName: string, options: Options = {}): any {
 		const { where, limit, offset, fields, orderBy } = options;
 
 		const entityPart = this.database[entityName] ?? [];
@@ -34,47 +34,39 @@ export class Db {
 			toSearchPart = Object.keys(toSearchPart).map((key: any) => toSearchPart[key]);
 		}
 
-		const toResponse = toSearchPart.filter(v => {
+		let toResponse = toSearchPart.filter(v => {
 			if (where) {
 				return Object.keys(where).every(key => v[key] === where[key]);
 			}
-			return null; //
+			return v;
 		});
 
 		if (fields) {
-			Object.keys(toResponse).map((p: any) => {
-				const keys = Object.keys(toResponse[p]);
-				keys.forEach(key => {
-					if (!fields.includes(key)) {
-						delete toResponse[p][key];
-					}
-				});
-				return toResponse;
-			});
+			toResponse = toResponse.map((loopObject: any): any =>
+				fields.reduce((acc, v) => ({ ...acc, [v]: loopObject[v] }), {}),
+			);
 			return toResponse;
 		}
 
 		if (orderBy) {
-			Object.keys(orderBy).map((keyOrderBy: any) => {
+			Object.keys(orderBy).forEach((keyOrderBy: string) => {
 				if (orderBy[keyOrderBy] === 'asc') {
-					return toResponse.sort((a, b) => a[keyOrderBy].localeCompare(b[keyOrderBy]));
+					toResponse = toResponse.sort((a, b) => a[keyOrderBy].localeCompare(b[keyOrderBy]));
 				}
 				if (orderBy[keyOrderBy] === 'desc') {
-					return toResponse.sort((a, b) => b[keyOrderBy].localeCompare(a[keyOrderBy]));
+					toResponse = toResponse.sort((a, b) => b[keyOrderBy].localeCompare(a[keyOrderBy]));
 				}
-				return null;
 			});
 		}
 
-		if (limit) {
-			return toResponse.slice(0, limit);
-		}
-
 		if (offset) {
-			return toResponse.slice(offset);
+			toResponse = toResponse.slice(offset);
 		}
 
-		console.log(toResponse);
+		if (limit) {
+			toResponse = toResponse.slice(0, limit);
+		}
+
 		return toResponse;
 	}
 
@@ -83,6 +75,7 @@ export class Db {
 	}
 
 	print(): void {
+		// eslint-disable-next-line no-console
 		console.log(JSON.stringify(this.database, null, 2));
 	}
 }
