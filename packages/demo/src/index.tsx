@@ -124,9 +124,6 @@ const TABLE_CONFIG: ReactAdminerTableConfig = {
 	_global: {
 		defaultSort: { created: 'desc' },
 	},
-	raUser: {
-		// defaultSort: { created: 'desc' },
-	},
 };
 
 const EditPage: React.FC = () => {
