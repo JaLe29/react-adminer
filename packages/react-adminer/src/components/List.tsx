@@ -87,11 +87,19 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 			{},
 		);
 
-		const nextSort = { ...sort, ...defaultSort, ...defaultEntityGlobalSort };
+		const nextSort = { ...defaultSort, ...defaultEntityGlobalSort };
 		if (Object.keys(nextSort).length > 0) {
 			setSort(nextSort);
 		}
 	}, [JSON.stringify(globalConfig?.table ?? {}), JSON.stringify(entityFields)]);
+
+	// reset all on entity change
+	useEffect(() => {
+		setActiveRecord(undefined);
+		setPage(0);
+		setPageSize(10);
+		setWhere(undefined);
+	}, [entityName]);
 
 	const { data: dataCount, loading: loadingCount } = useCount(entityName, { where }, !config);
 
