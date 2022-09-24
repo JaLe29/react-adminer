@@ -32,7 +32,7 @@ MOCK_CARS.forEach(c => db.insert('car', c));
 
 // console.log(db.print())
 
-console.log(db.select('car', { where: { color: 'Red' }, fields: ['id', 'color'], orderBy: { make: 'desc' } }));
+console.log(db.select('car', { where: { color: 'Red' }, fields: ['id', 'make', 'year'], orderBy: { make: 'desc' } }));
 
 const objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
 	Object.keys(object).reduce((acc, v) => {

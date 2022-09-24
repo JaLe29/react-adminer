@@ -42,15 +42,16 @@ export class Db {
 		});
 
 		if (fields) {
-			return Object.keys(toResponse).map((p: any) => {
-				fields.map(field => {
-					if (toResponse[p][field]) {
-						console.log(toResponse[p][field]);
-						// return delete toResponse[p];
+			Object.keys(toResponse).map((p: any) => {
+				const keys = Object.keys(toResponse[p]);
+				keys.forEach(key => {
+					if (!fields.includes(key)) {
+						delete toResponse[p][key];
 					}
 				});
-				return toResponse[0];
+				return toResponse;
 			});
+			return toResponse;
 		}
 
 		if (orderBy) {
