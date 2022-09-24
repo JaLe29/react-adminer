@@ -1,11 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
 import type { FC, ReactNode } from 'react';
-import type { DataProvider, Schema } from '../types';
-import type { Renders } from '../types/renders';
-
-interface ReactAdminerConfig {
-	schema: Schema;
-}
+import type { DataProvider, ReactAdminerConfig, Renders } from '../types';
 
 interface AppState {
 	config?: ReactAdminerConfig;

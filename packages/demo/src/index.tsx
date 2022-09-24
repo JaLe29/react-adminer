@@ -1,6 +1,13 @@
 import { BrowserRouter, useLocation, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
-import type { UpdateOptions, SelectOptions, CountOptions, TableConfig, Renders } from 'react-adminer';
+import type {
+	UpdateOptions,
+	SelectOptions,
+	CountOptions,
+	TableConfig,
+	ReactAdminerTableConfig,
+	Renders,
+} from 'react-adminer';
 import { ReactAdminerProvider, Edit, List, FavoriteList } from 'react-adminer';
 import { Querier, initQuerier } from '@apengine/querier';
 
@@ -113,6 +120,15 @@ const RENDERS: Renders = {
 	},
 };
 
+const TABLE_CONFIG: ReactAdminerTableConfig = {
+	_global: {
+		defaultSort: { created: 'desc' },
+	},
+	raUser: {
+		// defaultSort: { created: 'desc' },
+	},
+};
+
 const EditPage: React.FC = () => {
 	const { entityName, id } = useParams();
 
@@ -171,7 +187,7 @@ root.render(
 			<ReactAdminerProvider
 				paths={{ editFormPath: '/edit' }}
 				dataProvider={{ select, count, insert, update }}
-				config={{ schema: SCHEMA }}
+				config={{ schema: SCHEMA, table: TABLE_CONFIG }}
 				renders={RENDERS}
 				router={ROUTER}
 			>

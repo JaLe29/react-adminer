@@ -6,6 +6,8 @@ export const isCreatable = (f: Field): boolean =>
 	(f as PrimitiveField).creatable === undefined ||
 	(f as PrimitiveField).creatable === null;
 
+export const hasEntityField = (fieldName: string, fields: Field[]): boolean => fields.some(f => f.name === fieldName);
+
 export const isPrimitiveFieldType = (f: Field): boolean => PRIMITIVE_FIELDS.includes(f.type);
 
 export const getRelationFields = (fields: Field[]): RelationField[] =>

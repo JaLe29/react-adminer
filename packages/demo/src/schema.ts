@@ -109,6 +109,7 @@ export const SCHEMA: Schema = {
 				label: 'Datum vytvoření',
 				creatable: false,
 				nullable: false,
+				sortable: true,
 				type: 'datetime',
 			},
 			{

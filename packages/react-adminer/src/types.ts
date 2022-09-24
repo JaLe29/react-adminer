@@ -1,5 +1,11 @@
 import type { CountOptions, SelectOptions, UpdateOptions } from 'types/data-provider';
 
+export type EntityName = string;
+
+export type EntityPropertyName = string;
+
+export type EntityGlobalName = '_global';
+
 export type TableFieldType = 'string' | 'number' | 'boolean' | 'Date' | 'any' | string; // todo
 
 export type TableFilterObj = { name: string; component: any };
@@ -56,13 +62,31 @@ export interface BaseConfig {
 export type Schema = Record<string, BaseConfig>;
 
 export interface DataProvider {
-	select: <T>(entityName: string, options?: SelectOptions) => Promise<T[]>;
-	count: (entityName: string, options?: CountOptions) => Promise<number>;
-	insert: (EntityName: string, object: Record<string, any>, entityConfig: TableConfig) => Promise<string | number>;
+	select: <T>(entityName: EntityName, options?: SelectOptions) => Promise<T[]>;
+	count: (entityName: EntityName, options?: CountOptions) => Promise<number>;
+	insert: (
+		entityName: EntityName,
+		object: Record<string, any>,
+		entityConfig: TableConfig,
+	) => Promise<string | number>;
 	update: (
-		entityName: string,
+		entityName: EntityName,
 		object: Record<string, any>,
 		entityConfig: TableConfig,
 		options?: UpdateOptions,
 	) => Promise<boolean>;
 }
+
+export type Sort = Record<EntityPropertyName, 'asc' | 'desc'>;
+
+export type ReactAdminerTableConfig = Record<EntityName | EntityGlobalName, { defaultSort?: Sort }>;
+
+export interface ReactAdminerConfig {
+	schema: Schema;
+	table?: ReactAdminerTableConfig;
+}
+
+export type Renders = Record<
+	EntityName | EntityGlobalName,
+	Record<'table', Record<EntityPropertyName, React.FC<{ value: any }>>>
+>;
