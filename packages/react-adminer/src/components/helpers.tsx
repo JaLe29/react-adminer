@@ -1,7 +1,6 @@
 import { set } from '../utils/object';
-import type { Field, TableConfig, TableField } from '../types';
+import type { Field, Renders, TableConfig, TableField } from '../types';
 import { BooleanRender } from './Renders/BooleanRender';
-import type { Renders } from '../types/renders';
 
 const withBasicRender = (f: TableField[]): TableField[] =>
 	f.map(field => {
