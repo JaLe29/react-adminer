@@ -40,6 +40,13 @@ MOCK_CARS.forEach(c => db.insert('car', c));
 // console.log(db.print())
 
 console.log(db.select('car', { where: { color: 'Red' }, fields: ['id', 'make', 'year'], orderBy: { make: 'desc' } }));
+console.log(
+	db.update(
+		'car',
+		{ id: 1, make: 'Ford', model: 'F250', year: 1984, color: 'Goldenrod' },
+		{ where: { color: 'Red', model: 'UpravenejModel' } },
+	),
+);
 
 const objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
 	Object.keys(object).reduce((acc, v) => {
@@ -60,7 +67,7 @@ const objectWithRelations = (object: Record<string, any>, entityConfig: TableCon
 			[v]: object[v],
 		};
 	}, {});
-
+/*
 const buildWhere = (where?: Record<string, any>): any => {
 	if (!where) {
 		return undefined;
@@ -68,7 +75,7 @@ const buildWhere = (where?: Record<string, any>): any => {
 
 	return Object.keys(where).reduce((acc, v) => ({ ...acc, [v]: { _like: `%${where[v]}%` } }), {});
 };
-
+*/
 const select = (entityName: string, options?: SelectOptions): Promise<any[]> => {
 	console.log({ entityName, options });
 	return db.select(entityName, options) as Promise<any[]>;
@@ -82,10 +89,11 @@ const insert = (entityName: string, object: Record<string, any>): Promise<string
 	return db.insert(entityName, object) as any;
 };
 
-const update = (entityName: string, object: Record<string, any>, options?: UpdateOptions): Promise<boolean> => {
-	console.log({ entityName, object });
-	return db.update(entityName, object, options);
+const update = (entityName: string, object: Record<string, any>, options: UpdateOptions): Promise<boolean> => {
+	console.log({ entityName, object, options });
+	return db.update(entityName, object, options) as any;
 };
+
 /*
 const insert = async (
 	entityName: string,
@@ -96,6 +104,7 @@ const insert = async (
 	return r[0].id;
 };
 */
+/*
 const update = async (
 	entityName: string,
 	object: Record<string, any>,
@@ -105,7 +114,7 @@ const update = async (
 	await Querier.update(entityName, objectWithRelations(object, entityConfig), { where: buildWhere(options?.where) });
 	return true;
 };
-
+*/
 const RENDERS: Renders = {
 	_global: {
 		table: {

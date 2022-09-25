@@ -76,9 +76,9 @@ export class Db {
 		return this.select(entityName, where).length;
 	}
 
-	update(entityName: string, object: Record<string, any>, options?: UpdateOptions): any {
-		//
-		return '';
+	update(entityName: string, object: Record<string, any>, options: UpdateOptions): any {
+		Object.assign(object, options.where);
+		return object;
 	}
 
 	print(): void {
