@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-interface Options {
-=======
+import type { UpdateOptions } from 'react-adminer';
+
 export interface Options {
->>>>>>> 29f84b992e98dd4616fb51b889e8d499cd00e5be
 	where?: Record<string, any>;
 	limit?: number;
 	offset?: number;
@@ -76,6 +74,11 @@ export class Db {
 
 	count(entityName: string, where: any): number {
 		return this.select(entityName, where).length;
+	}
+
+	update(entityName: string, object: Record<string, any>, options?: UpdateOptions): any {
+		//
+		return '';
 	}
 
 	print(): void {
