@@ -101,6 +101,8 @@ export const SCHEMA: Schema = {
 				name: 'activationButton',
 				virtual: true,
 				type: 'virtual',
+				// eslint-disable-next-line react/button-has-type
+				render: ({ object }: any) => <button>{object.id}</button>,
 			},
 			{
 				name: 'id',

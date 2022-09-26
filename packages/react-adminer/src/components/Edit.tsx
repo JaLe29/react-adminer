@@ -337,7 +337,8 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					if ((f as any).hideInForm) {
 						return null;
 					}
-					const RenderConfig = renders?.[entityName]?.form?.[f.name] ?? renders?._global?.form?.[f.name];
+					const RenderConfig =
+						(f as any).render ?? renders?.[entityName]?.form?.[f.name] ?? renders?._global?.form?.[f.name];
 					return (
 						<WithCol key={f.name}>
 							{withTitle(

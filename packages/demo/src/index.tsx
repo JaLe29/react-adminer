@@ -128,12 +128,12 @@ const RENDERS: Renders = {
 				/>
 			),
 			// eslint-disable-next-line react/button-has-type
-			activationButton: ({ object }: any) => <button>{object.id}</button>,
+			// activationButton: ({ object }: any) => <button>{object.id}</button>,
 		},
-		form: {
-			// eslint-disable-next-line react/button-has-type
-			activationButton: ({ object }: any) => <button>{object.id}</button>,
-		},
+		// form: {
+		// 	// eslint-disable-next-line react/button-has-type
+		// 	activationButton: ({ object }: any) => <button>{object.id}</button>,
+		// },
 	},
 };
 
