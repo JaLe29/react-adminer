@@ -13,7 +13,7 @@ import { Querier, initQuerier } from '@apengine/querier';
 
 import { useParams } from 'react-router';
 import { useState } from 'react';
-import { MOCK_CARS, MOCK_USERS } from './demodb_data';
+import { MOCK_CARS } from './demodb_data';
 import { Db } from './demodb';
 import { SCHEMA } from './schema';
 
@@ -89,11 +89,15 @@ const insert = (entityName: string, object: Record<string, any>): Promise<string
 	return db.insert(entityName, object) as any;
 };
 
-const update = (entityName: string, object: Record<string, any>, options: UpdateOptions): Promise<boolean> => {
-	console.log({ entityName, object, options });
-	return db.update(entityName, object, options) as any;
+const update = (
+	entityName: string,
+	object: Record<string, any>,
+	entityConfig: TableConfig,
+	options?: UpdateOptions,
+): Promise<boolean> => {
+	db.update(entityName, object, options);
+	return Promise.resolve(true);
 };
-
 /*
 const insert = async (
 	entityName: string,

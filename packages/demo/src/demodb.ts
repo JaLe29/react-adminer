@@ -76,8 +76,30 @@ export class Db {
 		return this.select(entityName, where).length;
 	}
 
-	update(entityName: string, object: Record<string, any>, options: UpdateOptions): any {
-		Object.assign(object, options.where);
+	update(entityName: string, object: Record<string, any>, options?: UpdateOptions): any {
+		const where = options?.where;
+
+		let toUpdate: unknown[] | undefined;
+		if (where?.id) {
+			toUpdate = [this.database[entityName][where.id]];
+		} else if (!where) {
+			toUpdate = Object.values(this.database[entityName]);
+		} else {
+			toUpdate = Object.values(this.database[entityName]).filter((v: any) => {
+				if (where) {
+					return Object.keys(where).every(key => v[key] === where[key]);
+				}
+				return v;
+			});
+		}
+
+		toUpdate!.forEach(item => {
+			Object.entries(object).forEach(([key, value]) => {
+				// eslint-disable-next-line no-param-reassign
+				(item as any)[key] = value;
+			});
+		});
+
 		return object;
 	}
 
