@@ -59,7 +59,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 				.filter(c => !c.virtual && c.hideInTable !== true)
 				.map(c => {
 					if (isRelationFieldType(c)) {
-						const schema = globalConfig?.schema[c.name];
+						const schema = globalConfig?.schema[c.relation.entity];
 						return (
 							schema?.fields
 								.filter(s => isPrimitiveFieldType(s) && !s.virtual && s.hideInTable !== true)
