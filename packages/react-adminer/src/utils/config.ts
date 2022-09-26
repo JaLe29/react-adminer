@@ -16,6 +16,8 @@ export const getRelationFields = (fields: Field[]): RelationField[] =>
 export const getPrimitiveFields = (fields: Field[]): PrimitiveField[] =>
 	fields.filter(f => f.type !== 'relation' && !(f as any).virtual) as PrimitiveField[];
 
+export const getVirtualFields = (fields: Field[]): Field[] => fields.filter(f => (f as any).virtual) as Field[];
+
 export const isVirtualFieldType = (f: PrimitiveField): boolean => f.type === 'virtual';
 
 export const getFieldByName = (config: TableConfig, name: string): Field | undefined =>

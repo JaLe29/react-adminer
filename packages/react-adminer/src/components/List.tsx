@@ -11,7 +11,7 @@ import { useEntityConfig } from '../hooks/useEntityConfig';
 import Pagination from './Pagination';
 import Right from './Right';
 import Box from './Box';
-import TableFilter from './TableFIlter';
+import TableFilter from './TableFilter';
 import { isPrimitiveFieldType, isRelationFieldType, hasEntityField } from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';

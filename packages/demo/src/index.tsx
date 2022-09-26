@@ -118,6 +118,23 @@ const RENDERS: Renders = {
 			),
 		},
 	},
+	raUser: {
+		table: {
+			alpha2code: ({ value }: any) => (
+				<img
+					width={50}
+					src={`https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${value}.svg`}
+					alt={value}
+				/>
+			),
+			// eslint-disable-next-line react/button-has-type
+			activationButton: ({ object }: any) => <button>{object.id}</button>,
+		},
+		form: {
+			// eslint-disable-next-line react/button-has-type
+			activationButton: ({ object }: any) => <button>{object.id}</button>,
+		},
+	},
 };
 
 const TABLE_CONFIG: ReactAdminerTableConfig = {

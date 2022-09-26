@@ -98,6 +98,11 @@ export const SCHEMA: Schema = {
 	raUser: {
 		fields: [
 			{
+				name: 'activationButton',
+				virtual: true,
+				type: 'virtual',
+			},
+			{
 				name: 'id',
 				nullable: false,
 				creatable: false,
@@ -148,6 +153,7 @@ export const SCHEMA: Schema = {
 				type: 'button',
 				render: EditButton,
 				virtual: true,
+				hideInForm: true,
 			},
 		],
 	},

@@ -5,7 +5,13 @@ import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
-import { getPrimitiveFields, getRelationFields, isCreatable, isVirtualFieldType } from '../utils/config';
+import {
+	getPrimitiveFields,
+	getRelationFields,
+	getVirtualFields,
+	isCreatable,
+	isVirtualFieldType,
+} from '../utils/config';
 import Placeholder from './Placeholder';
 import Input from './EditPageComponents/Input';
 import Box from './Box';
@@ -31,7 +37,7 @@ const DATE_FORMATS: Record<string, string | undefined> = {
 };
 
 export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
-	const { config: appConfig } = useReactAdminerContext();
+	const { config: appConfig, renders } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const { router } = useReactAdminerContext();
@@ -57,6 +63,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);
+	const virtualFields = getVirtualFields(fields);
 	// console.log({ firstLevelFieldsRelationsFields });
 	const { data: d, loading } = useSelect<any>(
 		entityName,
@@ -197,7 +204,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					const canCreate = !(isNewForm && !isCreatable(f));
 					const isDisabled = f.editable === false;
 
-					if (isVirtualFieldType(f) || !canCreate) {
+					if (!canCreate) {
 						return null;
 					}
 
@@ -324,6 +331,31 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						)}
 					</WithCol>
 				))}
+
+				<Divider />
+				{virtualFields.map(f => {
+					if ((f as any).hideInForm) {
+						return null;
+					}
+					const RenderConfig = renders?.[entityName]?.form?.[f.name] ?? renders?._global?.form?.[f.name];
+					return (
+						<WithCol key={f.name}>
+							{withTitle(
+								f.label ?? f.name,
+								true,
+								RenderConfig ? (
+									<RenderConfig
+										entity={entityName}
+										value="Value is not provided for virtual field"
+										object={state}
+									/>
+								) : (
+									'Render config not found!'
+								),
+							)}
+						</WithCol>
+					);
+				})}
 			</Row>
 
 			{isErrorNullable && (

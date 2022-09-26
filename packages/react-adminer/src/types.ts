@@ -15,6 +15,7 @@ export type TableRowCustomRender = ({ value, object, entity }: { value: any; obj
 export type TableFilter = string | TableFilterObj;
 export type TableField = Field & {
 	hideInTable?: boolean;
+	hideInForm?: boolean;
 	sortable?: boolean;
 	render?: TableRowCustomRender;
 	virtual?: boolean;
@@ -88,5 +89,10 @@ export interface ReactAdminerConfig {
 
 export type Renders = Record<
 	EntityName | EntityGlobalName,
-	Record<'table', Record<EntityPropertyName, React.FC<{ value: any }>>>
+	Partial<
+		Record<
+			'table' | 'form',
+			Record<EntityPropertyName, React.FC<{ value: any; object: unknown; entity: EntityName }>>
+		>
+	>
 >;
