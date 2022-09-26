@@ -185,12 +185,12 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
 	const Link = router?.components.Link;
 
-	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
-		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
-			return moment().format(DATE_FORMATS[f.type]);
-		}
-		return null;
-	};
+	// const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
+	// 	if (state[f.name] && editable && DATE_FORMATS[f.type]) {
+	// 		return moment().format(DATE_FORMATS[f.type]);
+	// 	}
+	// 	return null;
+	// };
 
 	return (
 		<Box>
@@ -273,7 +273,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									f.nullable,
 									<DatePicker
 										disabled={isDisabled}
-										value={getValidDateValue(f, f.editable)}
+										value={state[f.name]}
 										onChange={v => {
 											onChange(f, v);
 										}}
@@ -292,7 +292,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									f.nullable,
 									<DateTimePicker
 										disabled={isDisabled}
-										value={getValidDateValue(f, f.editable)}
+										value={state[f.name]}
 										onChange={v => {
 											onChange(f, v);
 										}}

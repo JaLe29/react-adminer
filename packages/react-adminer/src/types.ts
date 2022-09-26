@@ -6,7 +6,7 @@ export type EntityPropertyName = string;
 
 export type EntityGlobalName = '_global';
 
-export type TableFieldType = 'string' | 'number' | 'boolean' | 'Date' | 'any' | string; // todo
+export type TableFieldType = 'string' | 'number' | 'boolean' | 'date' | 'datetime' | 'virtual';
 
 export type TableFilterObj = { name: string; component: any };
 

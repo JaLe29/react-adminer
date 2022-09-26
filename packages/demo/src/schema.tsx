@@ -137,7 +137,7 @@ export const SCHEMA: Schema = {
 			// Upraveno pro testovani
 			{
 				name: 'email',
-				type: 'datetime',
+				type: 'string',
 				creatable: false,
 				editable: true,
 			},
@@ -152,7 +152,7 @@ export const SCHEMA: Schema = {
 			},
 			{
 				name: 'edit',
-				type: 'button',
+				type: 'virtual',
 				render: EditButton,
 				virtual: true,
 				hideInForm: true,
@@ -279,11 +279,6 @@ export const SCHEMA: Schema = {
 				nullable: false,
 				type: 'string',
 			},
-			{
-				name: 'type',
-				nullable: false,
-				type: 'ProviderType',
-			},
 			// {
 			// 	name: 'specialists',
 			// 	nullable: false,
@@ -354,7 +349,7 @@ export const SCHEMA: Schema = {
 			},
 			{
 				name: 'edit',
-				type: 'button',
+				type: 'virtual',
 				render: EditButton,
 				virtual: true,
 			},
@@ -381,7 +376,7 @@ export const SCHEMA: Schema = {
 			},
 			{
 				name: 'edit',
-				type: 'button',
+				type: 'virtual',
 				render: EditButton,
 				virtual: true,
 			},

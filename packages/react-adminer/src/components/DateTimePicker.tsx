@@ -4,11 +4,11 @@ import type { EditPageComponent } from './EditPageComponents/EditPageComponentsT
 
 const DateTimePicker: React.FC<EditPageComponent> = ({ value, onChange }) => (
 	<DatePickerAntd
-		value={value ? moment(value, 'YYYY-MM-DD h:mm:ss') : null}
+		value={value ? moment(value) : undefined}
 		// placeholder={propertyName}
 		showTime
 		onChange={dateString => {
-			onChange(dateString?.toDate());
+			onChange(dateString?.toJSON());
 		}}
 		style={{ width: '100%' }}
 	/>
