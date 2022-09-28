@@ -16,18 +16,16 @@ const Pagination: React.FC<Props> = ({ page, pageSize, loading, totalItems, onCh
 
 	const currentPage = page + 1;
 	return (
-		<>
-			<AntdPagination
-				showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-				pageSize={pageSize}
-				current={currentPage}
-				total={totalItems ?? 0}
-				onChange={(p, ps) => {
-					onChange(p - 1, ps);
-				}}
-				showSizeChanger
-			/>
-		</>
+		<AntdPagination
+			showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+			pageSize={pageSize}
+			current={currentPage}
+			total={totalItems ?? 0}
+			onChange={(p, ps) => {
+				onChange(p - 1, ps);
+			}}
+			showSizeChanger
+		/>
 	);
 };
 

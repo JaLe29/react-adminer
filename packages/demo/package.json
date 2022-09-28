@@ -3,26 +3,26 @@
 	"version": "1.0.0",
 	"license": "MIT",
 	"dependencies": {
-		"@apengine/querier": "^0.2.34",
+		"@apengine/querier": "^0.2.43",
 		"react": "^18.2.0",
 		"react-adminer": "workspace:*",
 		"react-dom": "^18.2.0",
 		"react-is": "^18.2.0",
-		"react-router": "^6.3.0",
-		"react-router-dom": "^6.3.0",
+		"react-router": "^6.4.1",
+		"react-router-dom": "^6.4.1",
 		"typescript": "~4.7.4",
 		"utils": "link:./src/utils"
 	},
 	"devDependencies": {
 		"@types/node": "^16.11.36",
-		"@types/react": "^18.0.18",
+		"@types/react": "^18.0.21",
 		"@types/react-dom": "^18.0.6",
 		"@types/react-router-dom": "^5.3.3",
-		"@vitejs/plugin-react": "^2.0.1",
+		"@vitejs/plugin-react": "^2.1.0",
 		"eslint": "^8.22.0",
 		"rimraf": "^3.0.2",
 		"vite": "^3.0.9",
-		"vite-plugin-checker": "^0.5.0"
+		"vite-plugin-checker": "^0.5.1"
 	},
 	"scripts": {
 		"dev": "vite --mode development",
