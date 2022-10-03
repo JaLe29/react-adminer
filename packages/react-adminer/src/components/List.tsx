@@ -74,7 +74,6 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 		},
 		!config,
 	);
-
 	// setup default sort
 	useEffect(() => {
 		const defaultSort = globalConfig?.table?.[entityName]?.defaultSort ?? {};
@@ -90,7 +89,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 
 		const nextSort = { ...defaultSort, ...defaultEntityGlobalSort };
 		if (Object.keys(nextSort).length > 0) {
-			setSort(nextSort);
+			setSort(() => nextSort);
 		}
 	}, [JSON.stringify(globalConfig?.table ?? {}), JSON.stringify(entityFields)]);
 
