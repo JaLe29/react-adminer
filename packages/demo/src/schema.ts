@@ -420,6 +420,72 @@ export const SCHEMA: Schema = {
 				editable: true,
 			},
 			{
+				name: 'user',
+				nullable: true,
+				type: 'relation',
+				relation: {
+					type: 'one',
+					entity: 'user',
+				},
+			},
+			{
+				name: 'edit',
+				type: 'button',
+				render: EditButton,
+				virtual: true,
+			},
+		],
+	},
+	user: {
+		fields: [
+			{
+				name: 'id',
+				nullable: false,
+				type: 'string',
+				sortable: true,
+				creatable: false,
+				editable: false,
+			},
+			{
+				name: 'created',
+				sortable: false,
+				creatable: false,
+				type: 'datetime',
+			},
+			{
+				name: 'name',
+				nullable: false,
+				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
+			},
+			{
+				name: 'lastname',
+				nullable: false,
+				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
+			},
+			{
+				name: 'email',
+				nullable: false,
+				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
+			},
+			{
+				name: 'car',
+				nullable: true,
+				type: 'relation',
+				relation: {
+					type: 'many',
+					entity: 'car',
+				},
+			},
+			{
 				name: 'edit',
 				type: 'button',
 				render: EditButton,

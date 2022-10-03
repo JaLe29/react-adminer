@@ -1,4 +1,4 @@
-import type { UpdateOptions } from 'react-adminer';
+import type { TableConfig, UpdateOptions } from 'react-adminer';
 
 export interface Options {
 	where?: Record<string, any>;
@@ -37,7 +37,7 @@ export class Db {
 		}
 
 		let toResponse = toSearchPart.filter(v => {
-			if (where) {
+			if (where && v) {
 				return Object.keys(where).every(key => v[key] === where[key]);
 			}
 			return v;
@@ -76,9 +76,29 @@ export class Db {
 		return this.select(entityName, where).length;
 	}
 
-	update(entityName: string, object: Record<string, any>, options?: UpdateOptions): any {
-		const where = options?.where;
+	objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
+		Object.keys(object).reduce((acc, v) => {
+			const f = entityConfig.fields.find(e => e.name === v);
+			if (!f) {
+				return acc;
+			}
 
+			if (f.type === 'relation') {
+				console.log(object);
+				return {
+					...acc,
+					[`relation_set_${v}`]: object[v],
+				};
+			}
+
+			return {
+				...acc,
+				[v]: object[v],
+			};
+		}, {});
+
+	update(entityName: string, object: Record<string, any>, entityConfig: TableConfig, options?: UpdateOptions): any {
+		const where = options?.where;
 		let toUpdate: unknown[] | undefined;
 		if (where?.id) {
 			toUpdate = [this.database[entityName][where.id]];
@@ -92,15 +112,14 @@ export class Db {
 				return v;
 			});
 		}
-
 		toUpdate!.forEach(item => {
 			Object.entries(object).forEach(([key, value]) => {
 				// eslint-disable-next-line no-param-reassign
 				(item as any)[key] = value;
 			});
 		});
-
-		return object;
+		console.log(this.objectWithRelations(object, entityConfig));
+		return this.objectWithRelations(object, entityConfig);
 	}
 
 	print(): void {

@@ -13,7 +13,7 @@ import { Querier, initQuerier } from '@apengine/querier';
 
 import { useParams } from 'react-router';
 import { useState } from 'react';
-import { MOCK_CARS } from './demodb_data';
+import { MOCK_CARS, MOCK_USERS } from './demodb_data';
 import { Db } from './demodb';
 import { SCHEMA } from './schema';
 
@@ -36,10 +36,14 @@ const root = ReactDOMClient.createRoot(container);
 
 const db = new Db();
 MOCK_CARS.forEach(c => db.insert('car', c));
-
-// console.log(db.print())
-
-console.log(db.select('car', { where: { color: 'Red' }, fields: ['id', 'make', 'year'], orderBy: { make: 'desc' } }));
+MOCK_USERS.forEach(c => db.insert('user', c));
+// db.print();
+console.log(
+	db.select('car', {
+		where: { model: 'Escort', year: 1990, color: 'Maroon' },
+	}),
+);
+/*
 console.log(
 	db.update(
 		'car',
@@ -47,7 +51,7 @@ console.log(
 		{ where: { color: 'Red', model: 'UpravenejModel' } },
 	),
 );
-
+*/
 const objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
 	Object.keys(object).reduce((acc, v) => {
 		const f = entityConfig.fields.find(e => e.name === v);
@@ -95,7 +99,7 @@ const update = (
 	entityConfig: TableConfig,
 	options?: UpdateOptions,
 ): Promise<boolean> => {
-	db.update(entityName, object, options);
+	db.update(entityName, object, entityConfig, options);
 	return Promise.resolve(true);
 };
 /*

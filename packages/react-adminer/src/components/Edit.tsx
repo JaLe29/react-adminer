@@ -200,7 +200,6 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					if (isVirtualFieldType(f) || !canCreate) {
 						return null;
 					}
-
 					if (f.type === 'string') {
 						return (
 							<WithCol key={f.name}>
@@ -303,27 +302,33 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					);
 				})}
 				<Divider />
-				{relations.map(f => (
-					<WithCol key={f.name}>
-						{withTitle(
-							f.label ?? f.name,
-							f.nullable,
-							<Box display="flex">
-								<Selector
-									entityName={f.relation.entity}
-									type={f.relation.type}
-									onChange={v => {
-										onChange(f, v);
-									}}
-									value={state[f.name]}
-								/>
-								<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${f.relation.entity}/${1}`}>
-									<Button icon={<EyeOutlined />} />
-								</Link>
-							</Box>,
-						)}
-					</WithCol>
-				))}
+				{relations.map(f => {
+					console.log(relations);
+					console.log(f.relation.entity);
+					console.log(f);
+					console.log(state);
+					return (
+						<WithCol key={f.name}>
+							{withTitle(
+								f.label ?? f.name,
+								f.nullable,
+								<Box display="flex">
+									<Selector
+										entityName={f.relation.entity}
+										type={f.relation.type}
+										onChange={v => {
+											onChange(f, v);
+										}}
+										value={state[f.name]}
+									/>
+									<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${f.relation.entity}/${1}`}>
+										<Button icon={<EyeOutlined />} />
+									</Link>
+								</Box>,
+							)}
+						</WithCol>
+					);
+				})}
 			</Row>
 
 			{isErrorNullable && (
