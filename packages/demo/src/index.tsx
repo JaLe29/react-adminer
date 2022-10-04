@@ -38,11 +38,11 @@ const db = new Db();
 MOCK_CARS.forEach(c => db.insert('car', c));
 MOCK_USERS.forEach(c => db.insert('user', c));
 // db.print();
-console.log(
-	db.select('car', {
-		where: { model: 'Escort', year: 1990, color: 'Maroon' },
-	}),
-);
+// console.log(
+// 	db.select('car', {
+// 		where: { model: 'Escort', year: 1990, color: 'Maroon' },
+// 	}),
+// );
 /*
 console.log(
 	db.update(
@@ -80,13 +80,11 @@ const buildWhere = (where?: Record<string, any>): any => {
 	return Object.keys(where).reduce((acc, v) => ({ ...acc, [v]: { _like: `%${where[v]}%` } }), {});
 };
 */
-const select = (entityName: string, options?: SelectOptions): Promise<any[]> => {
-	console.log({ entityName, options });
-	return db.select(entityName, options) as Promise<any[]>;
-};
+const select = (entityName: string, options?: SelectOptions): Promise<any[]> =>
+	db.select(entityName, options, SCHEMA) as Promise<any[]>;
 
 const count = (entityName: string, options?: CountOptions): Promise<number> =>
-	db.count(entityName, options?.where) as unknown as Promise<number>;
+	db.count(entityName, options?.where, SCHEMA) as unknown as Promise<number>;
 
 const insert = (entityName: string, object: Record<string, any>): Promise<string | number> => {
 	console.log({ entityName, object });

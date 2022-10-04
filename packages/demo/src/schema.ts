@@ -420,6 +420,14 @@ export const SCHEMA: Schema = {
 				editable: true,
 			},
 			{
+				name: 'userId',
+				nullable: false,
+				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
+			},
+			{
 				name: 'user',
 				nullable: true,
 				type: 'relation',

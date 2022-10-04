@@ -1,4 +1,5 @@
-import type { TableConfig, UpdateOptions } from 'react-adminer';
+/* eslint-disable no-console */
+import type { Schema, TableConfig, UpdateOptions } from 'react-adminer';
 
 export interface Options {
 	where?: Record<string, any>;
@@ -24,8 +25,34 @@ export class Db {
 	}
 
 	// podle vice propert
-	select(entityName: string, options: Options = {}): any {
+	select(entityName: string, options: Options = {}, schema: Schema): any {
+		const entitySchema = schema[entityName];
+
 		const { where, limit, offset, fields, orderBy } = options;
+
+		const pureFields = fields?.filter(f => {
+			const tmpParts = f.split('.');
+			return tmpParts.length === 1;
+		});
+
+		const relationFields = fields?.filter(f => {
+			const tmpParts = f.split('.');
+			return tmpParts.length > 1;
+		});
+		const relationMap: Record<string, string[]> = {};
+		relationFields?.forEach(f => {
+			const tmpParts = f.split('.');
+			const rootKey = tmpParts.shift() as string;
+			if (!relationMap[rootKey]) {
+				relationMap[rootKey] = [];
+			}
+			relationMap[rootKey].push(tmpParts.join('.'));
+		});
+
+		console.log(entitySchema);
+		Object.keys(relationMap).forEach(k => {
+			console.log(this.select(k, { fields: relationMap[k] }, schema[k] as any));
+		});
 
 		const entityPart = this.database[entityName] ?? [];
 		let toSearchPart: any[] = entityPart;
@@ -43,9 +70,9 @@ export class Db {
 			return v;
 		});
 
-		if (fields) {
+		if (pureFields) {
 			toResponse = toResponse.map((loopObject: any): any =>
-				fields.reduce((acc, v) => ({ ...acc, [v]: loopObject[v] }), {}),
+				pureFields.reduce((acc, v) => ({ ...acc, [v]: loopObject[v] }), {}),
 			);
 			return toResponse;
 		}
@@ -72,8 +99,8 @@ export class Db {
 		return toResponse;
 	}
 
-	count(entityName: string, where: any): number {
-		return this.select(entityName, where).length;
+	count(entityName: string, where: any, schema: Schema): number {
+		return this.select(entityName, where, schema).length;
 	}
 
 	objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
@@ -84,7 +111,7 @@ export class Db {
 			}
 
 			if (f.type === 'relation') {
-				console.log(object);
+				// console.log(object);
 				return {
 					...acc,
 					[`relation_set_${v}`]: object[v],
@@ -118,7 +145,7 @@ export class Db {
 				(item as any)[key] = value;
 			});
 		});
-		console.log(this.objectWithRelations(object, entityConfig));
+		// console.log(this.objectWithRelations(object, entityConfig));
 		return this.objectWithRelations(object, entityConfig);
 	}
 
