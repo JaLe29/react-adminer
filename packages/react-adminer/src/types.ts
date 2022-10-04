@@ -10,7 +10,12 @@ export type TableFieldType = 'string' | 'number' | 'boolean' | 'date' | 'datetim
 
 export type TableFilterObj = { name: string; component: any };
 
-export type CustomRenderParamsType = { value: any; object: any; entity: string; refetch: () => Promise<void | any[]> };
+export type CustomRenderParamsType<T = any> = {
+	value: any;
+	object: T;
+	entity: string;
+	refetch: () => Promise<void | T[] | T>;
+};
 export type TableRowCustomRender = ({ value, object, entity, refetch }: CustomRenderParamsType) => any;
 
 export type TableFilter = string | TableFilterObj;
