@@ -90,13 +90,5 @@ export interface ReactAdminerConfig {
 
 export type Renders = Record<
 	EntityName | EntityGlobalName,
-	Partial<
-		Record<
-			'table' | 'form',
-			Record<
-				EntityPropertyName,
-				React.FC<CustomRenderParamsType>
-			>
-		>
-	>
+	Partial<Record<'table' | 'form', Record<EntityPropertyName, React.FC<CustomRenderParamsType>>>>
 >;
