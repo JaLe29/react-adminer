@@ -334,7 +334,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 
 				<Divider />
 				{virtualFields.map(f => {
-					if ((f as any).hideInForm) {
+					if ((f as any).hideInForm === true || (f as any).hideInForm === undefined) {
 						return null;
 					}
 					const RenderConfig =
