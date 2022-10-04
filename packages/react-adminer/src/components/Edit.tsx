@@ -65,7 +65,11 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const primitiveFields = getPrimitiveFields(fields);
 	const virtualFields = getVirtualFields(fields);
 	// console.log({ firstLevelFieldsRelationsFields });
-	const { data: d, loading } = useSelect<any>(
+	const {
+		data: d,
+		loading,
+		refetch,
+	} = useSelect<any>(
 		entityName,
 		{
 			offset: 0,
@@ -348,6 +352,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 										entity={entityName}
 										value="Value is not provided for virtual field"
 										object={state}
+										refetch={refetch}
 									/>
 								) : (
 									'Render config not found!'

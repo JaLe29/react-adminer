@@ -92,7 +92,10 @@ export type Renders = Record<
 	Partial<
 		Record<
 			'table' | 'form',
-			Record<EntityPropertyName, React.FC<{ value: any; object: unknown; entity: EntityName }>>
+			Record<
+				EntityPropertyName,
+				React.FC<{ value: any; object: unknown; entity: EntityName; refetch: () => Promise<void> }>
+			>
 		>
 	>
 >;
