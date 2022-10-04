@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { BrowserRouter, useLocation, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import type {
@@ -122,12 +123,12 @@ const update = async (
 };
 */
 const RENDERS: Renders = {
-	_global: {
-		table: {
-			createdAt: ({ value }: any) => <div>{`Date: ${value}`}</div>,
-			created: ({ value }: any) => <div>{`Date: ${value}`}</div>,
-		},
-	},
+	// _global: {
+	// table: {
+	// 	createdAt: ({ value }: any) => <div>{`Date: ${value}`}</div>,
+	// 	created: ({ value }: any) => <div>{`Date: ${value}`}</div>,
+	// },
+	// },
 	state: {
 		table: {
 			alpha2code: ({ value }: any) => (
@@ -139,12 +140,24 @@ const RENDERS: Renders = {
 			),
 		},
 	},
+	user: {
+		table: {
+			cars: (props: any) => <div>{props.object.cars.map((c: { id: string }) => c.id)}</div>,
+			// value.map((car: any) => car.model).join(', '
+		},
+	},
+	car: {
+		table: {
+			user: (props: any) => <div>{props.object.user?.lastname}</div>,
+			// value.map((car: any) => car.model).join(', '
+		},
+	},
 };
 
 const TABLE_CONFIG: ReactAdminerTableConfig = {
-	_global: {
-		defaultSort: { created: 'desc' },
-	},
+	// _global: {
+	// defaultSort: { created: 'desc' },
+	// },
 };
 
 const EditPage: React.FC = () => {
@@ -182,16 +195,19 @@ const EntitySelection = (): any => {
 				}}
 			>
 				<option value="car">car</option>
+				<option value="user">user</option>
 			</select>
 
-			<input
+			{/* <input
 				defaultValue={entityName}
 				onChange={v => {
 					setEntityName(v.target.value);
 				}}
-			/>
-			<List entityName={entityName} />
-			<FavoriteList entityName={entityName} />
+			/> */}
+			<div key={entityName}>
+				<List entityName={entityName} />
+				<FavoriteList entityName={entityName} />
+			</div>
 		</>
 	);
 };

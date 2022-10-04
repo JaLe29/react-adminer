@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 import type { Schema, TableConfig, UpdateOptions } from 'react-adminer';
 
@@ -49,11 +50,6 @@ export class Db {
 			relationMap[rootKey].push(tmpParts.join('.'));
 		});
 
-		console.log(entitySchema);
-		Object.keys(relationMap).forEach(k => {
-			console.log(this.select(k, { fields: relationMap[k] }, schema[k] as any));
-		});
-
 		const entityPart = this.database[entityName] ?? [];
 		let toSearchPart: any[] = entityPart;
 
@@ -70,12 +66,12 @@ export class Db {
 			return v;
 		});
 
-		if (pureFields) {
-			toResponse = toResponse.map((loopObject: any): any =>
-				pureFields.reduce((acc, v) => ({ ...acc, [v]: loopObject[v] }), {}),
-			);
-			return toResponse;
-		}
+		// if (pureFields) {
+		// 	toResponse = toResponse.map((loopObject: any): any =>
+		// 		pureFields.reduce((acc, v) => ({ ...acc, [v]: loopObject[v] }), {}),
+		// 	);
+		// 	return toResponse;
+		// }
 
 		if (orderBy) {
 			Object.keys(orderBy).forEach((keyOrderBy: string) => {
@@ -96,7 +92,38 @@ export class Db {
 			toResponse = toResponse.slice(0, limit);
 		}
 
-		return toResponse;
+		return toResponse.map(item => {
+			const tmp = { ...item };
+			Object.keys(relationMap).forEach(k => {
+				const loopSchema = entitySchema.fields.find(s => s.name === k);
+				if (!loopSchema) {
+					throw new Error(`Schema ${k} was not found!`);
+				}
+
+				const whereKey = `${entityName}Id`;
+				const currentWhereKey = `${loopSchema.name}Id`;
+				const response = [
+					...this.select(
+						(loopSchema as any).relation.entity,
+						{ where: { [whereKey]: item.id }, fields: relationMap[k] },
+						schema,
+					),
+					...this.select(
+						(loopSchema as any).relation.entity,
+						{ where: { id: tmp[currentWhereKey] }, fields: relationMap[k] },
+						schema,
+					),
+				];
+				// console.log({ response });
+				if ((loopSchema as any).relation.type === 'one') {
+					tmp[loopSchema?.name] = response[0];
+				} else {
+					tmp[loopSchema?.name] = response;
+				}
+			});
+			// console.log(tmp);
+			return tmp;
+		});
 	}
 
 	count(entityName: string, where: any, schema: Schema): number {
