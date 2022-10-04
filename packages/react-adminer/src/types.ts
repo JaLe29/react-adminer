@@ -10,7 +10,8 @@ export type TableFieldType = 'string' | 'number' | 'boolean' | 'date' | 'datetim
 
 export type TableFilterObj = { name: string; component: any };
 
-export type TableRowCustomRender = ({ value, object, entity }: { value: any; object: any; entity: string }) => any;
+export type CustomRenderParamsType = { value: any; object: any; entity: string; refetch: () => Promise<void | any[]> };
+export type TableRowCustomRender = ({ value, object, entity, refetch }: CustomRenderParamsType) => any;
 
 export type TableFilter = string | TableFilterObj;
 export type TableField = Field & {
@@ -89,10 +90,5 @@ export interface ReactAdminerConfig {
 
 export type Renders = Record<
 	EntityName | EntityGlobalName,
-	Partial<
-		Record<
-			'table' | 'form',
-			Record<EntityPropertyName, React.FC<{ value: any; object: unknown; entity: EntityName }>>
-		>
-	>
+	Partial<Record<'table' | 'form', Record<EntityPropertyName, React.FC<CustomRenderParamsType>>>>
 >;

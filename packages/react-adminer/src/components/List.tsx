@@ -172,7 +172,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 						}
 						return (
 							<div onClick={(e: any) => handleItemClick(e, f, object)}>
-								{f.render?.({ value: v, object, entity: entityName })}
+								{f.render?.({ value: v, object, entity: entityName, refetch })}
 							</div>
 						);
 				  }
