@@ -309,7 +309,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						</WithCol>
 					);
 				})}
-				<Divider />
+				{relations.length > 0 && <Divider />}
 				{relations.map(f => (
 					<WithCol key={f.name}>
 						{withTitle(
@@ -331,8 +331,7 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						)}
 					</WithCol>
 				))}
-
-				<Divider />
+				{virtualFields.length > 0 && <Divider />}
 				{virtualFields.map(f => {
 					if ((f as any).hideInForm === true || (f as any).hideInForm === undefined) {
 						return null;
@@ -360,10 +359,18 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 			</Row>
 
 			{isErrorNullable && (
-				<div>
-					<Alert message={`Missing values: ${Object.keys(errorNullable).join(', ')}`} type="error" showIcon />
-				</div>
+				<>
+					<br />
+					<div>
+						<Alert
+							message={`Missing values: ${Object.keys(errorNullable).join(', ')}`}
+							type="error"
+							showIcon
+						/>
+					</div>
+				</>
 			)}
+			<br />
 			<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || isErrorNullable}>
 				{getConfirmBtnText()}
 			</Button>
