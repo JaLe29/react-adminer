@@ -74,6 +74,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 		},
 		!config,
 	);
+
 	// setup default sort
 	useEffect(() => {
 		const defaultSort = globalConfig?.table?.[entityName]?.defaultSort ?? {};
@@ -95,10 +96,11 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 
 	// reset all on entity change
 	useEffect(() => {
-		setActiveRecord(undefined);
+		console.log('proklik');
+		setActiveRecord(() => undefined);
 		setPage(0);
 		setPageSize(10);
-		setWhere(undefined);
+		setWhere(() => undefined);
 	}, [entityName]);
 
 	const { data: dataCount, loading: loadingCount } = useCount(entityName, { where }, !config);
@@ -169,7 +171,9 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 								/>
 							);
 						}
+						console.log(v, object, entityName);
 						return (
+							// bug  f.render
 							<div onClick={(e: any) => handleItemClick(e, f, object)}>
 								{f.render?.({ value: v, object, entity: entityName })}
 							</div>
@@ -199,6 +203,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 						return <Alert message="Invalid element" type="error" showIcon />;
 				  },
 		}));
+
 	const Link = router?.components.Link;
 	return (
 		<>
