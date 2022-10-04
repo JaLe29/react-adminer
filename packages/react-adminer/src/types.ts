@@ -10,7 +10,8 @@ export type TableFieldType = 'string' | 'number' | 'boolean' | 'date' | 'datetim
 
 export type TableFilterObj = { name: string; component: any };
 
-export type TableRowCustomRender = ({ value, object, entity, refetch }: { value: any; object: any; entity: string; refetch: () => Promise<void | any[]> }) => any;
+export type CustomRenderParamsType = { value: any; object: any; entity: string; refetch: () => Promise<void | any[]> };
+export type TableRowCustomRender = ({ value, object, entity, refetch }: CustomRenderParamsType) => any;
 
 export type TableFilter = string | TableFilterObj;
 export type TableField = Field & {
@@ -94,7 +95,7 @@ export type Renders = Record<
 			'table' | 'form',
 			Record<
 				EntityPropertyName,
-				React.FC<{ value: any; object: unknown; entity: EntityName; refetch: () => Promise<void | any[]> }>
+				React.FC<CustomRenderParamsType>
 			>
 		>
 	>
