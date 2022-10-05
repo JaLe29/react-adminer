@@ -24,6 +24,7 @@ import Selector from './Selector';
 import InputNumber from './EditPageComponents/InputNumber';
 import DateTimePicker from './DateTimePicker';
 import DatePicker from './DatePicker';
+import { EntityName } from '../types';
 
 interface Props {
 	id: string | 'new';
@@ -36,7 +37,7 @@ const DATE_FORMATS: Record<string, string | undefined> = {
 	date: 'YYYY-MM-DD',
 };
 
-export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
+const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const { config: appConfig, renders } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
@@ -382,3 +383,6 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		</Box>
 	);
 };
+
+// eslint-disable-next-line react/destructuring-assignment
+export const Edit: React.FC<Props> = props => <EditChild key={props.entityName} {...props} />;

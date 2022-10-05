@@ -35,7 +35,7 @@ interface Props {
 	entityConfig?: TableConfig | undefined;
 }
 
-export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true }) => {
+const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true }) => {
 	const { paths, router } = useReactAdminerContext();
 	const { config: globalConfig } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
@@ -248,3 +248,6 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 		</>
 	);
 };
+
+// eslint-disable-next-line react/destructuring-assignment
+export const List: React.FC<Props> = props => <ListChild key={props.entityName} {...props} />;
