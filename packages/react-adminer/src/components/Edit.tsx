@@ -49,15 +49,12 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const fields = config?.fields ?? [];
 
 	const relations = getRelationFields(fields);
-	// console.log({ relations });
 	const firstLevelFieldsRelationsFields = relations.map(r => {
 		const relation = relations.find(re => re.relation.entity === r.relation.entity);
 		const primitiveFields = getPrimitiveFields(appConfig?.schema[relation?.relation.entity ?? '']?.fields ?? []);
-		// console.log({ primitiveFields });
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);
-	// console.log({ firstLevelFieldsRelationsFields });
 	const { data: d, loading } = useSelect<any>(
 		entityName,
 		{
@@ -302,33 +299,27 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					);
 				})}
 				<Divider />
-				{relations.map(f => {
-					console.log(relations);
-					console.log(f.relation.entity);
-					console.log(f);
-					console.log(state);
-					return (
-						<WithCol key={f.name}>
-							{withTitle(
-								f.label ?? f.name,
-								f.nullable,
-								<Box display="flex">
-									<Selector
-										entityName={f.relation.entity}
-										type={f.relation.type}
-										onChange={v => {
-											onChange(f, v);
-										}}
-										value={state[f.name]}
-									/>
-									<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${f.relation.entity}/${1}`}>
-										<Button icon={<EyeOutlined />} />
-									</Link>
-								</Box>,
-							)}
-						</WithCol>
-					);
-				})}
+				{relations.map(f => (
+					<WithCol key={f.name}>
+						{withTitle(
+							f.label ?? f.name,
+							f.nullable,
+							<Box display="flex">
+								<Selector
+									entityName={f.relation.entity}
+									type={f.relation.type}
+									onChange={v => {
+										onChange(f, v);
+									}}
+									value={state[f.name]}
+								/>
+								<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${f.relation.entity}/${1}`}>
+									<Button icon={<EyeOutlined />} />
+								</Link>
+							</Box>,
+						)}
+					</WithCol>
+				))}
 			</Row>
 
 			{isErrorNullable && (

@@ -38,21 +38,6 @@ const root = ReactDOMClient.createRoot(container);
 const db = new Db();
 MOCK_CARS.forEach(c => db.insert('car', c));
 MOCK_USERS.forEach(c => db.insert('user', c));
-// db.print();
-// console.log(
-// 	db.select('car', {
-// 		where: { model: 'Escort', year: 1990, color: 'Maroon' },
-// 	}),
-// );
-/*
-console.log(
-	db.update(
-		'car',
-		{ id: 1, make: 'Ford', model: 'F250', year: 1984, color: 'Goldenrod' },
-		{ where: { color: 'Red', model: 'UpravenejModel' } },
-	),
-);
-*/
 const objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
 	Object.keys(object).reduce((acc, v) => {
 		const f = entityConfig.fields.find(e => e.name === v);
@@ -87,10 +72,8 @@ const select = (entityName: string, options?: SelectOptions): Promise<any[]> =>
 const count = (entityName: string, options?: CountOptions): Promise<number> =>
 	db.count(entityName, options?.where, SCHEMA) as unknown as Promise<number>;
 
-const insert = (entityName: string, object: Record<string, any>): Promise<string | number> => {
-	console.log({ entityName, object });
-	return db.insert(entityName, object) as any;
-};
+const insert = (entityName: string, object: Record<string, any>): Promise<string | number> =>
+	db.insert(entityName, object) as any;
 
 const update = (
 	entityName: string,
@@ -143,13 +126,11 @@ const RENDERS: Renders = {
 	user: {
 		table: {
 			cars: (props: any) => <div>{props.object.cars.map((c: { id: string }) => c.id)}</div>,
-			// value.map((car: any) => car.model).join(', '
 		},
 	},
 	car: {
 		table: {
 			user: (props: any) => <div>{props.object.user?.lastname}</div>,
-			// value.map((car: any) => car.model).join(', '
 		},
 	},
 };

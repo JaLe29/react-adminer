@@ -25,16 +25,10 @@ export class Db {
 		delete this.database[entityName][id];
 	}
 
-	// podle vice propert
 	select(entityName: string, options: Options = {}, schema: Schema): any {
 		const entitySchema = schema[entityName];
 
 		const { where, limit, offset, fields, orderBy } = options;
-
-		const pureFields = fields?.filter(f => {
-			const tmpParts = f.split('.');
-			return tmpParts.length === 1;
-		});
 
 		const relationFields = fields?.filter(f => {
 			const tmpParts = f.split('.');
@@ -65,6 +59,11 @@ export class Db {
 			}
 			return v;
 		});
+
+		// const pureFields = fields?.filter(f => {
+		// 	const tmpParts = f.split('.');
+		// 	return tmpParts.length === 1;
+		// })
 
 		// if (pureFields) {
 		// 	toResponse = toResponse.map((loopObject: any): any =>
@@ -114,14 +113,12 @@ export class Db {
 						schema,
 					),
 				];
-				// console.log({ response });
 				if ((loopSchema as any).relation.type === 'one') {
 					tmp[loopSchema?.name] = response[0];
 				} else {
 					tmp[loopSchema?.name] = response;
 				}
 			});
-			// console.log(tmp);
 			return tmp;
 		});
 	}
@@ -138,7 +135,6 @@ export class Db {
 			}
 
 			if (f.type === 'relation') {
-				// console.log(object);
 				return {
 					...acc,
 					[`relation_set_${v}`]: object[v],
@@ -172,7 +168,6 @@ export class Db {
 				(item as any)[key] = value;
 			});
 		});
-		// console.log(this.objectWithRelations(object, entityConfig));
 		return this.objectWithRelations(object, entityConfig);
 	}
 
