@@ -11,6 +11,7 @@ export const SCHEMA: Schema = {
 				sortable: true,
 				creatable: false,
 				editable: false,
+				section: 'primarySection',
 			},
 			{
 				name: 'make',
@@ -19,6 +20,7 @@ export const SCHEMA: Schema = {
 				sortable: true,
 				creatable: true,
 				editable: true,
+				section: 'secondarySection',
 			},
 			{
 				name: 'model',
@@ -35,6 +37,7 @@ export const SCHEMA: Schema = {
 				sortable: true,
 				creatable: true,
 				editable: true,
+				section: 'primarySection',
 			},
 			{
 				name: 'color',

@@ -18,6 +18,7 @@ import Selector from './Selector';
 import InputNumber from './EditPageComponents/InputNumber';
 import DateTimePicker from './DateTimePicker';
 import DatePicker from './DatePicker';
+import SectionBox from './SectionBox';
 
 interface Props {
 	id: string | 'new';
@@ -183,121 +184,38 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	};
 
 	return (
-		<Box>
-			{isNewForm && (
-				<Box p={5}>
-					<Alert message="You are creating new entity" type="info" showIcon />
-				</Box>
-			)}
-			<Row gutter={[12, 12]}>
-				{primitiveFields.map((f: PrimitiveField & { editable?: boolean }) => {
-					const canCreate = !(isNewForm && !isCreatable(f));
-					const isDisabled = f.editable === false;
-
-					if (isVirtualFieldType(f) || !canCreate) {
-						return null;
-					}
-					if (f.type === 'string') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<Input
-										disabled={isDisabled}
-										value={state[f.name]}
-										propertyName={f.name}
-										onChange={v => {
-											onChange(f, v);
-										}}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'number') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<InputNumber
-										disabled={isDisabled}
-										value={state[f.name]}
-										propertyName={f.name}
-										onChange={v => {
-											onChange(f, v);
-										}}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'boolean') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<BooleanSwitch
-										disabled={isDisabled}
-										value={state[f.name]}
-										onChange={v => {
-											onChange(f, v);
-										}}
-										propertyName={f.name}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'date') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<DatePicker
-										disabled={isDisabled}
-										value={getValidDateValue(f, f.editable)}
-										onChange={v => {
-											onChange(f, v);
-										}}
-										propertyName={f.name}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'datetime') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<DateTimePicker
-										disabled={isDisabled}
-										value={getValidDateValue(f, f.editable)}
-										onChange={v => {
-											onChange(f, v);
-										}}
-										propertyName={f.name}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					return (
-						<WithCol key={f.name}>
-							{withTitle(f.label ?? f.name, f.nullable, <Placeholder propertyName={f.name} />)}
-						</WithCol>
-					);
-				})}
+		<>
+			<Box>
+				{isNewForm && (
+					<Box p={5}>
+						<Alert message="You are creating new entity" type="info" showIcon />
+					</Box>
+				)}
+				<SectionBox
+					primitiveFields={primitiveFields}
+					isNewForm={isNewForm}
+					onChange={onChange}
+					getValidDateValue={getValidDateValue}
+					state={state}
+					selectedSection="primarySection"
+				/>
+				<Divider />
+				<SectionBox
+					primitiveFields={primitiveFields}
+					isNewForm={isNewForm}
+					onChange={onChange}
+					getValidDateValue={getValidDateValue}
+					state={state}
+					selectedSection="secondarySection"
+				/>
+				<Divider />
+				<SectionBox
+					primitiveFields={primitiveFields}
+					isNewForm={isNewForm}
+					onChange={onChange}
+					getValidDateValue={getValidDateValue}
+					state={state}
+				/>
 				<Divider />
 				{relations.map(f => (
 					<WithCol key={f.name}>
@@ -320,16 +238,19 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						)}
 					</WithCol>
 				))}
-			</Row>
-
-			{isErrorNullable && (
-				<div>
-					<Alert message={`Missing values: ${Object.keys(errorNullable).join(', ')}`} type="error" showIcon />
-				</div>
-			)}
-			<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || isErrorNullable}>
-				{getConfirmBtnText()}
-			</Button>
-		</Box>
+				{isErrorNullable && (
+					<div>
+						<Alert
+							message={`Missing values: ${Object.keys(errorNullable).join(', ')}`}
+							type="error"
+							showIcon
+						/>
+					</div>
+				)}
+				<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || isErrorNullable}>
+					{getConfirmBtnText()}
+				</Button>
+			</Box>
+		</>
 	);
 };
