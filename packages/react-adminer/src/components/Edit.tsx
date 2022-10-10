@@ -1,23 +1,22 @@
-import { Row, Spin, Button, Divider, notification, Alert } from 'antd';
+import { Spin, Button, Divider, notification, Alert } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types';
 import { EyeOutlined } from '@ant-design/icons';
-import moment from 'moment';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
-import { getPrimitiveFields, getRelationFields, isCreatable, isVirtualFieldType } from '../utils/config';
-import Placeholder from './Placeholder';
-import Input from './EditPageComponents/Input';
+import {
+	getPrimitiveFields,
+	getRelationFields,
+	getVirtualFields,
+	isCreatable,
+	isVirtualFieldType,
+} from '../utils/config';
 import Box from './Box';
-import BooleanSwitch from './EditPageComponents/BooleanSwitch';
 import { slowMe } from '../utils/promise';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import { NEW_KEY } from '../const';
 import Selector from './Selector';
-import InputNumber from './EditPageComponents/InputNumber';
-import DateTimePicker from './DateTimePicker';
-import DatePicker from './DatePicker';
 import SectionBox from './SectionBox';
 
 interface Props {
@@ -31,8 +30,8 @@ const DATE_FORMATS: Record<string, string | undefined> = {
 	date: 'YYYY-MM-DD',
 };
 
-export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
-	const { config: appConfig } = useReactAdminerContext();
+const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
+	const { config: appConfig, renders } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const { router } = useReactAdminerContext();
@@ -56,7 +55,13 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);
-	const { data: d, loading } = useSelect<any>(
+	const virtualFields = getVirtualFields(fields);
+	// console.log({ firstLevelFieldsRelationsFields });
+	const {
+		data: d,
+		loading,
+		refetch,
+	} = useSelect<any>(
 		entityName,
 		{
 			offset: 0,
@@ -176,12 +181,12 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
 	const Link = router?.components.Link;
 
-	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
-		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
-			return moment().format(DATE_FORMATS[f.type]);
-		}
-		return null;
-	};
+	// const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
+	// 	if (state[f.name] && editable && DATE_FORMATS[f.type]) {
+	// 		return moment().format(DATE_FORMATS[f.type]);
+	// 	}
+	// 	return null;
+	// };
 
 	return (
 		<>
@@ -254,3 +259,6 @@ export const Edit: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		</>
 	);
 };
+
+// eslint-disable-next-line react/destructuring-assignment
+export const Edit: React.FC<Props> = props => <EditChild key={props.entityName} {...props} />;

@@ -6,15 +6,22 @@ export type EntityPropertyName = string;
 
 export type EntityGlobalName = '_global';
 
-export type TableFieldType = 'string' | 'number' | 'boolean' | 'Date' | 'any' | string; // todo
+export type TableFieldType = 'string' | 'number' | 'boolean' | 'date' | 'datetime' | 'virtual';
 
 export type TableFilterObj = { name: string; component: any };
 
-export type TableRowCustomRender = ({ value, object, entity }: { value: any; object: any; entity: string }) => any;
+export type CustomRenderParamsType<T = any> = {
+	value: any;
+	object: T;
+	entity: string;
+	refetch: () => Promise<void | T[] | T>;
+};
+export type TableRowCustomRender = ({ value, object, entity, refetch }: CustomRenderParamsType) => any;
 
 export type TableFilter = string | TableFilterObj;
 export type TableField = Field & {
 	hideInTable?: boolean;
+	hideInForm?: boolean;
 	sortable?: boolean;
 	render?: TableRowCustomRender;
 	virtual?: boolean;
@@ -88,5 +95,5 @@ export interface ReactAdminerConfig {
 
 export type Renders = Record<
 	EntityName | EntityGlobalName,
-	Record<'table', Record<EntityPropertyName, React.FC<{ value: any }>>>
+	Partial<Record<'table' | 'form', Record<EntityPropertyName, React.FC<CustomRenderParamsType>>>>
 >;

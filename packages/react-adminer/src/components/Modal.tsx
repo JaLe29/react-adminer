@@ -10,20 +10,18 @@ interface Props {
 }
 
 const Modal: React.FC<Props> = ({ title, setIsModalVisible, isModalVisible, okText, content, onOk }) => (
-	<>
-		<ModalAntd
-			title={title}
-			visible={isModalVisible}
-			onOk={onOk}
-			onCancel={() => {
-				setIsModalVisible(false);
-			}}
-			okText={okText}
-			cancelText="Cancel"
-		>
-			{content}
-		</ModalAntd>
-	</>
+	<ModalAntd
+		title={title}
+		visible={isModalVisible}
+		onOk={onOk}
+		onCancel={() => {
+			setIsModalVisible(false);
+		}}
+		okText={okText}
+		cancelText="Cancel"
+	>
+		{content}
+	</ModalAntd>
 );
 
 export default Modal;

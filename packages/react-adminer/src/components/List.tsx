@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import ReactIs from 'react-is';
 import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
-import { SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
+import { ReloadOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import type { Sort, TableConfig, TableField } from '../types';
@@ -11,12 +11,13 @@ import { useEntityConfig } from '../hooks/useEntityConfig';
 import Pagination from './Pagination';
 import Right from './Right';
 import Box from './Box';
-import TableFilter from './TableFIlter';
+import TableFilter from './TableFilter';
 import { isPrimitiveFieldType, isRelationFieldType, hasEntityField } from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
 import CellEditInput from './CellEditInput';
 import Highlighted from './Highlight';
+import LineSpaceBetween from './LineSpaceBetween';
 
 const getHighlighted = (value: any, field: TableField, where: Record<string, any> | undefined): any => {
 	if (!where?.[field.name]) {
@@ -34,7 +35,7 @@ interface Props {
 	entityConfig?: TableConfig | undefined;
 }
 
-export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true }) => {
+const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true }) => {
 	const { paths, router } = useReactAdminerContext();
 	const { config: globalConfig } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
@@ -46,7 +47,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 	const [pageSize, setPageSize] = useStateParams(10, 'ps', v => +v);
 	const [page, setPage] = useStateParams(0, 'p', v => +v);
 	const [activeRecord, setActiveRecord] = useState<{ id: string; property: string } | undefined>();
-	const { data, loading } = useSelect<any>(
+	const { data, loading, refetch } = useSelect<any>(
 		entityName,
 		{
 			offset: page * pageSize,
@@ -58,7 +59,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 				.filter(c => !c.virtual && c.hideInTable !== true)
 				.map(c => {
 					if (isRelationFieldType(c)) {
-						const schema = globalConfig?.schema[entityName];
+						const schema = globalConfig?.schema[c.relation.entity];
 						return (
 							schema?.fields
 								.filter(s => isPrimitiveFieldType(s) && !s.virtual && s.hideInTable !== true)
@@ -172,7 +173,7 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 						}
 						return (
 							<div onClick={(e: any) => handleItemClick(e, f, object)}>
-								{f.render?.({ value: v, object, entity: entityName })}
+								{f.render?.({ value: v, object, entity: entityName, refetch })}
 							</div>
 						);
 				  }
@@ -203,14 +204,17 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 	const Link = router?.components.Link;
 	return (
 		<>
-			<Right>
+			<LineSpaceBetween>
+				<Button onClick={refetch}>
+					<ReloadOutlined />
+				</Button>
 				<Button>
 					<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${NEW_KEY}`}>
 						{'Create '}
 						{entityName}
 					</Link>
 				</Button>
-			</Right>
+			</LineSpaceBetween>
 			<br />
 			{filter && (
 				<>
@@ -245,3 +249,6 @@ export const List: React.FC<Props> = ({ entityConfig, entityName, filter = true 
 		</>
 	);
 };
+
+// eslint-disable-next-line react/destructuring-assignment
+export const List: React.FC<Props> = props => <ListChild key={props.entityName} {...props} />;
