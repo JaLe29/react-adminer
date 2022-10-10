@@ -27,5 +27,6 @@ jobs:
           git config --global user.name 'Github action'
           git config --global user.email 'jaledeveloper@gmail.com'
           git add ./packages/react-adminer/package.json
+          git add ./.yarn/install-state.gz
           git commit -m "Github Action: Version increment"
           git push
