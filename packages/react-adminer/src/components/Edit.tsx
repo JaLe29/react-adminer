@@ -1,4 +1,4 @@
-import { Row, Spin, Button, Divider, notification, Alert } from 'antd';
+import { Spin, Button, Divider, notification, Alert } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types';
 import { EyeOutlined } from '@ant-design/icons';
@@ -12,19 +12,13 @@ import {
 	isCreatable,
 	isVirtualFieldType,
 } from '../utils/config';
-import Placeholder from './Placeholder';
-import Input from './EditPageComponents/Input';
 import Box from './Box';
-import BooleanSwitch from './EditPageComponents/BooleanSwitch';
 import { slowMe } from '../utils/promise';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import { NEW_KEY } from '../const';
 import Selector from './Selector';
-import InputNumber from './EditPageComponents/InputNumber';
-import DateTimePicker from './DateTimePicker';
-import DatePicker from './DatePicker';
-import { EntityName } from '../types';
+import SectionBox from './SectionBox';
 
 interface Props {
 	id: string | 'new';
@@ -56,11 +50,9 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const fields = config?.fields ?? [];
 
 	const relations = getRelationFields(fields);
-	// console.log({ relations });
 	const firstLevelFieldsRelationsFields = relations.map(r => {
 		const relation = relations.find(re => re.relation.entity === r.relation.entity);
 		const primitiveFields = getPrimitiveFields(appConfig?.schema[relation?.relation.entity ?? '']?.fields ?? []);
-		// console.log({ primitiveFields });
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);
@@ -190,131 +182,47 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
 	const Link = router?.components.Link;
 
-	// const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
-	// 	if (state[f.name] && editable && DATE_FORMATS[f.type]) {
-	// 		return moment().format(DATE_FORMATS[f.type]);
-	// 	}
-	// 	return null;
-	// };
+	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
+		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
+			return moment().format(DATE_FORMATS[f.type]);
+		}
+		return null;
+	};
 
 	return (
-		<Box>
-			{isNewForm && (
-				<Box p={5}>
-					<Alert message="You are creating new entity" type="info" showIcon />
-				</Box>
-			)}
-			<Row gutter={[12, 12]}>
-				{primitiveFields.map((f: PrimitiveField & { editable?: boolean }) => {
-					const canCreate = !(isNewForm && !isCreatable(f));
-					const isDisabled = f.editable === false;
-
-					if (!canCreate) {
-						return null;
-					}
-
-					if (f.type === 'string') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<Input
-										disabled={isDisabled}
-										value={state[f.name]}
-										propertyName={f.name}
-										onChange={v => {
-											onChange(f, v);
-										}}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'number') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<InputNumber
-										disabled={isDisabled}
-										value={state[f.name]}
-										propertyName={f.name}
-										onChange={v => {
-											onChange(f, v);
-										}}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'boolean') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<BooleanSwitch
-										disabled={isDisabled}
-										value={state[f.name]}
-										onChange={v => {
-											onChange(f, v);
-										}}
-										propertyName={f.name}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'date') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<DatePicker
-										disabled={isDisabled}
-										value={state[f.name]}
-										onChange={v => {
-											onChange(f, v);
-										}}
-										propertyName={f.name}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					if (f.type === 'datetime') {
-						return (
-							<WithCol key={f.name}>
-								{withTitle(
-									f.label ?? f.name,
-									f.nullable,
-									<DateTimePicker
-										disabled={isDisabled}
-										value={state[f.name]}
-										onChange={v => {
-											onChange(f, v);
-										}}
-										propertyName={f.name}
-									/>,
-								)}
-							</WithCol>
-						);
-					}
-
-					return (
-						<WithCol key={f.name}>
-							{withTitle(f.label ?? f.name, f.nullable, <Placeholder propertyName={f.name} />)}
-						</WithCol>
-					);
-				})}
-				{relations.length > 0 && <Divider />}
+		<>
+			<Box>
+				{isNewForm && (
+					<Box p={5}>
+						<Alert message="You are creating new entity" type="info" showIcon />
+					</Box>
+				)}
+				<SectionBox
+					primitiveFields={primitiveFields}
+					isNewForm={isNewForm}
+					onChange={onChange}
+					getValidDateValue={getValidDateValue}
+					state={state}
+					selectedSection="primarySection"
+				/>
+				<Divider />
+				<SectionBox
+					primitiveFields={primitiveFields}
+					isNewForm={isNewForm}
+					onChange={onChange}
+					getValidDateValue={getValidDateValue}
+					state={state}
+					selectedSection="secondarySection"
+				/>
+				<Divider />
+				<SectionBox
+					primitiveFields={primitiveFields}
+					isNewForm={isNewForm}
+					onChange={onChange}
+					getValidDateValue={getValidDateValue}
+					state={state}
+				/>
+				<Divider />
 				{relations.map(f => (
 					<WithCol key={f.name}>
 						{withTitle(
@@ -336,37 +244,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						)}
 					</WithCol>
 				))}
-				{virtualFields.length > 0 && <Divider />}
-				{virtualFields.map(f => {
-					if ((f as any).hideInForm === true || (f as any).hideInForm === undefined) {
-						return null;
-					}
-					const RenderConfig =
-						(f as any).render ?? renders?.[entityName]?.form?.[f.name] ?? renders?._global?.form?.[f.name];
-					return (
-						<WithCol key={f.name}>
-							{withTitle(
-								f.label ?? f.name,
-								true,
-								RenderConfig ? (
-									<RenderConfig
-										entity={entityName}
-										value="Value is not provided for virtual field"
-										object={state}
-										refetch={refetch}
-									/>
-								) : (
-									'Render config not found!'
-								),
-							)}
-						</WithCol>
-					);
-				})}
-			</Row>
-
-			{isErrorNullable && (
-				<>
-					<br />
+				{isErrorNullable && (
 					<div>
 						<Alert
 							message={`Missing values: ${Object.keys(errorNullable).join(', ')}`}
@@ -374,13 +252,12 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 							showIcon
 						/>
 					</div>
-				</>
-			)}
-			<br />
-			<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || isErrorNullable}>
-				{getConfirmBtnText()}
-			</Button>
-		</Box>
+				)}
+				<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || isErrorNullable}>
+					{getConfirmBtnText()}
+				</Button>
+			</Box>
+		</>
 	);
 };
 
