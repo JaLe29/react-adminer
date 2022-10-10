@@ -66,7 +66,7 @@ export const SCHEMA: Schema = {
 			},
 			{
 				name: 'edit',
-				type: 'button',
+				type: 'virtual',
 				render: EditButton,
 				virtual: true,
 			},
@@ -123,7 +123,7 @@ export const SCHEMA: Schema = {
 			},
 			{
 				name: 'edit',
-				type: 'button',
+				type: 'virtual',
 				render: EditButton,
 				virtual: true,
 			},

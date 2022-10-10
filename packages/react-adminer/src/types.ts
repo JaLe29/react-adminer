@@ -25,6 +25,7 @@ export type TableField = Field & {
 	sortable?: boolean;
 	render?: TableRowCustomRender;
 	virtual?: boolean;
+	section?: string;
 };
 
 export interface PrimitiveField {
