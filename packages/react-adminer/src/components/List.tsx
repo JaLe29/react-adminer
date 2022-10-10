@@ -12,7 +12,13 @@ import Pagination from './Pagination';
 import Right from './Right';
 import Box from './Box';
 import TableFilter from './TableFilter';
-import { isPrimitiveFieldType, isRelationFieldType, hasEntityField } from '../utils/config';
+import {
+	isPrimitiveFieldType,
+	isRelationFieldType,
+	hasEntityField,
+	jsonDeserializeParse,
+	jsonSerializeParse,
+} from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
 import CellEditInput from './CellEditInput';
@@ -41,10 +47,10 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 	const config = useEntityConfig({ entityName, entityConfig });
 	const entityFields = config?.fields ?? [];
 
-	const [sort, setSort] = useState<Sort | undefined>(undefined);
 	const [where, setWhere] = useState<Record<string, any> | undefined>();
+	const [sort, setSort] = useStateParams<any>(undefined, 's', jsonDeserializeParse, jsonSerializeParse);
 
-	const [pageSize, setPageSize] = useStateParams(10, 'ps', v => +v);
+	const [pageSize, setPageSize] = useStateParams(0, 'ps', v => +v);
 	const [page, setPage] = useStateParams(0, 'p', v => +v);
 	const [activeRecord, setActiveRecord] = useState<{ id: string; property: string } | undefined>();
 	const { data, loading, refetch } = useSelect<any>(
@@ -78,20 +84,22 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 
 	// setup default sort
 	useEffect(() => {
-		const defaultSort = globalConfig?.table?.[entityName]?.defaultSort ?? {};
-		const defaultEntityGlobalSort = Object.entries(globalConfig?.table?._global?.defaultSort ?? {}).reduce(
-			(acc, [key, value]) => {
-				if (hasEntityField(key, entityFields)) {
-					return { ...acc, [key]: value };
-				}
-				return acc;
-			},
-			{},
-		);
+		if (!sort) {
+			const defaultSort = globalConfig?.table?.[entityName]?.defaultSort ?? {};
+			const defaultEntityGlobalSort = Object.entries(globalConfig?.table?._global?.defaultSort ?? {}).reduce(
+				(acc, [key, value]) => {
+					if (hasEntityField(key, entityFields)) {
+						return { ...acc, [key]: value };
+					}
+					return acc;
+				},
+				{},
+			);
 
-		const nextSort = { ...defaultSort, ...defaultEntityGlobalSort };
-		if (Object.keys(nextSort).length > 0) {
-			setSort(nextSort);
+			const nextSort = { ...defaultSort, ...defaultEntityGlobalSort };
+			if (Object.keys(nextSort).length > 0) {
+				setSort(nextSort);
+			}
 		}
 	}, [JSON.stringify(globalConfig?.table ?? {}), JSON.stringify(entityFields)]);
 

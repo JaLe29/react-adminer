@@ -1,4 +1,4 @@
-import type { Field, PrimitiveField, RelationField, TableConfig } from '../types';
+import type { Field, PrimitiveField, RelationField, Sort, TableConfig } from '../types';
 import { PRIMITIVE_FIELDS } from '../config';
 
 export const isCreatable = (f: Field): boolean =>
@@ -37,3 +37,14 @@ export const fixFormat = (
 	}
 	return payload;
 };
+
+export const jsonDeserializeParse = (v?: string): Sort => {
+	try {
+		const parsed = JSON.parse(v ?? 'empty');
+		return parsed;
+	} catch {
+		return {};
+	}
+};
+
+export const jsonSerializeParse = (v: string): string => JSON.stringify(v);

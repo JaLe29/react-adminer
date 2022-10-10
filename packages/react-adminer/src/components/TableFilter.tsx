@@ -1,5 +1,6 @@
 import { Button, Col, Collapse, Form, Input, Row, Space } from 'antd';
 import { useEffect } from 'react';
+import { jsonDeserializeParse, jsonSerializeParse } from '../utils/config';
 import useStateParams from '../hooks/useStateParams';
 import type { TableConfig, TableFilterObj } from '../types';
 import AddToFavoriteButton from './AddToFavoriteButton';
@@ -18,19 +19,7 @@ interface Props {
 
 const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entityName }): any => {
 	const [form] = Form.useForm();
-	const [filterConfig, setFilter] = useStateParams<any>(
-		undefined,
-		'f',
-		(v?: string) => {
-			try {
-				const parsed = JSON.parse(v ?? 'empty');
-				return parsed;
-			} catch {
-				return {};
-			}
-		},
-		(v: string) => JSON.stringify(v),
-	);
+	const [filterConfig, setFilter] = useStateParams<any>(undefined, 'f', jsonDeserializeParse, jsonSerializeParse);
 
 	useEffect(() => {
 		if (!filterConfig) {
