@@ -66,6 +66,7 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 								.map(s => `${c.name}.${s.name}`) ?? []
 						);
 					}
+
 					return c.name;
 				})
 				.flat(),

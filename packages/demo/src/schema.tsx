@@ -2,100 +2,77 @@ import type { Schema } from 'react-adminer';
 import { EditButton } from 'react-adminer';
 
 export const SCHEMA: Schema = {
-	raAdvertisement: {
+	car: {
 		fields: [
 			{
 				name: 'id',
 				nullable: false,
+				type: 'string',
+				sortable: true,
 				creatable: false,
 				editable: false,
-				type: 'string',
+				section: 'primarySection',
 			},
 			{
-				name: 'created',
+				name: 'make',
 				nullable: false,
-				creatable: false,
 				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
+				section: 'secondarySection',
 			},
 			{
-				name: 'ra_user_id',
-				nullable: true,
+				name: 'model',
+				nullable: false,
 				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
+			},
+			{
+				name: 'year',
+				nullable: false,
+				type: 'number',
+				sortable: true,
+				creatable: true,
+				editable: true,
+				section: 'primarySection',
+			},
+			{
+				name: 'color',
+				nullable: false,
+				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
+			},
+			{
+				name: 'userId',
+				nullable: false,
+				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
 			},
 			{
 				name: 'user',
-				nullable: false,
-				type: 'relation',
-				relation: {
-					type: 'one',
-					entity: 'raUser',
-				},
-			},
-			{
-				name: 'title',
-				nullable: false,
-				type: 'string',
-			},
-			{
-				name: 'text',
-				nullable: false,
-				type: 'string',
-			},
-			{
-				name: 'cost',
-				nullable: false,
-				type: 'number',
-			},
-			{
-				name: 'images',
-				nullable: false,
-				type: 'relation',
-				relation: {
-					type: 'many',
-					entity: 'raImage',
-				},
-			},
-		],
-	},
-	raImage: {
-		fields: [
-			{
-				name: 'id',
-				nullable: false,
-				type: 'string',
-			},
-			{
-				name: 'created',
-				nullable: false,
-				type: 'string',
-			},
-			{
-				name: 'title',
-				nullable: false,
-				type: 'string',
-			},
-			{
-				name: 'url',
-				nullable: false,
-				type: 'string',
-			},
-			{
-				name: 'advertisementId',
 				nullable: true,
-				type: 'string',
-			},
-			{
-				name: 'advertisement',
-				nullable: false,
 				type: 'relation',
 				relation: {
 					type: 'one',
-					entity: 'raAdvertisement',
+					entity: 'user',
 				},
+			},
+			{
+				name: 'edit',
+				type: 'virtual',
+				render: EditButton,
+				virtual: true,
 			},
 		],
 	},
-	raUser: {
+	user: {
 		fields: [
 			{
 				name: 'activationButton',
@@ -107,22 +84,24 @@ export const SCHEMA: Schema = {
 			{
 				name: 'id',
 				nullable: false,
+				type: 'string',
+				sortable: true,
 				creatable: false,
 				editable: false,
-				type: 'string',
 			},
 			{
 				name: 'created',
-				label: 'Datum vytvoření',
+				sortable: false,
 				creatable: false,
-				nullable: false,
-				sortable: true,
 				type: 'datetime',
 			},
 			{
 				name: 'name',
 				nullable: false,
 				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
 			},
 			{
 				name: 'lastname',
@@ -196,82 +175,20 @@ export const SCHEMA: Schema = {
 				type: 'string',
 			},
 			{
-				name: 'visible',
+				name: 'email',
 				nullable: false,
-				type: 'boolean',
-			},
-			{
-				name: 'image',
-				nullable: true,
 				type: 'string',
+				sortable: true,
+				creatable: true,
+				editable: true,
 			},
 			{
-				name: 'screenshot',
+				name: 'cars',
 				nullable: true,
-				type: 'string',
-			},
-			// {
-			// 	name: 'fromPatterns',
-			// 	nullable: false,
-			// 	type: 'relation',
-			// 	relation: {
-			// 		type: 'many',
-			// 		entity: 'string',
-			// 	},
-			// },
-			// {
-			// 	name: 'categories',
-			// 	nullable: false,
-			// 	type: 'relation',
-			// 	relation: {
-			// 		type: 'many',
-			// 		entity: 'category',
-			// 	},
-			// },
-			// {
-			// 	name: 'tools',
-			// 	nullable: false,
-			// 	type: 'relation',
-			// 	relation: {
-			// 		type: 'many',
-			// 		entity: 'tool',
-			// 	},
-			// },
-			{
-				name: 'labels',
-				nullable: false,
 				type: 'relation',
 				relation: {
 					type: 'many',
-					entity: 'label',
-				},
-			},
-			{
-				name: 'admin_verified',
-				nullable: false,
-				type: 'boolean',
-			},
-			// {
-			// 	name: 'mailhuntEmail',
-			// 	nullable: false,
-			// 	type: 'relation',
-			// 	relation: {
-			// 		type: 'one',
-			// 		entity: 'mailhunt-email',
-			// 	},
-			// },
-			{
-				name: 'mailhuntEmailId',
-				nullable: true,
-				type: 'string',
-			},
-			{
-				name: 'creator',
-				nullable: false,
-				type: 'relation',
-				relation: {
-					type: 'one',
-					entity: 'user',
+					entity: 'car',
 				},
 			},
 			{

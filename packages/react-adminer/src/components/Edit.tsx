@@ -56,11 +56,9 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const fields = config?.fields ?? [];
 
 	const relations = getRelationFields(fields);
-	// console.log({ relations });
 	const firstLevelFieldsRelationsFields = relations.map(r => {
 		const relation = relations.find(re => re.relation.entity === r.relation.entity);
 		const primitiveFields = getPrimitiveFields(appConfig?.schema[relation?.relation.entity ?? '']?.fields ?? []);
-		// console.log({ primitiveFields });
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);

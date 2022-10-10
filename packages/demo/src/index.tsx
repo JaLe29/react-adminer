@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { BrowserRouter, useLocation, Link, Route, Routes, useNavigate } from 'react-router-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import type {
@@ -13,6 +14,8 @@ import { Querier, initQuerier } from '@apengine/querier';
 
 import { useParams } from 'react-router';
 import { useState } from 'react';
+import { MOCK_CARS, MOCK_USERS } from './demodb_data';
+import { Db } from './demodb';
 import { SCHEMA } from './schema';
 
 const ROUTER = {
@@ -32,6 +35,9 @@ initQuerier({
 const container = document.getElementById('app')!;
 const root = ReactDOMClient.createRoot(container);
 
+const db = new Db();
+MOCK_CARS.forEach(c => db.insert('car', c));
+MOCK_USERS.forEach(c => db.insert('user', c));
 const objectWithRelations = (object: Record<string, any>, entityConfig: TableConfig): Record<string, any> =>
 	Object.keys(object).reduce((acc, v) => {
 		const f = entityConfig.fields.find(e => e.name === v);
@@ -51,7 +57,7 @@ const objectWithRelations = (object: Record<string, any>, entityConfig: TableCon
 			[v]: object[v],
 		};
 	}, {});
-
+/*
 const buildWhere = (where?: Record<string, any>): any => {
 	if (!where) {
 		return undefined;
@@ -59,28 +65,26 @@ const buildWhere = (where?: Record<string, any>): any => {
 
 	return Object.keys(where).reduce((acc, v) => ({ ...acc, [v]: { _like: `%${where[v]}%` } }), {});
 };
+*/
+const select = (entityName: string, options?: SelectOptions): Promise<any[]> =>
+	db.select(entityName, options, SCHEMA) as Promise<any[]>;
 
-const select = async (entityName: string, options?: SelectOptions): Promise<any[]> => {
-	const r = await Querier.select(entityName, {
-		fields: options?.fields,
-		limit: options?.limit,
-		offset: options?.offset,
-		orderBy: options?.orderBy,
-		where: buildWhere(options?.where),
-	});
+const count = (entityName: string, options?: CountOptions): Promise<number> =>
+	db.count(entityName, options?.where, SCHEMA) as unknown as Promise<number>;
 
-	return r;
+const insert = (entityName: string, object: Record<string, any>): Promise<string | number> =>
+	db.insert(entityName, object) as any;
+
+const update = (
+	entityName: string,
+	object: Record<string, any>,
+	entityConfig: TableConfig,
+	options?: UpdateOptions,
+): Promise<boolean> => {
+	db.update(entityName, object, entityConfig, options);
+	return Promise.resolve(true);
 };
-
-const count = async (entityName: string, options?: CountOptions): Promise<number> => {
-	const r = await Querier.selectAggregation<{ count: number }>(`${entityName}`, {
-		fields: ['count'],
-		where: buildWhere(options?.where),
-	});
-
-	return r.count;
-};
-
+/*
 const insert = async (
 	entityName: string,
 	object: Record<string, any>,
@@ -89,7 +93,8 @@ const insert = async (
 	const r = await Querier.insert<{ id: string | number }>(entityName, objectWithRelations(object, entityConfig));
 	return r[0].id;
 };
-
+*/
+/*
 const update = async (
 	entityName: string,
 	object: Record<string, any>,
@@ -99,14 +104,14 @@ const update = async (
 	await Querier.update(entityName, objectWithRelations(object, entityConfig), { where: buildWhere(options?.where) });
 	return true;
 };
-
+*/
 const RENDERS: Renders = {
-	_global: {
-		table: {
-			createdAt: ({ value }: any) => <div>{`Date: ${value}`}</div>,
-			created: ({ value }: any) => <div>{`Date: ${value}`}</div>,
-		},
-	},
+	// _global: {
+	// table: {
+	// 	createdAt: ({ value }: any) => <div>{`Date: ${value}`}</div>,
+	// 	created: ({ value }: any) => <div>{`Date: ${value}`}</div>,
+	// },
+	// },
 	state: {
 		table: {
 			alpha2code: ({ value }: any) => (
@@ -138,9 +143,9 @@ const RENDERS: Renders = {
 };
 
 const TABLE_CONFIG: ReactAdminerTableConfig = {
-	_global: {
-		defaultSort: { created: 'desc' },
-	},
+	// _global: {
+	// defaultSort: { created: 'desc' },
+	// },
 };
 
 const EditPage: React.FC = () => {
@@ -169,7 +174,7 @@ const EditPage: React.FC = () => {
 };
 
 const EntitySelection = (): any => {
-	const [entityName, setEntityName] = useState<any>('raUser');
+	const [entityName, setEntityName] = useState<any>('car');
 	return (
 		<>
 			<select
@@ -177,20 +182,20 @@ const EntitySelection = (): any => {
 					setEntityName(v.target.value);
 				}}
 			>
-				<option value="state">state</option>
-				<option value="raUser">raUser</option>
-				<option value="raAdvertisement">raAdvertisement</option>
-				<option value="raImage">raImage</option>
+				<option value="car">car</option>
+				<option value="user">user</option>
 			</select>
 
-			<input
+			{/* <input
 				defaultValue={entityName}
 				onChange={v => {
 					setEntityName(v.target.value);
 				}}
-			/>
-			<List entityName={entityName} />
-			<FavoriteList entityName={entityName} />
+			/> */}
+			<div key={entityName}>
+				<List entityName={entityName} />
+				<FavoriteList entityName={entityName} />
+			</div>
 		</>
 	);
 };
