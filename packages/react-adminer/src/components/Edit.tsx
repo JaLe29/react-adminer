@@ -2,6 +2,7 @@ import { Spin, Button, Divider, notification, Alert } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types';
 import { EyeOutlined } from '@ant-design/icons';
+import moment from 'moment';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
 import {
@@ -181,12 +182,12 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const hasChanges = Object.keys(getPayload()).length >= (targetPrimitiveFields.length === 0 ? 0 : 1);
 	const Link = router?.components.Link;
 
-	// const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
-	// 	if (state[f.name] && editable && DATE_FORMATS[f.type]) {
-	// 		return moment().format(DATE_FORMATS[f.type]);
-	// 	}
-	// 	return null;
-	// };
+	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
+		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
+			return moment().format(DATE_FORMATS[f.type]);
+		}
+		return null;
+	};
 
 	return (
 		<>
