@@ -6,3 +6,4 @@ kube
 **/node_modules/*
 .secret/**
 .yarn/cache
+.yarn/install-state.gz
