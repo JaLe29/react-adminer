@@ -61,7 +61,7 @@ content.main = './dist/index.js';
 content.module = './dist/esm/index.js';
 content.types = './dist/types/index.d.ts';
 
-fs.writeFileSync(fullPath, JSON.stringify(content, null, 2));
+fs.writeFileSync(fullPath, `${JSON.stringify(content, null, 2)}\n`);
 
 const revertPackageContent = (): void => {
 	fs.writeFileSync(fullPath, JSON.stringify(originalContent, null, 2));
