@@ -1,4 +1,4 @@
-import { Spin, Button, Divider, notification, Alert } from 'antd';
+import { Spin, Button, notification, Alert, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types';
 import { EyeOutlined } from '@ant-design/icons';
@@ -56,7 +56,6 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);
-	const virtualFields = getVirtualFields(fields);
 	// console.log({ firstLevelFieldsRelationsFields });
 	const {
 		data: d,
@@ -186,7 +185,24 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
 			return moment().format(DATE_FORMATS[f.type]);
 		}
+
 		return null;
+	};
+
+	const sectionFields = (inputFields: PrimitiveField[], selectedSection?: string): PrimitiveField[] => {
+		const selectedFields: PrimitiveField[] = inputFields.filter(
+			(f: PrimitiveField & { editable?: boolean; section?: string }) => {
+				if (selectedSection) {
+					if (f.section !== selectedSection) {
+						return undefined;
+					}
+				} else if (f.section) {
+					return undefined;
+				}
+				return f;
+			},
+		);
+		return selectedFields;
 	};
 
 	return (
@@ -197,32 +213,30 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						<Alert message="You are creating new entity" type="info" showIcon />
 					</Box>
 				)}
-				<SectionBox
-					primitiveFields={primitiveFields}
-					isNewForm={isNewForm}
-					onChange={onChange}
-					getValidDateValue={getValidDateValue}
-					state={state}
-					selectedSection="primarySection"
-				/>
-				<Divider />
-				<SectionBox
-					primitiveFields={primitiveFields}
-					isNewForm={isNewForm}
-					onChange={onChange}
-					getValidDateValue={getValidDateValue}
-					state={state}
-					selectedSection="secondarySection"
-				/>
-				<Divider />
-				<SectionBox
-					primitiveFields={primitiveFields}
-					isNewForm={isNewForm}
-					onChange={onChange}
-					getValidDateValue={getValidDateValue}
-					state={state}
-				/>
-				<Divider />
+				<Space direction="vertical" size="large" style={{ display: 'flex' }}>
+					<SectionBox
+						fields={sectionFields(primitiveFields, 'primarySection')}
+						isNewForm={isNewForm}
+						onChange={onChange}
+						getValidDateValue={getValidDateValue}
+						state={state}
+					/>
+					<SectionBox
+						fields={sectionFields(primitiveFields, 'secondarySection')}
+						isNewForm={isNewForm}
+						onChange={onChange}
+						getValidDateValue={getValidDateValue}
+						state={state}
+					/>
+					<SectionBox
+						fields={sectionFields(primitiveFields)}
+						isNewForm={isNewForm}
+						onChange={onChange}
+						getValidDateValue={getValidDateValue}
+						state={state}
+					/>
+				</Space>
+
 				{relations.map(f => (
 					<WithCol key={f.name}>
 						{withTitle(

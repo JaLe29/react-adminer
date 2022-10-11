@@ -1,7 +1,6 @@
-import { Row } from 'antd';
+import { Card, Row } from 'antd';
 import type { Field, PrimitiveField } from 'types';
 import { isCreatable, isVirtualFieldType } from '../utils/config';
-import Box from './Box';
 import DatePicker from './DatePicker';
 import DateTimePicker from './DateTimePicker';
 import BooleanSwitch from './EditPageComponents/BooleanSwitch';
@@ -11,39 +10,19 @@ import { WithCol, withTitle } from './EditPageHelpers';
 import Placeholder from './Placeholder';
 
 interface Props {
-	primitiveFields: PrimitiveField[];
+	fields: PrimitiveField[];
 	isNewForm: boolean;
 	onChange: (field: Field, value: any) => void;
 	getValidDateValue: (f: Field, editable: boolean | undefined) => string | null;
 	state: any;
-	selectedSection?: string;
 }
 
-const SectionBox: React.FC<Props> = ({
-	primitiveFields,
-	isNewForm,
-	onChange,
-	getValidDateValue,
-	state,
-	selectedSection,
-}) => (
-	<Box>
-		<h2>
-			{'Section: '}
-			{selectedSection || 'Other'}
-		</h2>
+const SectionBox: React.FC<Props> = ({ fields: sectionFields, isNewForm, onChange, getValidDateValue, state }) => (
+	<Card>
 		<Row gutter={[12, 12]}>
-			{primitiveFields.map((f: PrimitiveField & { editable?: boolean; section?: string }) => {
+			{sectionFields.map((f: PrimitiveField & { editable?: boolean; section?: string }) => {
 				const canCreate = !(isNewForm && !isCreatable(f));
 				const isDisabled = f.editable === false;
-				if (selectedSection) {
-					if (f.section !== selectedSection) {
-						return null;
-					}
-				} else if (f.section) {
-					return null;
-				}
-
 				if (isVirtualFieldType(f) || !canCreate) {
 					return null;
 				}
@@ -150,7 +129,7 @@ const SectionBox: React.FC<Props> = ({
 				);
 			})}
 		</Row>
-	</Box>
+	</Card>
 );
 
 export default SectionBox;
