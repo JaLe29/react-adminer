@@ -8,9 +8,10 @@ import { withTitle, WithCol } from './EditPageHelpers';
 import {
 	getPrimitiveFields,
 	getRelationFields,
-	getVirtualFields,
 	isCreatable,
 	isVirtualFieldType,
+	getSectionFields,
+	getAllSections,
 } from '../utils/config';
 import Box from './Box';
 import { slowMe } from '../utils/promise';
@@ -185,24 +186,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
 			return moment().format(DATE_FORMATS[f.type]);
 		}
-
 		return null;
-	};
-
-	const sectionFields = (inputFields: PrimitiveField[], selectedSection?: string): PrimitiveField[] => {
-		const selectedFields: PrimitiveField[] = inputFields.filter(
-			(f: PrimitiveField & { editable?: boolean; section?: string }) => {
-				if (selectedSection) {
-					if (f.section !== selectedSection) {
-						return undefined;
-					}
-				} else if (f.section) {
-					return undefined;
-				}
-				return f;
-			},
-		);
-		return selectedFields;
 	};
 
 	return (
@@ -214,29 +198,17 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					</Box>
 				)}
 				<Space direction="vertical" size="large" style={{ display: 'flex' }}>
-					<SectionBox
-						fields={sectionFields(primitiveFields, 'primarySection')}
-						isNewForm={isNewForm}
-						onChange={onChange}
-						getValidDateValue={getValidDateValue}
-						state={state}
-					/>
-					<SectionBox
-						fields={sectionFields(primitiveFields, 'secondarySection')}
-						isNewForm={isNewForm}
-						onChange={onChange}
-						getValidDateValue={getValidDateValue}
-						state={state}
-					/>
-					<SectionBox
-						fields={sectionFields(primitiveFields)}
-						isNewForm={isNewForm}
-						onChange={onChange}
-						getValidDateValue={getValidDateValue}
-						state={state}
-					/>
+					{getAllSections(primitiveFields)?.map((section: string | undefined) => (
+						<SectionBox
+							fields={getSectionFields(primitiveFields, section)}
+							isNewForm={isNewForm}
+							onChange={onChange}
+							getValidDateValue={getValidDateValue}
+							state={state}
+							key={section}
+						/>
+					))}
 				</Space>
-
 				{relations.map(f => (
 					<WithCol key={f.name}>
 						{withTitle(
