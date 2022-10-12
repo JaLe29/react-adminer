@@ -1,4 +1,4 @@
-import { Spin, Button, Divider, notification, Alert } from 'antd';
+import { Spin, Button, notification, Alert, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types';
 import { EyeOutlined } from '@ant-design/icons';
@@ -8,9 +8,10 @@ import { withTitle, WithCol } from './EditPageHelpers';
 import {
 	getPrimitiveFields,
 	getRelationFields,
-	getVirtualFields,
 	isCreatable,
 	isVirtualFieldType,
+	getSectionFields,
+	getAllSections,
 } from '../utils/config';
 import Box from './Box';
 import { slowMe } from '../utils/promise';
@@ -56,7 +57,6 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);
-	const virtualFields = getVirtualFields(fields);
 	// console.log({ firstLevelFieldsRelationsFields });
 	const {
 		data: d,
@@ -197,32 +197,18 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						<Alert message="You are creating new entity" type="info" showIcon />
 					</Box>
 				)}
-				<SectionBox
-					primitiveFields={primitiveFields}
-					isNewForm={isNewForm}
-					onChange={onChange}
-					getValidDateValue={getValidDateValue}
-					state={state}
-					selectedSection="primarySection"
-				/>
-				<Divider />
-				<SectionBox
-					primitiveFields={primitiveFields}
-					isNewForm={isNewForm}
-					onChange={onChange}
-					getValidDateValue={getValidDateValue}
-					state={state}
-					selectedSection="secondarySection"
-				/>
-				<Divider />
-				<SectionBox
-					primitiveFields={primitiveFields}
-					isNewForm={isNewForm}
-					onChange={onChange}
-					getValidDateValue={getValidDateValue}
-					state={state}
-				/>
-				<Divider />
+				<Space direction="vertical" size="large" style={{ display: 'flex' }}>
+					{getAllSections(primitiveFields)?.map((section: string | undefined) => (
+						<SectionBox
+							fields={getSectionFields(primitiveFields, section)}
+							isNewForm={isNewForm}
+							onChange={onChange}
+							getValidDateValue={getValidDateValue}
+							state={state}
+							key={section ?? 'emptySection'}
+						/>
+					))}
+				</Space>
 				{relations.map(f => (
 					<WithCol key={f.name}>
 						{withTitle(

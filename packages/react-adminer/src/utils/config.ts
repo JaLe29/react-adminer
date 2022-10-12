@@ -47,4 +47,27 @@ export const jsonDeserializeParse = (v?: string): Sort => {
 	}
 };
 
+export const getSectionFields = (inputFields: PrimitiveField[], selectedSection?: string): PrimitiveField[] => {
+	const selectedFields: PrimitiveField[] = inputFields.filter(
+		(f: PrimitiveField & { editable?: boolean; section?: string }) => {
+			if (selectedSection) {
+				if (f.section !== selectedSection) {
+					return undefined;
+				}
+			} else if (f.section) {
+				return undefined;
+			}
+			return f;
+		},
+	);
+	return selectedFields;
+};
+
+export const getAllSections = (primitiveFields: PrimitiveField[]): Array<string | undefined> => {
+	const getSections = primitiveFields.map(
+		(f: PrimitiveField & { editable?: boolean; section?: string }) => f.section,
+	);
+	return [...new Set(getSections)];
+};
+
 export const jsonSerializeParse = (v: string): string => JSON.stringify(v);

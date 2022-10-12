@@ -5,7 +5,7 @@ import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 
 import { ReloadOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
-import type { Sort, TableConfig, TableField } from '../types';
+import type { TableConfig, TableField } from '../types';
 import useStateParams from '../hooks/useStateParams';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import Pagination from './Pagination';
