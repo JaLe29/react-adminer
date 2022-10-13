@@ -7060,7 +7060,7 @@ __metadata:
     moment: ^2.29.4
     rimraf: ^3.0.2
     typescript: ~4.7.4
-    vite: ^3.1.8
+    vite: ^3.1.4
   peerDependencies:
     "@ant-design/icons": ">= 4.7.0"
     antd: ">= 4.21.0"
@@ -8202,7 +8202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^3.1.8":
+"vite@npm:^3.1.4":
   version: 3.1.8
   resolution: "vite@npm:3.1.8"
   dependencies:
