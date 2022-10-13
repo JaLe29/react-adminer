@@ -1,6 +1,5 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-console */
 import type { Schema, TableConfig, UpdateOptions } from 'react-adminer';
+import { MOCK_CARS, MOCK_USERS } from './mock';
 
 export interface Options {
 	where?: Record<string, any>;
@@ -10,8 +9,31 @@ export interface Options {
 	orderBy?: Record<string, 'asc' | 'desc'>;
 }
 
-export class Db {
+export class Database {
+	static storageDbKey = 'react-adminer-demo-db';
 	database: any = {};
+
+	constructor() {
+		this.init();
+	}
+
+	init(): void {
+		try {
+			this.database = JSON.parse(localStorage.getItem(Database.storageDbKey) ?? 'error');
+			// eslint-disable-next-line no-console
+			console.log('Database loaded from file...');
+		} catch {
+			// eslint-disable-next-line no-console
+			console.log('Mocking database...');
+			MOCK_CARS.forEach(c => this.insert('car', c));
+			MOCK_USERS.forEach(c => this.insert('user', c));
+		}
+		window.onbeforeunload = () => {
+			if (Object.keys(this.database).length > 0) {
+				localStorage.setItem(Database.storageDbKey, JSON.stringify(this.database));
+			}
+		};
+	}
 
 	insert(entityName: string, data: any): void {
 		if (!this.database[entityName]) {
@@ -60,18 +82,6 @@ export class Db {
 			return v;
 		});
 
-		// const pureFields = fields?.filter(f => {
-		// 	const tmpParts = f.split('.');
-		// 	return tmpParts.length === 1;
-		// })
-
-		// if (pureFields) {
-		// 	toResponse = toResponse.map((loopObject: any): any =>
-		// 		pureFields.reduce((acc, v) => ({ ...acc, [v]: loopObject[v] }), {}),
-		// 	);
-		// 	return toResponse;
-		// }
-
 		if (orderBy) {
 			Object.keys(orderBy).forEach((keyOrderBy: string) => {
 				if (orderBy[keyOrderBy] === 'asc') {
@@ -114,6 +124,7 @@ export class Db {
 					),
 				];
 				if ((loopSchema as any).relation.type === 'one') {
+					// eslint-disable-next-line prefer-destructuring
 					tmp[loopSchema?.name] = response[0];
 				} else {
 					tmp[loopSchema?.name] = response;
@@ -169,10 +180,5 @@ export class Db {
 			});
 		});
 		return this.objectWithRelations(object, entityConfig);
-	}
-
-	print(): void {
-		// eslint-disable-next-line no-console
-		console.log(JSON.stringify(this.database, null, 2));
 	}
 }

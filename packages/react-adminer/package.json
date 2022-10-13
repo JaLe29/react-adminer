@@ -31,11 +31,11 @@
     "@types/react-is": "^17.0.3",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^2.1.0",
-    "antd": "^4.23.3",
+    "antd": "^4.23.5",
     "eslint": "^8.21.0",
     "rimraf": "^3.0.2",
     "typescript": "~4.7.4",
-    "vite": "^3.1.4"
+    "vite": "^3.1.8"
   },
   "peerDependencies": {
     "@ant-design/icons": ">= 4.7.0",
