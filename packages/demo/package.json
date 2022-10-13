@@ -3,7 +3,6 @@
 	"version": "1.0.0",
 	"license": "MIT",
 	"dependencies": {
-		"@apengine/querier": "^0.2.43",
 		"react": "^18.2.0",
 		"react-adminer": "workspace:*",
 		"react-dom": "^18.2.0",
