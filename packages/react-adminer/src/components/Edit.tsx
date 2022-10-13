@@ -1,6 +1,6 @@
 import { Spin, Button, notification, Alert, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import type { Field, PrimitiveField, TableConfig } from 'types';
+import type { Field, PrimitiveField, TableConfig } from 'types/types';
 import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useSelect } from '../hooks/useSelect';
@@ -33,7 +33,7 @@ const DATE_FORMATS: Record<string, string | undefined> = {
 };
 
 const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
-	const { config: appConfig, renders } = useReactAdminerContext();
+	const { config: appConfig } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const { router } = useReactAdminerContext();
@@ -58,11 +58,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	});
 	const primitiveFields = getPrimitiveFields(fields);
 	// console.log({ firstLevelFieldsRelationsFields });
-	const {
-		data: d,
-		loading,
-		refetch,
-	} = useSelect<any>(
+	const { data: d, loading } = useSelect<any>(
 		entityName,
 		{
 			offset: 0,

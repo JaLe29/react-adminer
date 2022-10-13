@@ -2,7 +2,7 @@ import { Button, Col, Collapse, Form, Input, Row, Space } from 'antd';
 import { useEffect } from 'react';
 import { jsonDeserializeParse, jsonSerializeParse } from '../utils/config';
 import useStateParams from '../hooks/useStateParams';
-import type { TableConfig, TableFilterObj } from '../types';
+import type { TableConfig, TableFilterObj } from '../types/types';
 import AddToFavoriteButton from './AddToFavoriteButton';
 import Box from './Box';
 import LineSpaceBetween from './LineSpaceBetween';

@@ -5,7 +5,7 @@ import ReactIs from 'react-is';
 import { useEntityConfig } from '../hooks/useEntityConfig';
 import { isPrimitiveFieldType } from '../utils/config';
 import { useSelect } from '../hooks/useSelect';
-import type { RelationType } from '../types';
+import type { RelationType } from '../types/types';
 import Box from './Box';
 
 const { Option } = Select;

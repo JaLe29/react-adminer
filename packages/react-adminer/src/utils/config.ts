@@ -1,4 +1,4 @@
-import type { Field, PrimitiveField, RelationField, Sort, TableConfig } from '../types';
+import type { Field, PrimitiveField, RelationField, Sort, TableConfig } from '../types/types';
 import { PRIMITIVE_FIELDS } from '../config';
 
 export const isCreatable = (f: Field): boolean =>

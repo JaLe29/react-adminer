@@ -1,5 +1,3 @@
-import type { CountOptions, SelectOptions, UpdateOptions } from 'types/data-provider';
-
 export type EntityName = string;
 
 export type EntityPropertyName = string;
@@ -98,3 +96,19 @@ export type Renders = Record<
 	EntityName | EntityGlobalName,
 	Partial<Record<'table' | 'form', Record<EntityPropertyName, React.FC<CustomRenderParamsType>>>>
 >;
+
+export interface SelectOptions {
+	fields?: string[];
+	orderBy?: Record<string, 'asc' | 'desc'>;
+	limit?: number;
+	offset?: number;
+	where?: Record<string, any>;
+}
+
+export interface CountOptions {
+	where?: Record<string, any>;
+}
+
+export interface UpdateOptions {
+	where?: Record<string, any>;
+}

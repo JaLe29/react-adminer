@@ -57,7 +57,7 @@ versionIncrement();
 
 delete content.exports;
 
-content.main = './dist/index.js';
+content.main = './dist/cjs/index.js';
 content.module = './dist/esm/index.js';
 content.types = './dist/types/index.d.ts';
 

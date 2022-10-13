@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Button, Input, notification, Space } from 'antd';
-import type { TableConfig } from 'types';
+import type { TableConfig } from 'types/types';
 import useClickOutside from '../hooks/useClickOutside';
 import { fixFormat, getFieldByName } from '../utils/config';
 import { useDataProvider } from '../hooks/useDataProvider';

@@ -1,5 +1,5 @@
 import { getSchema } from '../components/helpers';
-import type { TableConfig } from '../types';
+import type { TableConfig } from '../types/types';
 import { useReactAdminerContext } from './useReactAdminerContext';
 
 interface Props {
