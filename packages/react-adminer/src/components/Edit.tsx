@@ -202,6 +202,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 							getValidDateValue={getValidDateValue}
 							state={state}
 							key={section ?? 'emptySection'}
+							name={section}
 						/>
 					))}
 				</Space>
