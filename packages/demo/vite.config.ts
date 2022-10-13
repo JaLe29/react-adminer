@@ -22,7 +22,7 @@ export default (): any => ({
 			interfaces: resolve(SRC_DIR, 'interfaces'),
 			layouts: resolve(SRC_DIR, 'layouts'),
 			theme: resolve(SRC_DIR, 'theme'),
-			types: resolve(SRC_DIR, 'types'),
+			types: resolve(SRC_DIR, 'types/types'),
 			utils: resolve(SRC_DIR, 'utils'),
 			pages: resolve(SRC_DIR, 'pages'),
 		},

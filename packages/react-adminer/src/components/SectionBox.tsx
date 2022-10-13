@@ -1,5 +1,5 @@
 import { Card, Row } from 'antd';
-import type { Field, PrimitiveField } from 'types';
+import type { Field, PrimitiveField } from 'types/types';
 import { isCreatable, isVirtualFieldType } from '../utils/config';
 import DatePicker from './DatePicker';
 import DateTimePicker from './DateTimePicker';

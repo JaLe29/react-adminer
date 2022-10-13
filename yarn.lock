@@ -1467,15 +1467,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.4.2":
-  version: 14.4.3
-  resolution: "@testing-library/user-event@npm:14.4.3"
-  peerDependencies:
-    "@testing-library/dom": ">=7.21.4"
-  checksum: 852c48ea6db1c9471b18276617c84fec4320771e466cd58339a732ca3fd73ad35e5a43ae14f51af51a8d0a150dcf60fcaab049ef367871207bea8f92c4b8195e
-  languageName: node
-  linkType: hard
-
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -2194,16 +2185,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"antd@npm:^4.23.3":
-  version: 4.23.3
-  resolution: "antd@npm:4.23.3"
+"antd@npm:^4.23.5":
+  version: 4.23.5
+  resolution: "antd@npm:4.23.5"
   dependencies:
     "@ant-design/colors": ^6.0.0
     "@ant-design/icons": ^4.7.0
     "@ant-design/react-slick": ~0.29.1
     "@babel/runtime": ^7.18.3
     "@ctrl/tinycolor": ^3.4.0
-    "@testing-library/user-event": ^14.4.2
     classnames: ^2.2.6
     copy-to-clipboard: ^3.2.0
     lodash: ^4.17.21
@@ -2219,7 +2209,7 @@ __metadata:
     rc-image: ~5.7.0
     rc-input: ~0.1.2
     rc-input-number: ~7.3.9
-    rc-mentions: ~1.9.1
+    rc-mentions: ~1.10.0
     rc-menu: ~9.6.3
     rc-motion: ^2.6.1
     rc-notification: ~4.6.0
@@ -2235,7 +2225,7 @@ __metadata:
     rc-switch: ~3.2.0
     rc-table: ~7.26.0
     rc-tabs: ~12.1.0-alpha.1
-    rc-textarea: ~0.3.0
+    rc-textarea: ~0.4.3
     rc-tooltip: ~5.2.0
     rc-tree: ~5.7.0
     rc-tree-select: ~5.5.0
@@ -2246,7 +2236,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: e6cc635c54f9cf3736572a2242c7ee0105bab06577c3898e2358c3b3d50b37e853e0e8df327af1a2c6f2db52e1323175307b41a01797480cb18431fc4b9c0877
+  checksum: 07ce3e12bb4e7da9a0e859702d80d511adee59c87d4f4bd83fc9f0832e0831f26dedf3ce6b9776353079df77032c18df09f20838d2b6f3609b5d1f6d78398300
   languageName: node
   linkType: hard
 
@@ -6361,20 +6351,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-mentions@npm:~1.9.1":
-  version: 1.9.1
-  resolution: "rc-mentions@npm:1.9.1"
+"rc-mentions@npm:~1.10.0":
+  version: 1.10.0
+  resolution: "rc-mentions@npm:1.10.0"
   dependencies:
     "@babel/runtime": ^7.10.1
     classnames: ^2.2.6
     rc-menu: ~9.6.0
-    rc-textarea: ^0.3.0
+    rc-textarea: ^0.4.0
     rc-trigger: ^5.0.4
     rc-util: ^5.22.5
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 348088f54382d7938e7e9847e9055d6ab9519af30d9a4114d70686e29be6aed85945a0a38614571724d1bcb3de56f3c4f530e0edd8f7be95e0aba792c7750ef2
+  checksum: 0464c5132ceceaec048d2fba63c654ecbc7f17284543bfb7c9582b3f0ebd034fbb1ace228bb0698d5beeac0b068da6ed4b9668b67c51f5ce5274307a38fe42e0
   languageName: node
   linkType: hard
 
@@ -6675,9 +6665,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-textarea@npm:^0.3.0, rc-textarea@npm:~0.3.0":
-  version: 0.3.7
-  resolution: "rc-textarea@npm:0.3.7"
+"rc-textarea@npm:^0.4.0, rc-textarea@npm:~0.4.3":
+  version: 0.4.5
+  resolution: "rc-textarea@npm:0.4.5"
   dependencies:
     "@babel/runtime": ^7.10.1
     classnames: ^2.2.1
@@ -6687,7 +6677,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 1a588f2b2b86c74127ebc114401b30b6f3627d0eca7cd9fef7966ad497ddf0534b2ec2405e43f02e20c1e0f20f2af976419a88eb20b0c645f65d05a555bdf676
+  checksum: 029bb4102b14c9ab27f05b5104ecbaa7ee9fbf2616e506be050e882d04b8d0d159da70c93a30c5724241305ba487f64a22f3cda8bb57b439a201cf3d38a46411
   languageName: node
   linkType: hard
 
@@ -6834,7 +6824,7 @@ __metadata:
     "@types/react-is": ^17.0.3
     "@types/react-router-dom": ^5.3.3
     "@vitejs/plugin-react": ^2.1.0
-    antd: ^4.23.3
+    antd: ^4.23.5
     eslint: ^8.21.0
     moment: ^2.29.4
     rimraf: ^3.0.2

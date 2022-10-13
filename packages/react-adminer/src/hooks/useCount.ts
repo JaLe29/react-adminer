@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { CountOptions } from '../types/data-provider';
+import type { CountOptions } from '../types/types';
 import { useDataProvider } from './useDataProvider';
 
 export const useCount = (

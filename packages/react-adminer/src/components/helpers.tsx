@@ -1,5 +1,5 @@
 import { set } from '../utils/object';
-import type { Field, Renders, TableConfig, TableField } from '../types';
+import type { Field, Renders, TableConfig, TableField } from '../types/types';
 import { BooleanRender } from './Renders/BooleanRender';
 
 const withBasicRender = (f: TableField[]): TableField[] =>

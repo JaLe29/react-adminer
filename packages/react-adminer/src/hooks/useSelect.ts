@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { SelectOptions } from '../types/data-provider';
+import type { SelectOptions } from '../types/types';
 import { useDataProvider } from './useDataProvider';
 
 export const useSelect = <T>(
