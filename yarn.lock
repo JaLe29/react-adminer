@@ -2199,7 +2199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"antd@npm:^4.23.5":
+"antd@npm:^4.23.3":
   version: 4.23.5
   resolution: "antd@npm:4.23.5"
   dependencies:
@@ -7055,7 +7055,7 @@ __metadata:
     "@types/react-is": ^17.0.3
     "@types/react-router-dom": ^5.3.3
     "@vitejs/plugin-react": ^2.1.0
-    antd: ^4.23.5
+    antd: ^4.23.3
     eslint: ^8.21.0
     moment: ^2.29.4
     rimraf: ^3.0.2
