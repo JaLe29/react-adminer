@@ -15,12 +15,14 @@ export const SCHEMA: Schema = {
 			},
 			{
 				name: 'make',
+				label: 'MAKE',
 				nullable: false,
 				type: 'string',
 				sortable: true,
 				creatable: true,
 				editable: true,
 				section: 'secondarySection',
+				helper: 'Výrobce vozu',
 			},
 			{
 				name: 'model',
@@ -29,6 +31,7 @@ export const SCHEMA: Schema = {
 				sortable: true,
 				creatable: true,
 				editable: true,
+				helper: 'Model vozu',
 			},
 			{
 				name: 'year',
@@ -38,14 +41,17 @@ export const SCHEMA: Schema = {
 				creatable: true,
 				editable: true,
 				section: 'primarySection',
+				helper: 'Rok výroby vozu',
 			},
 			{
 				name: 'color',
+				label: 'COLOR',
 				nullable: false,
 				type: 'string',
 				sortable: true,
 				creatable: true,
 				editable: true,
+				helper: 'Barva laku vozu',
 			},
 			{
 				name: 'userId',

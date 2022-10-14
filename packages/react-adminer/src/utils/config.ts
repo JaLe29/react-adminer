@@ -1,4 +1,4 @@
-import type { Field, PrimitiveField, RelationField, Sort, TableConfig } from '../types/types';
+import type { Field, PrimitiveField, RelationField, Sort, TableConfig, TableField } from '../types/types';
 import { PRIMITIVE_FIELDS } from '../config';
 
 export const isCreatable = (f: Field): boolean =>
@@ -69,5 +69,7 @@ export const getAllSections = (primitiveFields: PrimitiveField[]): Array<string 
 	);
 	return [...new Set(getSections)];
 };
+
+export const getColumnTitle = (f: TableField): string => (f.label ? f.label : f.name);
 
 export const jsonSerializeParse = (v: string): string => JSON.stringify(v);

@@ -24,6 +24,7 @@ export type TableField = Field & {
 	render?: TableRowCustomRender;
 	virtual?: boolean;
 	section?: string;
+	helper?: string;
 };
 
 export interface PrimitiveField {
