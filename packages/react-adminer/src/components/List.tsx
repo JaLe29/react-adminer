@@ -18,12 +18,14 @@ import {
 	hasEntityField,
 	jsonDeserializeParse,
 	jsonSerializeParse,
+	getColumnTitle,
 } from '../utils/config';
 import { useCount } from '../hooks/useCount';
 import { NEW_KEY } from '../const';
 import CellEditInput from './CellEditInput';
 import Highlighted from './Highlight';
 import LineSpaceBetween from './LineSpaceBetween';
+import HelperIcon from './HelperIcon';
 
 const getHighlighted = (value: any, field: TableField, where: Record<string, any> | undefined): any => {
 	if (!where?.[field.name]) {
@@ -145,7 +147,10 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 			name: f.label ?? f.name,
 			title: (
 				<Box display="flex" justifyContent="space-between">
-					<Box>{f.label ?? f.name}</Box>
+					<Box>
+						{getColumnTitle(f)}
+						<sup>{f.helper && <HelperIcon helpText={f.helper} />}</sup>
+					</Box>
 					{f.sortable && (
 						<Box>
 							<Space>
