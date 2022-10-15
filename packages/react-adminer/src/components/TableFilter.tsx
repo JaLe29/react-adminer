@@ -99,8 +99,10 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entity
 					<Row gutter={16}>
 						{onlyStringConfigs.map(c => (
 							<Col key={c.name} span={12}>
-								{/* <Form.Item name={c.name} label={capitalCase(c.name)}> */}
-								<Form.Item name={c.name} label={c.name}>
+								<h2>
+									<Form.Item name={c.name} label={c.name} style={{ height: '0px' }} />
+								</h2>
+								<Form.Item>
 									<c.component />
 								</Form.Item>
 							</Col>
