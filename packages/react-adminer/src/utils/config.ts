@@ -1,12 +1,4 @@
-import type {
-	Field,
-	PrimitiveField,
-	RelationField,
-	Sort,
-	TableConfig,
-	TableField,
-	TableFilterObj,
-} from '../types/types';
+import type { Field, PrimitiveField, RelationField, Sort, TableConfig, TableField } from '../types/types';
 import { PRIMITIVE_FIELDS } from '../config';
 
 export const isCreatable = (f: Field): boolean =>
@@ -80,12 +72,12 @@ export const getAllSections = (primitiveFields: PrimitiveField[]): Array<string 
 
 export const getColumnTitle = (f: TableField): string => (f.label ? f.label : f.name);
 
-export const getTitleOfComponent = (fields: TableField[], component: TableFilterObj): string => {
-	const field = fields.find(f => f.name === component.name);
+export const getField = (fields: TableField[], name: string): TableField => {
+	const field = fields.find(f => f.name === name);
 	if (!field) {
-		throw new Error('');
+		throw new Error('Field not found');
 	} else {
-		return getColumnTitle(field);
+		return field;
 	}
 };
 
