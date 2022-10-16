@@ -1,4 +1,12 @@
-import type { Field, PrimitiveField, RelationField, Sort, TableConfig, TableField } from '../types/types';
+import type {
+	Field,
+	PrimitiveField,
+	RelationField,
+	Sort,
+	TableConfig,
+	TableField,
+	TableFilterObj,
+} from '../types/types';
 import { PRIMITIVE_FIELDS } from '../config';
 
 export const isCreatable = (f: Field): boolean =>
@@ -71,5 +79,14 @@ export const getAllSections = (primitiveFields: PrimitiveField[]): Array<string 
 };
 
 export const getColumnTitle = (f: TableField): string => (f.label ? f.label : f.name);
+
+export const getTitleOfComponent = (fields: TableField[], component: TableFilterObj): string => {
+	const field = fields.find(f => f.name === component.name);
+	if (!field) {
+		throw new Error('');
+	} else {
+		return getColumnTitle(field);
+	}
+};
 
 export const jsonSerializeParse = (v: string): string => JSON.stringify(v);
