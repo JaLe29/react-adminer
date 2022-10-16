@@ -76,6 +76,14 @@ export const SCHEMA: Schema = {
 				render: EditButton,
 				virtual: true,
 			},
+			{
+				name: 'test',
+				type: 'virtual',
+				render: () => 'ddddddd',
+				virtual: true,
+				hideInForm: false,
+				hideInTable: true,
+			},
 		],
 	},
 	user: {

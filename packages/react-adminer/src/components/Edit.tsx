@@ -1,4 +1,4 @@
-import { Spin, Button, notification, Alert, Space } from 'antd';
+import { Spin, Button, notification, Alert, Space, Divider } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types/types';
 import { EyeOutlined } from '@ant-design/icons';
@@ -12,6 +12,7 @@ import {
 	isVirtualFieldType,
 	getSectionFields,
 	getAllSections,
+	getVirtualFields,
 } from '../utils/config';
 import Box from './Box';
 import { slowMe } from '../utils/promise';
@@ -33,6 +34,7 @@ const DATE_FORMATS: Record<string, string | undefined> = {
 };
 
 const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
+	const { renders } = useReactAdminerContext();
 	const { config: appConfig } = useReactAdminerContext();
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
@@ -57,8 +59,14 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		return primitiveFields.map(pf => `${r.name}.${pf.name}`);
 	});
 	const primitiveFields = getPrimitiveFields(fields);
+	const virtualFields = getVirtualFields(fields);
+
 	// console.log({ firstLevelFieldsRelationsFields });
-	const { data: d, loading } = useSelect<any>(
+	const {
+		data: d,
+		loading,
+		refetch,
+	} = useSelect<any>(
 		entityName,
 		{
 			offset: 0,
@@ -227,6 +235,32 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 						)}
 					</WithCol>
 				))}
+				{virtualFields.length > 0 && <Divider />}
+				{virtualFields.map(f => {
+					if ((f as any).hideInForm === true || (f as any).hideInForm === undefined) {
+						return null;
+					}
+					const RenderConfig =
+						(f as any).render ?? renders?.[entityName]?.form?.[f.name] ?? renders?._global?.form?.[f.name];
+					return (
+						<WithCol key={f.name}>
+							{withTitle(
+								f.label ?? f.name,
+								true,
+								RenderConfig ? (
+									<RenderConfig
+										entity={entityName}
+										value="Value is not provided for virtual field"
+										object={state}
+										refetch={refetch}
+									/>
+								) : (
+									'Render config not found!'
+								),
+							)}
+						</WithCol>
+					);
+				})}
 				{isErrorNullable && (
 					<div>
 						<Alert
