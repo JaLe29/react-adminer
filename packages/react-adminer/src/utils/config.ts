@@ -20,8 +20,14 @@ export const getVirtualFields = (fields: Field[]): Field[] => fields.filter(f =>
 
 export const isVirtualFieldType = (f: PrimitiveField): boolean => f.type === 'virtual';
 
-export const getFieldByName = (config: TableConfig, name: string): Field | undefined =>
-	config.fields.find(f => f.name === name);
+export const getFieldByName = (config: TableConfig, name: string): Field => {
+	const field = config.fields.find(f => f.name === name);
+	if (!field) {
+		throw new Error('Field not found');
+	} else {
+		return field;
+	}
+};
 
 export const isRelationFieldType = (f: Field): f is RelationField => !!(f as any).relation;
 
@@ -31,7 +37,7 @@ export const fixFormat = (
 	propertyName: string,
 	payload: { [x: string]: any },
 ): any => {
-	if (getFieldByName(config, propertyName)?.type === 'number') {
+	if (getFieldByName(config, propertyName).type === 'number') {
 		const valueAsNumber: number = parseInt(value);
 		return { [propertyName]: valueAsNumber };
 	}
@@ -71,14 +77,5 @@ export const getAllSections = (primitiveFields: PrimitiveField[]): Array<string 
 };
 
 export const getColumnTitle = (f: TableField): string => (f.label ? f.label : f.name);
-
-export const getField = (fields: TableField[], name: string): TableField => {
-	const field = fields.find(f => f.name === name);
-	if (!field) {
-		throw new Error('Field not found');
-	} else {
-		return field;
-	}
-};
 
 export const jsonSerializeParse = (v: string): string => JSON.stringify(v);

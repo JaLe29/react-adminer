@@ -1,6 +1,6 @@
 import { Button, Col, Collapse, Form, Input, Row, Space } from 'antd';
 import { useEffect } from 'react';
-import { getColumnTitle, getField, jsonDeserializeParse, jsonSerializeParse } from '../utils/config';
+import { getColumnTitle, getFieldByName, jsonDeserializeParse, jsonSerializeParse } from '../utils/config';
 import useStateParams from '../hooks/useStateParams';
 import type { TableConfig, TableFilterObj } from '../types/types';
 import AddToFavoriteButton from './AddToFavoriteButton';
@@ -102,7 +102,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entity
 								<h2>
 									<Form.Item
 										name={c.name}
-										label={getColumnTitle(getField(config.fields, c.name))}
+										label={getColumnTitle(getFieldByName(config, c.name))}
 										style={{ height: '0px' }}
 									/>
 								</h2>
