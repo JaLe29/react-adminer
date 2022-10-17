@@ -62,7 +62,7 @@ const CellEditInput: React.FC<Props> = ({
 	return (
 		<div ref={ref}>
 			<Space>
-				{getFieldByName(config, propertyName)?.type === 'datetime' ? (
+				{getFieldByName(config, propertyName).type === 'datetime' ? (
 					<DateTimePicker
 						value={initValue}
 						onChange={v => {
