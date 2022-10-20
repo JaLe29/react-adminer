@@ -228,9 +228,15 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									}}
 									value={state[f.name]}
 								/>
-								<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${f.relation.entity}/${1}`}>
-									<Button icon={<EyeOutlined />} />
-								</Link>
+								{state[f.name] && !Array.isArray(state[f.name]) && (
+									<Link
+										to={`${paths?.editFormPath ?? '/entity/edit'}/${f.relation.entity}/${
+											state[f.name]?.id
+										}`}
+									>
+										<Button icon={<EyeOutlined />} />
+									</Link>
+								)}
 							</Box>,
 						)}
 					</WithCol>
