@@ -1,3 +1,4 @@
+import { ALLOWED_FILTER_TYPES } from '../config';
 import { set } from '../utils/object';
 import type { Field, Renders, TableConfig, TableField } from '../types/types';
 import { BooleanRender } from './Renders/BooleanRender';
@@ -26,6 +27,6 @@ export const getSchema = (entityName: string, entitySchema: any, renders?: Rende
 			}
 			return field;
 		}),
-		filter: tableFields.filter((ss: Field) => ss.type === 'string').map((f: Field) => f.name),
+		filter: tableFields.filter((ss: Field) => ALLOWED_FILTER_TYPES.includes(ss.type)).map((f: Field) => f.name),
 	};
 };
