@@ -15,6 +15,8 @@ import {
 	getSectionFields,
 	getAllSections,
 	getVirtualFields,
+	getFieldByName,
+	getColumnTitle,
 } from '../utils/config';
 import Box from './Box';
 import { slowMe } from '../utils/promise';
@@ -202,7 +204,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		const summaryChangedData: any[] = [];
 		changedKeys?.map((key: string) =>
 			summaryChangedData.push({
-				field: key,
+				field: getColumnTitle(getFieldByName(config, key)),
 				original: original[key],
 				changed: state[key],
 			}),
