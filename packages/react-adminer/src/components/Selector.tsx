@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable indent */
 import { Select } from 'antd';
 import React from 'react';

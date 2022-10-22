@@ -100,7 +100,6 @@ module.exports = {
 		'no-undef': 'off',
 		'no-underscore-dangle': 'off',
 		'no-unused-expressions': 'off',
-		'no-unused-vars': 'off',
 		'no-use-before-define': 'off',
 		'no-useless-constructor': 'off',
 		'object-curly-newline': 'off',

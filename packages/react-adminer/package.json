@@ -20,7 +20,7 @@
     "build": "tsc --build tsconfig.build.json",
     "build:dev": "yarn build:deps && tsc --build tsconfig.build.json",
     "clean": "rimraf dist && rimraf .cache && rimraf node_modules",
-    "lint": "eslint \"src/**/*.ts\"",
+    "lint": "eslint ./src --ext .ts,.tsx",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
   },
   "devDependencies": {

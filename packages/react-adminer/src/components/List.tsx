@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 import { useEffect, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactIs from 'react-is';
 import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
 import { ReloadOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
@@ -33,9 +34,6 @@ const getHighlighted = (value: any, field: TableField, where: Record<string, any
 		return value;
 	}
 	return <Highlighted text={value} highlight={where[field.name]} />;
-	// name
-	// console.log({ value, where: where[field.name], fieldName: field.name });
-	// return value.replace(new RegExp(where[field.name], 'i'), (match: any) => `<mark>${match}</mark>`);
 };
 
 interface Props {
@@ -45,7 +43,7 @@ interface Props {
 }
 
 const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true }) => {
-	const { paths, router } = useReactAdminerContext();
+	const { router } = useReactAdminerContext();
 	const { config: globalConfig } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const entityFields = config?.fields ?? [];
@@ -62,9 +60,6 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 		{
 			offset: page * pageSize,
 			limit: pageSize,
-			// fields: config?.fields
-			// 	.filter(c => isPrimitiveFieldType(c) && !c.virtual && c.hideInTable !== true)
-			// 	.map(c => c.name),
 			fields: entityFields
 				.filter(c => !c.virtual && c.hideInTable !== true)
 				.map(c => {

@@ -14,6 +14,7 @@ export type CustomRenderParamsType<T = any> = {
 	entity: string;
 	refetch: () => Promise<void | T[] | T>;
 };
+
 export type TableRowCustomRender = ({ value, object, entity, refetch }: CustomRenderParamsType) => any;
 
 export type TableFilter = string | TableFilterObj;

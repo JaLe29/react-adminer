@@ -9,7 +9,7 @@ interface Props {
 }
 
 const EditButton: React.FC<Props> = ({ entity, object: { id } }) => {
-	const { paths, router } = useReactAdminerContext();
+	const { router } = useReactAdminerContext();
 	const baseEditFormPath = useBaseEditFormPath();
 
 	const Link = router?.components.Link;

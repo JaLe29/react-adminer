@@ -37,7 +37,7 @@ const DATE_FORMATS: Record<string, string | undefined> = {
 const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const { renders } = useReactAdminerContext();
 	const { config: appConfig } = useReactAdminerContext();
-	const { paths, dataProvider } = useReactAdminerContext();
+	const { dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const { router } = useReactAdminerContext();
 	const baseEditFormPath = useBaseEditFormPath();
@@ -49,9 +49,6 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const [errorNullable, setErrorNullable] = useState<Record<string, boolean>>({});
 	const isNewForm = id === NEW_KEY;
 
-	// const targetEntityFields = config?.fields
-	// 	.filter(f => /*! isVirtualFieldType(f) && */ isPrimitiveFieldType(f))
-	// 	.map(f => f.name);
 	const fields = config?.fields ?? [];
 
 	const relations = getRelationFields(fields);
@@ -161,17 +158,8 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	}
 
 	if (!config) {
-		return <Box>neni config</Box>;
+		return <Box>Config error</Box>;
 	}
-
-	// if (error) {
-	// 	return (
-	// 		<Box>
-	// 			An error occured
-	// 			{JSON.stringify(error, null, 2)}
-	// 		</Box>
-	// 	);
-	// }
 
 	const targetPrimitiveFields = primitiveFields.filter((f: PrimitiveField & { editable?: boolean }) => {
 		const canCreate = !(isNewForm && !isCreatable(f));

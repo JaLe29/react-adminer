@@ -6,7 +6,7 @@ import { fixFormat, getFieldByName } from '../utils/config';
 import { useDataProvider } from '../hooks/useDataProvider';
 import { slowMe } from '../utils/promise';
 import useKeypress from '../hooks/useKeypress';
-import DateTimePicker from './DateTimePicker';
+import DateTimePicker from './EditPageComponents/DateTimePicker';
 
 interface Props {
 	value: any;
