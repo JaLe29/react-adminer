@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import ReactIs from 'react-is';
 import { Alert, Button, Divider, notification, Space, Table as TableAntd } from 'antd';
 import { ReloadOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons';
+import { useBaseEditFormPath } from '../hooks/useBaseEditFormPath';
 import { useSelect } from '../hooks/useSelect';
 import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import type { TableConfig, TableField } from '../types/types';
@@ -48,6 +49,7 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 	const { config: globalConfig } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const entityFields = config?.fields ?? [];
+	const baseEditFormPath = useBaseEditFormPath({ paths });
 
 	const [where, setWhere] = useState<Record<string, any> | undefined>();
 	const [sort, setSort] = useStateParams<any>(undefined, 's', jsonDeserializeParse, jsonSerializeParse);
@@ -222,7 +224,7 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 					<ReloadOutlined />
 				</Button>
 				<Button>
-					<Link to={`${paths?.editFormPath ?? '/entity/edit'}/${entityName}/${NEW_KEY}`}>
+					<Link to={`${baseEditFormPath}/${entityName}/${NEW_KEY}`}>
 						{'Create '}
 						{entityName}
 					</Link>
