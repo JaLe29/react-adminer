@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types/types';
 import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment';
-
 import { useBaseEditFormPath } from '../hooks/useBaseEditFormPath';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
@@ -41,7 +40,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const { paths, dataProvider } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const { router } = useReactAdminerContext();
-	const baseEditFormPath = useBaseEditFormPath({ paths });
+	const baseEditFormPath = useBaseEditFormPath();
 
 	const navigate = router?.functions?.useNavigate();
 	const [original, setOriginal] = useState<any>({});
@@ -232,11 +231,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 									value={state[f.name]}
 								/>
 								{state[f.name] && !Array.isArray(state[f.name]) && (
-									<Link
-										to={`${baseEditFormPath}/${f.relation.entity}/${
-											state[f.name]?.id
-										}`}
-									>
+									<Link to={`${baseEditFormPath}/${f.relation.entity}/${state[f.name]?.id}`}>
 										<Button icon={<EyeOutlined />} />
 									</Link>
 								)}

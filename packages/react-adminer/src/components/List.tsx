@@ -49,7 +49,7 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 	const { config: globalConfig } = useReactAdminerContext();
 	const config = useEntityConfig({ entityName, entityConfig });
 	const entityFields = config?.fields ?? [];
-	const baseEditFormPath = useBaseEditFormPath({ paths });
+	const baseEditFormPath = useBaseEditFormPath();
 
 	const [where, setWhere] = useState<Record<string, any> | undefined>();
 	const [sort, setSort] = useStateParams<any>(undefined, 's', jsonDeserializeParse, jsonSerializeParse);

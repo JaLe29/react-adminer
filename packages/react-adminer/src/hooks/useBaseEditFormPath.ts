@@ -1,5 +1,6 @@
-interface Props {
-	paths: { editFormPath?: string | undefined; listPath?: string | undefined } | undefined;
-}
+import { useReactAdminerContext } from './useReactAdminerContext';
 
-export const useBaseEditFormPath = ({ paths }: Props): string => paths?.editFormPath ?? '/entity/edit';
+export const useBaseEditFormPath = (): string => {
+	const { paths } = useReactAdminerContext();
+	return paths?.editFormPath ?? '/entity/edit';
+};
