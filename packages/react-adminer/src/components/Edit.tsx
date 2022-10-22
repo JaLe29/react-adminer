@@ -1,8 +1,9 @@
-import { Spin, Button, notification, Alert, Space, Divider } from 'antd';
+import { Spin, Button, notification, Alert, Space, Divider, Collapse, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types/types';
 import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import Column from 'antd/lib/table/Column';
 import { useBaseEditFormPath } from '../hooks/useBaseEditFormPath';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
@@ -48,6 +49,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const [isSaving, setSaving] = useState(false);
 	const [errorNullable, setErrorNullable] = useState<Record<string, boolean>>({});
 	const isNewForm = id === NEW_KEY;
+	const { Panel } = Collapse;
 
 	// const targetEntityFields = config?.fields
 	// 	.filter(f => /*! isVirtualFieldType(f) && */ isPrimitiveFieldType(f))
@@ -99,6 +101,8 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		});
 		return payload;
 	};
+	const changesCounter = Object.keys(getPayload()).length;
+	const changedKeys = Object.keys(getPayload());
 
 	const getConfirmBtnText = (): string => {
 		if (isNewForm) {
@@ -194,6 +198,17 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		}
 		return null;
 	};
+	const getTableDataSummaryOfChanges = (): any[] => {
+		const summaryChangedData: any[] = [];
+		changedKeys?.map((key: string) =>
+			summaryChangedData.push({
+				field: key,
+				original: original[key],
+				changed: state[key],
+			}),
+		);
+		return summaryChangedData;
+	};
 
 	return (
 		<>
@@ -273,6 +288,17 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 							showIcon
 						/>
 					</div>
+				)}
+				{hasChanges && !isNewForm && (
+					<Collapse accordion>
+						<Panel header={`Number of changes: ${changesCounter}`} key="1">
+							<Table dataSource={getTableDataSummaryOfChanges()} pagination={false}>
+								<Column title="Field" dataIndex="field" />
+								<Column title="Original" dataIndex="original" />
+								<Column title="Changed on" dataIndex="changed" />
+							</Table>
+						</Panel>
+					</Collapse>
 				)}
 				<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || isErrorNullable}>
 					{getConfirmBtnText()}
