@@ -22,6 +22,7 @@ import { useReactAdminerContext } from '../hooks/useReactAdminerContext';
 import { NEW_KEY } from '../const';
 import Selector from './Selector';
 import SectionBox from './SectionBox';
+import AccordionSummaryChanges from './AccordionSummaryChanges';
 
 interface Props {
 	id: string | 'new';
@@ -96,6 +97,8 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 		});
 		return payload;
 	};
+	const changesCounter = Object.keys(getPayload()).length;
+	const changedKeys = Object.keys(getPayload());
 
 	const getConfirmBtnText = (): string => {
 		if (isNewForm) {
@@ -261,6 +264,15 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 							showIcon
 						/>
 					</div>
+				)}
+				{hasChanges && !isNewForm && (
+					<AccordionSummaryChanges
+						changedKeys={changedKeys}
+						original={original}
+						updated={state}
+						changesCounter={changesCounter}
+						config={config}
+					/>
 				)}
 				<Button type="primary" onClick={onSave} loading={isSaving} disabled={!hasChanges || isErrorNullable}>
 					{getConfirmBtnText()}
