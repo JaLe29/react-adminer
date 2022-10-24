@@ -40,7 +40,7 @@ const SectionBox: React.FC<Props> = ({
 
 				if (f.type === 'string') {
 					return (
-						<WithCol key={f.name}>
+						<WithCol key={f.name} sm={f.grid}>
 							{withTitle(
 								f.label ?? f.name,
 								f.nullable,
@@ -59,7 +59,7 @@ const SectionBox: React.FC<Props> = ({
 
 				if (f.type === 'number') {
 					return (
-						<WithCol key={f.name}>
+						<WithCol key={f.name} sm={f.grid}>
 							{withTitle(
 								f.label ?? f.name,
 								f.nullable,
@@ -78,7 +78,7 @@ const SectionBox: React.FC<Props> = ({
 
 				if (f.type === 'boolean') {
 					return (
-						<WithCol key={f.name}>
+						<WithCol key={f.name} sm={f.grid}>
 							{withTitle(
 								f.label ?? f.name,
 								f.nullable,
@@ -97,7 +97,7 @@ const SectionBox: React.FC<Props> = ({
 
 				if (f.type === 'date') {
 					return (
-						<WithCol key={f.name}>
+						<WithCol key={f.name} sm={f.grid}>
 							{withTitle(
 								f.label ?? f.name,
 								f.nullable,
@@ -116,7 +116,7 @@ const SectionBox: React.FC<Props> = ({
 
 				if (f.type === 'datetime') {
 					return (
-						<WithCol key={f.name}>
+						<WithCol key={f.name} sm={f.grid}>
 							{withTitle(
 								f.label ?? f.name,
 								f.nullable,
@@ -134,7 +134,7 @@ const SectionBox: React.FC<Props> = ({
 				}
 
 				return (
-					<WithCol key={f.name}>
+					<WithCol key={f.name} sm={f.grid}>
 						{withTitle(f.label ?? f.name, f.nullable, <Placeholder propertyName={f.name} />)}
 					</WithCol>
 				);

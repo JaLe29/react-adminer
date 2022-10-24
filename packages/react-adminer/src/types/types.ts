@@ -35,6 +35,7 @@ export interface PrimitiveField {
 	type: TableFieldType;
 	nullable?: boolean;
 	creatable?: boolean;
+	grid?: number;
 }
 
 export type RelationType = 'many' | 'one';
