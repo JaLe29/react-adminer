@@ -52,6 +52,7 @@ export const SCHEMA: Schema = {
 				creatable: true,
 				editable: true,
 				helper: 'Barva laku vozu',
+				grid: 8,
 			},
 			{
 				name: 'userId',
@@ -84,6 +85,7 @@ export const SCHEMA: Schema = {
 				sortable: true,
 				creatable: true,
 				editable: true,
+				grid: 24,
 			},
 			{
 				name: 'user',
