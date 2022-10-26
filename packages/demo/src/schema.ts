@@ -1,5 +1,6 @@
 import type { Schema } from 'react-adminer';
 import { EditButton } from 'react-adminer';
+import TestVirtualComponent from './TestVirtualComponent';
 
 export const SCHEMA: Schema = {
 	car: {
@@ -105,10 +106,10 @@ export const SCHEMA: Schema = {
 			{
 				name: 'test',
 				type: 'virtual',
-				render: () => 'ddddddd',
+				render: TestVirtualComponent,
 				virtual: true,
 				hideInForm: false,
-				hideInTable: true,
+				// hideInTable: true,
 			},
 		],
 	},

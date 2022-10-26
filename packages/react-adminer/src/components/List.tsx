@@ -181,9 +181,11 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 								/>
 							);
 						}
+						const Component = f.render!;
+						const props = { value: v, object, entity: entityName, refetch };
 						return (
-							<div onClick={(e: any) => handleItemClick(e, f, object)}>
-								{f.render?.({ value: v, object, entity: entityName, refetch })}
+							<div onClick={f.virtual ? undefined : (e: any) => handleItemClick(e, f, object)}>
+								<Component {...props} />
 							</div>
 						);
 				  }
