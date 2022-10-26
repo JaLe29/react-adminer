@@ -208,7 +208,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					))}
 				</Space>
 				{relations.map(f => (
-					<WithCol key={f.name}>
+					<WithCol key={f.name} sm={f.grid}>
 						{withTitle(
 							f.label ?? f.name,
 							f.nullable,
@@ -238,7 +238,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 					const RenderConfig =
 						(f as any).render ?? renders?.[entityName]?.form?.[f.name] ?? renders?._global?.form?.[f.name];
 					return (
-						<WithCol key={f.name}>
+						<WithCol key={f.name} sm={f.grid}>
 							{withTitle(
 								f.label ?? f.name,
 								true,

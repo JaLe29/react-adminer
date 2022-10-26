@@ -49,6 +49,7 @@ export interface RelationField {
 		type: RelationType;
 		entity: string;
 	};
+	grid?: number;
 }
 
 export type Field = PrimitiveField | RelationField;
