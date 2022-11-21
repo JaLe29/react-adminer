@@ -180,7 +180,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 	const Link = router?.components.Link;
 
 	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
-		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
+		if (state[f.name] && editable !== false && DATE_FORMATS[f.type]) {
 			return dayjs(new Date()).format(DATE_FORMATS[f.type]);
 		}
 		return null;
