@@ -1,10 +1,10 @@
 import { DatePicker as DatePickerAntd } from 'antd';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import type { EditPageComponent } from './EditPageComponentsTypes';
 
 const DatePicker: React.FC<EditPageComponent> = ({ value, onChange, propertyName }) => (
 	<DatePickerAntd
-		value={value ? moment(value, 'YYYY-MM-DD') : null}
+		value={value ? dayjs(value, 'YYYY-MM-DD') : null}
 		placeholder={propertyName}
 		onChange={dateString => {
 			onChange(dateString?.toDate());

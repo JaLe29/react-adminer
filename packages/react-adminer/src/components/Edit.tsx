@@ -2,7 +2,7 @@ import { Spin, Button, notification, Alert, Space, Divider } from 'antd';
 import { useEffect, useState } from 'react';
 import type { Field, PrimitiveField, TableConfig } from 'types/types';
 import { EyeOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useBaseEditFormPath } from '../hooks/useBaseEditFormPath';
 import { useSelect } from '../hooks/useSelect';
 import { withTitle, WithCol } from './EditPageHelpers';
@@ -181,7 +181,7 @@ const EditChild: React.FC<Props> = ({ entityConfig, entityName, id }) => {
 
 	const getValidDateValue = (f: Field, editable: boolean | undefined): string | null => {
 		if (state[f.name] && editable && DATE_FORMATS[f.type]) {
-			return moment().format(DATE_FORMATS[f.type]);
+			return dayjs(new Date()).format(DATE_FORMATS[f.type]);
 		}
 		return null;
 	};

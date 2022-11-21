@@ -1,5 +1,5 @@
 import { Collapse, Table } from 'antd';
-import Column from 'antd/lib/table/Column';
+// import Column from 'antd/lib/table/Column';
 import type { TableConfig } from 'types/types';
 import { getColumnTitle, getFieldByName } from '../utils/config';
 
@@ -19,14 +19,29 @@ const AccordionSummaryChanges: React.FC<Props> = ({ changedKeys, original, updat
 			original: original[key],
 			changed: updated[key],
 		}));
+
+	const columns = [
+		{
+			title: 'Field',
+			dataIndex: 'field',
+			key: 'field',
+		},
+		{
+			title: 'Original',
+			dataIndex: 'original',
+			key: 'original',
+		},
+		{
+			title: 'Changed on',
+			dataIndex: 'changed',
+			key: 'changed',
+		},
+	];
+
 	return (
 		<Collapse accordion>
 			<Panel header={`Number of changes: ${changesCounter}`} key="1">
-				<Table dataSource={getTableDataSummaryOfChanges()} pagination={false}>
-					<Column title="Field" dataIndex="field" />
-					<Column title="Original" dataIndex="original" />
-					<Column title="Changed on" dataIndex="changed" />
-				</Table>
+				<Table columns={columns} dataSource={getTableDataSummaryOfChanges()} pagination={false} />
 			</Panel>
 		</Collapse>
 	);

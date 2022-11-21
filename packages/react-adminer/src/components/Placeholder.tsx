@@ -1,4 +1,4 @@
-import Alert from 'antd/lib/alert';
+import { Alert } from 'antd';
 
 interface Props {
 	relation?: boolean;
