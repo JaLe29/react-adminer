@@ -6,7 +6,7 @@ const InputNumber: React.FC<EditPageComponent> = ({ disabled, value, onChange, p
 		disabled={disabled}
 		placeholder={propertyName}
 		value={value}
-		onChange={e => onChange(e)}
+		onChange={e => onChange(e.target.value)}
 		style={{ width: '100%' }}
 	/>
 );

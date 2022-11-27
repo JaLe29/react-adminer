@@ -7,6 +7,8 @@ import AddToFavoriteButton from './AddToFavoriteButton';
 import Box from './Box';
 import LineSpaceBetween from './LineSpaceBetween';
 import Input from './EditPageComponents/Input';
+import DatePicker from './EditPageComponents/DatePicker';
+import InputNumber from './EditPageComponents/InputNumber';
 
 const { Panel } = Collapse;
 
@@ -66,6 +68,24 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entity
 				const field = config.fields.find(c => c.name === tf);
 				if (!field) {
 					throw new Error(`Config ${tf} was not found!`);
+				}
+				switch (field.type) {
+					case 'string': {
+						console.log('string');
+						return { name: field.name, component: Input };
+					}
+					case 'number': {
+						console.log('number');
+						return { name: field.name, component: InputNumber };
+					}
+					case 'date': {
+						console.log('date');
+						return { name: field.name, component: DatePicker };
+					}
+					case 'datetime': {
+						console.log('datetime');
+						return { name: field.name, component: DatePicker };
+					}
 				}
 				return { name: field.name, component: Input };
 			}
