@@ -12,7 +12,7 @@ interface Props {
 const Modal: React.FC<Props> = ({ title, setIsModalVisible, isModalVisible, okText, content, onOk }) => (
 	<ModalAntd
 		title={title}
-		visible={isModalVisible}
+		open={isModalVisible}
 		onOk={onOk}
 		onCancel={() => {
 			setIsModalVisible(false);

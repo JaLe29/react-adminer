@@ -1,4 +1,4 @@
-import { Button, Col, Collapse, Form, Input, Row, Space } from 'antd';
+import { Button, Col, Collapse, Form, Row, Space } from 'antd';
 import { useEffect } from 'react';
 import { getColumnTitle, getFieldByName, jsonDeserializeParse, jsonSerializeParse } from '../utils/config';
 import useStateParams from '../hooks/useStateParams';
@@ -6,6 +6,7 @@ import type { TableConfig, TableFilterObj } from '../types/types';
 import AddToFavoriteButton from './AddToFavoriteButton';
 import Box from './Box';
 import LineSpaceBetween from './LineSpaceBetween';
+import Input from './EditPageComponents/Input';
 
 const { Panel } = Collapse;
 
@@ -30,6 +31,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entity
 	}, [filterConfig]);
 
 	const onFilterChange = (values: Record<string, any>, needSync = true): void => {
+		console.log({ values });
 		const keys = Object.keys(values);
 		let finalWhere;
 		if (keys.length > 0) {
@@ -106,7 +108,7 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entity
 										style={{ height: '0px' }}
 									/>
 								</h2>
-								<Form.Item>
+								<Form.Item name={c.name}>
 									<c.component />
 								</Form.Item>
 							</Col>
