@@ -31,7 +31,6 @@ const TableFilter: React.FC<Props> = ({ setWhere, setPage, config, where, entity
 	}, [filterConfig]);
 
 	const onFilterChange = (values: Record<string, any>, needSync = true): void => {
-		console.log({ values });
 		const keys = Object.keys(values);
 		let finalWhere;
 		if (keys.length > 0) {
