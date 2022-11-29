@@ -21,6 +21,9 @@ interface Props {
 	state: any;
 }
 
+const sectionHasCreateableFields = (sectionFields: PrimitiveField[]): boolean =>
+	sectionFields.some(f => f.creatable === true);
+
 const SectionBox: React.FC<Props> = ({
 	name,
 	fields: sectionFields,
@@ -141,7 +144,7 @@ const SectionBox: React.FC<Props> = ({
 				);
 			})}
 		</Row>
-		{!sectionFields.some(f => f.creatable === true) && (
+		{!sectionHasCreateableFields(sectionFields) && (
 			<Box p={5}>
 				<Alert message="There are no fields to fill in this section." type="error" showIcon />
 			</Box>
