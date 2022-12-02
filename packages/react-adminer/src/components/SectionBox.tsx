@@ -1,4 +1,4 @@
-import { Card, Row, Typography } from 'antd';
+import { Alert, Card, Row, Typography } from 'antd';
 import type { Field, PrimitiveField } from 'types/types';
 import { isCreatable, isVirtualFieldType } from '../utils/config';
 import DatePicker from './EditPageComponents/DatePicker';
@@ -8,6 +8,7 @@ import Input from './EditPageComponents/Input';
 import InputNumber from './EditPageComponents/InputNumber';
 import { WithCol, withTitle } from './EditPageHelpers';
 import Placeholder from './Placeholder';
+import Box from './Box';
 
 const { Title } = Typography;
 
@@ -19,6 +20,9 @@ interface Props {
 	getValidDateValue: (f: Field, editable: boolean | undefined) => string | null;
 	state: any;
 }
+
+const sectionHasCreateableFields = (sectionFields: PrimitiveField[]): boolean =>
+	sectionFields.some(f => f.creatable === true);
 
 const SectionBox: React.FC<Props> = ({
 	name,
@@ -140,6 +144,11 @@ const SectionBox: React.FC<Props> = ({
 				);
 			})}
 		</Row>
+		{!sectionHasCreateableFields(sectionFields) && (
+			<Box p={5}>
+				<Alert message="There are no fields to fill in this section." type="error" showIcon />
+			</Box>
+		)}
 	</Card>
 );
 

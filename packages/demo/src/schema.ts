@@ -41,7 +41,6 @@ export const SCHEMA: Schema = {
 				sortable: true,
 				creatable: true,
 				editable: true,
-				section: 'primarySection',
 				helper: 'Rok výroby vozu',
 			},
 			{
