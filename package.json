@@ -16,7 +16,6 @@
 	"scripts": {
 		"patch:production:package": "ts-node -r tsconfig-paths/register --project tsconfig.json --files ./scripts/patch-production-package.ts",
 		"publish": "ts-node -r tsconfig-paths/register --project tsconfig.json --files ./scripts/lib-publish.ts",
-		"watch:libs": "yarn workspace @react-adminer/types watch & yarn workspace @react-adminer/react-querier watch & yarn workspace @react-adminer/shared watch & yarn workspace @react-adminer/querier watch && fg",
 		"watch:types": "yarn workspace @react-adminer/react-querier watch:types && fg",
 		"lint": "yarn workspaces foreach -v -p -i -j 30 run lint",
 		"build": "yarn workspaces foreach -v -p -i -j 30 run build",

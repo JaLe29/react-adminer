@@ -25,8 +25,7 @@
 	},
 	"scripts": {
 		"dev": "vite --mode development",
-		"build": "yarn build:deps && vite build --mode release",
-		"build:deps": "yarn workspace @react-adminer/types build && yarn workspace @react-adminer/shared build && yarn workspace @react-adminer/react-querier build:prod",
+		"build": "vite build --mode release",
 		"preview": "vite preview",
 		"clean": "rimraf dist && rimraf .cache && rimraf node_modules",
 		"lint": "eslint ./src --ext .ts,.tsx",
