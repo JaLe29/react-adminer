@@ -11,7 +11,7 @@ npm install react-adminer
 yarn add react-adminer
 ```
 # Documentation
-**Work in progress.** - waiting for gitbook licence
+https://react-adminer.gitbook.io/react-adminer-doc/
 
 # Developer run
 We are using `demo` project as a development environment.
