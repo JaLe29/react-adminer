@@ -17,6 +17,7 @@
     "watch:types": "tsc --watch --project tsconfig.watch.json",
     "build:prod": "vite build --mode release && yarn build:types",
     "build:types": "tsc --project tsconfig.watch.json --declarationDir ./dist/types",
+    "build:types:top": "tsc --project tsconfig.watch.json --declarationDir ./dist",
     "build": "tsc --build tsconfig.build.json",
     "build:dev": "yarn build:deps && tsc --build tsconfig.build.json",
     "clean": "rimraf dist && rimraf .cache && rimraf node_modules",
