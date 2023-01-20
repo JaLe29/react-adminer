@@ -202,7 +202,11 @@ const ListChild: React.FC<Props> = ({ entityConfig, entityName, filter = true })
 								/>
 							);
 						}
-						if (ReactIs.isValidElementType(v) || v === undefined || v === null || isPrimitiveFieldType(f)) {
+						if (
+							((ReactIs.isValidElementType(v) || typeof v === 'number') && isPrimitiveFieldType(f)) ||
+							v === undefined ||
+							v === null
+						) {
 							const result = v;
 							return (
 								<div onClick={(e: any) => handleItemClick(e, f, object)}>
